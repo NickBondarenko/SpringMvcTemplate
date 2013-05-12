@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="EncodingComponent">
+    <option name="projectEncoding" />
+  </component>
+  <component name="EntryPointsManager">
+    <entry_points version="2.0" />
+  </component>
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$" />
+  </component>
+  <component name="IvyIDEA.ProjectSettings">
+    <option name="artifactTypeSettings">
+      <ArtifactTypeSettings />
+    </option>
+    <option name="propertiesSettings">
+      <PropertiesSettings />
+    </option>
+  </component>
+  <component name="JavaDocConfiguration_1.0.2">
+    <GENERAL>
+      <MODE>REPLACE</MODE>
+      <OVERRIDDEN_METHODS>true</OVERRIDDEN_METHODS>
+      <LEVELS>
+        <LEVEL>TYPE</LEVEL>
+        <LEVEL>METHOD</LEVEL>
+        <LEVEL>FIELD</LEVEL>
+      </LEVELS>
+      <VISIBILITIES>
+        <VISIBILITY>PROTECTED</VISIBILITY>
+        <VISIBILITY>PUBLIC</VISIBILITY>
+      </VISIBILITIES>
+    </GENERAL>
+    <TEMPLATES>
+      <CLASSES>
+        <CLASS>
+          <KEY>^.*(public|protected|private)*.+interface\s+\w+.*</KEY>
+          <VALUE>/**\n
+ * The interface $name.\n
+ */</VALUE>
+        </CLASS>
+        <CLASS>
+          <KEY>^.*(public|protected|private)*.+enum\s+\w+.*</KEY>
+          <VALUE>/**\n
+ * The enum $name.\n
+ */</VALUE>
+        </CLASS>
+        <CLASS>
+          <KEY>^.*(public|protected|private)*.+class\s+\w+.*</KEY>
+          <VALUE>/**\n
+ * The type $name.\n
+ */</VALUE>
+        </CLASS>
+        <CLASS>
+          <KEY>.+</KEY>
+          <VALUE>/**\n
+ * The type $name.\n
+ */</VALUE>
+        </CLASS>
+      </CLASSES>
+      <CONSTRUCTORS>
+        <CONSTRUCTOR>
+          <KEY>.+</KEY>
+          <VALUE>/**\n
+ * Instantiates a new $name.\n
+
+     #if(!$element.parameterList.parameters.isEmpty())
+         *\n
+     #end
+     #foreach($parameter in $element.parameterList.parameters)
+         * @param $parameter.name the $paramNames[$parameter.name]\n
+     #end
+
+     #if(!$element.throwsList.referenceElements.isEmpty())
+         *\n
+     #end
+     #foreach($exception in $element.throwsList.referenceElements)
+         * @throws $exception.referenceName the $exceptionNames[$exception.referenceName]\n
+     #end
+
+ */</VALUE>
+        </CONSTRUCTOR>
+      </CONSTRUCTORS>
+      <METHODS>
+        <METHOD>
+          <KEY>^.*(public|protected|private)*\s*.*(\w(\s*&lt;.+&gt;)*)+\s+get\w+\s*\(.*\).+</KEY>
+          <VALUE>/**\n
+ * Gets $partName.\n
+
+     #if(!$element.parameterList.parameters.isEmpty())
+         *\n
+     #end
+     #foreach($parameter in $element.parameterList.parameters)
+         * @param $parameter.name $parameter.type the $paramNames[$parameter.name]\n
+     #end
+
+     #if($isNotVoid)
+         *\n
+         * @return the $partName\n
+     #end
+
+     #if(!$element.throwsList.referenceElements.isEmpty())
+         *\n
+     #end
+     #foreach($exception in $element.throwsList.referenceElements)
+         * @throws $exception.referenceName the $exceptionNames[$exception.referenceName]\n
+     #end
+
+ */</VALUE>
+        </METHOD>
+        <METHOD>
+          <KEY>^.*(public|protected|private)*\s*.*(void|\w(\s*&lt;.+&gt;)*)+\s+set\w+\s*\(.*\).+</KEY>
+          <VALUE>/**\n
+ * Sets $partName.\n
+
+     #if(!$element.parameterList.parameters.isEmpty())
+         *\n
+     #end
+     #foreach($parameter in $element.parameterList.parameters)
+         * @param $parameter.name the $paramNames[$parameter.name]\n
+     #end
+
+     #if($isNotVoid)
+         *\n
+         * @return the $partName\n
+     #end
+
+     #if(!$element.throwsList.referenceElements.isEmpty())
+         *\n
+     #end
+     #foreach($exception in $element.throwsList.referenceElements)
+         * @throws $exception.referenceName the $exceptionNames[$exception.referenceName]\n
+     #end
+
+ */</VALUE>
+        </METHOD>
+        <METHOD>
+          <KEY>^.*((public\s+static)|(static\s+public))\s+void\s+main\s*\(\s*String\s*(\[\s*\]|\.\.\.)\s+\w+\s*\).+</KEY>
+          <VALUE>/**\n
+ * The entry point of application.\n
+
+     #if(!$element.parameterList.parameters.isEmpty())
+         *\n
+     #end
+
+     * @param $element.parameterList.parameters[0].name the input arguments\n
+
+     #if(!$element.throwsList.referenceElements.isEmpty())
+         *\n
+     #end
+     #foreach($exception in $element.throwsList.referenceElements)
+         * @throws $exception.referenceName the $exceptionNames[$exception.referenceName]\n
+     #end
+
+ */</VALUE>
+        </METHOD>
+        <METHOD>
+          <KEY>.+</KEY>
+          <VALUE>/**\n
+ * $name#if($partName.isEmpty()) $return#end.\n
+
+     #if(!$element.parameterList.parameters.isEmpty())
+         *\n
+     #end
+     #foreach($parameter in $element.parameterList.parameters)
+         * @param $parameter.name the $paramNames[$parameter.name]\n
+     #end
+
+     #if($isNotVoid)
+         *\n
+         * @return the $return\n
+     #end
+
+     #if(!$element.throwsList.referenceElements.isEmpty())
+         *\n
+     #end
+     #foreach($exception in $element.throwsList.referenceElements)
+         * @throws $exception.referenceName the $exceptionNames[$exception.referenceName]\n
+     #end
+
+ */</VALUE>
+        </METHOD>
+      </METHODS>
+      <FIELDS>
+        <FIELD>
+          <KEY>^.*(public|protected|private)*.+static.*(\w\s\w)+.+</KEY>
+          <VALUE>/**\n
+ * The constant $element.getName().\n
+ */</VALUE>
+        </FIELD>
+        <FIELD>
+          <KEY>^.*(public|protected|private)*.*(\w\s\w)+.+</KEY>
+          <VALUE>/**\n
+ * The $name.\n
+ */</VALUE>
+        </FIELD>
+        <FIELD>
+          <KEY>.+</KEY>
+          <VALUE>/**\n
+ * The $name.\n
+ */</VALUE>
+        </FIELD>
+      </FIELDS>
+    </TEMPLATES>
+  </component>
+  <component name="JavadocGenerationManager">
+    <option name="OUTPUT_DIRECTORY" value="$USER_HOME$/Desktop" />
+    <option name="OPTION_SCOPE" value="protected" />
+    <option name="OPTION_HIERARCHY" value="true" />
+    <option name="OPTION_NAVIGATOR" value="true" />
+    <option name="OPTION_INDEX" value="true" />
+    <option name="OPTION_SEPARATE_INDEX" value="true" />
+    <option name="OPTION_DOCUMENT_TAG_USE" value="true" />
+    <option name="OPTION_DOCUMENT_TAG_AUTHOR" value="true" />
+    <option name="OPTION_DOCUMENT_TAG_VERSION" value="true" />
+    <option name="OPTION_DOCUMENT_TAG_DEPRECATED" value="true" />
+    <option name="OPTION_DEPRECATED_LIST" value="true" />
+    <option name="OTHER_OPTIONS" />
+    <option name="HEAP_SIZE" />
+    <option name="LOCALE" />
+    <option name="OPEN_IN_BROWSER" value="true" />
+    <option name="OPTION_INCLUDE_LIBS" value="false" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>Abstraction issues</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectKey">
+    <option name="state" value="https://github.com/JetBrains/idea-templates.git" />
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" assert-keyword="true" jdk-15="true" project-jdk-name="1.7" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>
+
