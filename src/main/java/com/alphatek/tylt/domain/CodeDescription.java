@@ -1,4 +1,4 @@
-package com.alphatek.tylt.domain.code;
+package com.alphatek.tylt.domain;
 
 /**
  * CodeDescription model. Used to hold a <code>code<T></code>

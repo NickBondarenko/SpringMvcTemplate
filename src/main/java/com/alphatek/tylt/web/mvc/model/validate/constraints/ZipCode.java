@@ -1,4 +1,4 @@
-package com.alphatek.tylt.domain.validate.constraints;
+package com.alphatek.tylt.web.mvc.model.validate.constraints;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -22,7 +22,7 @@ import java.lang.annotation.*;
 @ReportAsSingleViolation
 @Pattern(regexp="\\d{5}(-\\d{4})?")
 public @interface ZipCode {
-	String message() default "{com.alphatek.tylt.domain.validate.constraints.ZipCode.message}";
+	String message() default "{com.alphatek.tylt.web.mvc.model.validate.constraints.ZipCode.message}";
 
 	Class[] groups() default {};
 

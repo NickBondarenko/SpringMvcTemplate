@@ -12,49 +12,73 @@ import javax.servlet.RequestDispatcher;
  *         Date: 5/5/13
  *         Time: 4:30 PM
  */
-public class ResponseEntityBuilder<T> {
-	private WebRequest webRequest;
-	private T body;
-	private HttpStatus httpStatus;
-	private HttpHeaders httpHeaders;
+public class ResponseEntityBuilder {
 
-	private ResponseEntityBuilder() {}
-
-	private ResponseEntityBuilder(WebRequest webRequest) {
-		httpStatus = findHttpStatus(webRequest);
-		httpHeaders = generateHttpHeaders(httpStatus);
+	public static interface SourceStep {
+		BodyStep fromWebRequest(WebRequest webRequest);
+		BodyStep fromHttpStatus(HttpStatus httpStatus);
 	}
 
-	private ResponseEntityBuilder(HttpStatus httpStatus) {
-		this.httpStatus = httpStatus;
-		httpHeaders = generateHttpHeaders(httpStatus);
+	public static interface BodyStep<T> {
+		BuildStep<T> withBody(T body);
 	}
 
-	public static <T> ResponseEntityBuilder<T> newInstance() {
-		return new ResponseEntityBuilder<>();
+	public static interface WithStep<T> extends BodyStep<T> {
+		WithStep<T> withHttpStatus(HttpStatus httpStatus);
+		WithStep<T> withHttpHeaders(HttpHeaders httpHeaders);
 	}
 
-	public static <T> ResponseEntityBuilder<T> fromWebRequest(WebRequest webRequest) {
-		return new ResponseEntityBuilder<>(webRequest);
+	public static interface BuildStep<T> {
+		ResponseEntity<T> build();
 	}
 
-	public static <T> ResponseEntityBuilder<T> fromHttpStatus(HttpStatus httpStatus) {
-		return new ResponseEntityBuilder<>(httpStatus);
+	public static <T> WithStep<T> newInstance() {
+		return new Steps<>();
 	}
 
-	public ResponseEntityBuilder<T> withBody(T body) {
-		this.body = body;
-		return this;
+	public static <T> BodyStep<T> fromWebRequest(WebRequest webRequest) {
+		return new Steps<T>().fromWebRequest(webRequest);
 	}
 
-	public ResponseEntityBuilder<T> withHttpStatus(HttpStatus httpStatus) {
-		this.httpStatus = httpStatus;
-		return this;
+	public static <T> BodyStep<T> fromHttpStatus(HttpStatus httpStatus) {
+		return new Steps<T>().fromHttpStatus(httpStatus);
 	}
 
-	public ResponseEntityBuilder<T> withHttpHeaders(HttpHeaders httpHeaders) {
-		this.httpHeaders = httpHeaders;
-		return this;
+	public static class Steps<T> implements SourceStep, BodyStep<T>, WithStep<T>, BuildStep<T> {
+		private T body;
+		private HttpStatus httpStatus;
+		private HttpHeaders httpHeaders;
+
+		@Override public BodyStep<T> fromWebRequest(WebRequest webRequest) {
+			httpStatus = findHttpStatus(webRequest);
+			httpHeaders = generateHttpHeaders(httpStatus);
+			return this;
+		}
+
+		@Override public BodyStep<T> fromHttpStatus(HttpStatus httpStatus) {
+			this.httpStatus = httpStatus;
+			httpHeaders = generateHttpHeaders(httpStatus);
+			return this;
+		}
+
+		public WithStep<T> withHttpStatus(HttpStatus httpStatus) {
+			this.httpStatus = httpStatus;
+			return this;
+		}
+
+		public WithStep<T> withHttpHeaders(HttpHeaders httpHeaders) {
+			this.httpHeaders = httpHeaders;
+			return this;
+		}
+
+		@Override public BuildStep<T> withBody(T body) {
+			this.body = body;
+			return this;
+		}
+
+		@Override public ResponseEntity<T> build() {
+			return new ResponseEntity<>(body, httpHeaders, httpStatus);
+		}
 	}
 
 	private static HttpStatus findHttpStatus(WebRequest request) {
@@ -66,9 +90,5 @@ public class ResponseEntityBuilder<T> {
 		responseHeaders.set("status", String.valueOf(httpStatus.value()));
 		responseHeaders.set("reason", String.valueOf(httpStatus.getReasonPhrase()));
 		return responseHeaders;
-	}
-
-	public ResponseEntity<T> build() {
-		return new ResponseEntity<>(body, httpHeaders, httpStatus);
 	}
 }

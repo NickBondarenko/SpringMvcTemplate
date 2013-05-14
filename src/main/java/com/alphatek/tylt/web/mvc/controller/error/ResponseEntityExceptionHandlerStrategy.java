@@ -1,7 +1,8 @@
-package com.alphatek.tylt.error;
+package com.alphatek.tylt.web.mvc.controller.error;
 
 import com.alphatek.tylt.web.support.ResponseEntityBuilder;
 import com.google.common.base.Predicate;
+import com.google.common.base.Throwables;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import org.hibernate.validator.method.MethodConstraintViolation;
@@ -84,7 +85,7 @@ public enum ResponseEntityExceptionHandlerStrategy {
 	},
 	TYPE_MISMATCH_EXCEPTION(org.springframework.beans.TypeMismatchException.class, HttpStatus.BAD_REQUEST, true) {
 		@Override public ResponseEntity<Object> handle(ServletWebRequest request, Exception ex) {
-			return ResponseEntityBuilder.fromHttpStatus(getHttpStatus()).withBody(ex.getMessage()).build();
+			return ResponseEntityBuilder.fromHttpStatus(getHttpStatus()).withBody(getRootCauseMessage(ex)).build();
 		}
 	},
 	HTTP_MESSAGE_NOT_READABLE_EXCEPTION(HttpMessageNotReadableException.class, HttpStatus.BAD_REQUEST, true) {
@@ -141,6 +142,10 @@ public enum ResponseEntityExceptionHandlerStrategy {
 				return input.exceptionClass.isInstance(exception);
 			}
 		}, null);
+	}
+
+	private static String getRootCauseMessage(Throwable throwable) {
+		return Throwables.getRootCause(throwable).getMessage();
 	}
 
 	public Class<?> getExceptionClass() {

@@ -1,4 +1,4 @@
-package com.alphatek.tylt.web.format;
+package com.alphatek.tylt.web.mvc.model.format;
 
 import com.alphatek.tylt.web.mvc.model.ZipCode;
 import org.springframework.format.Formatter;

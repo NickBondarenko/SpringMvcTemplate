@@ -1,4 +1,4 @@
-package com.alphatek.tylt.web.converter.json;
+package com.alphatek.tylt.web.support.json;
 
 import com.fasterxml.jackson.core.SerializableString;
 import com.fasterxml.jackson.core.io.CharacterEscapes;

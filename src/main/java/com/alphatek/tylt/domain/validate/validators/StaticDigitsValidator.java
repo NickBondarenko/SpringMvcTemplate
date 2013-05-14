@@ -1,4 +1,4 @@
-package com.alphatek.tylt.domain.validate.constraints.validators;
+package com.alphatek.tylt.domain.validate.validators;
 
 import com.alphatek.tylt.domain.validate.constraints.StaticDigits;
 

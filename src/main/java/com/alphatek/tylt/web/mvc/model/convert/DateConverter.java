@@ -1,4 +1,4 @@
-package com.alphatek.tylt.web.converter;
+package com.alphatek.tylt.web.mvc.model.convert;
 
 import com.alphatek.tylt.domain.format.DatePatternFormat;
 import com.alphatek.tylt.util.DateUtils;

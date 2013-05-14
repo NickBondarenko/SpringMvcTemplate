@@ -1,4 +1,4 @@
-package com.alphatek.tylt.error;
+package com.alphatek.tylt.web.mvc.controller.error;
 
 public final class AjaxControllerException extends ControllerException {
 	public AjaxControllerException() {

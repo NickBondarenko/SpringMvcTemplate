@@ -1,12 +1,5 @@
-package com.alphatek.tylt.error;
+package com.alphatek.tylt.web.mvc.controller.error;
 
-/**
- * Created with IntelliJ IDEA.
- * User: jason.dimeo
- * Date: 5/10/13
- * Time: 11:24 AM
- * To change this template use File | Settings | File Templates.
- */
 public class ControllerException extends RuntimeException {
 	public ControllerException() {
 		super();

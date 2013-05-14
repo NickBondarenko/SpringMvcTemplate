@@ -1,4 +1,4 @@
-package com.alphatek.tylt.construct;
+package com.alphatek.tylt.domain.construct;
 
 /**
  * ExtendableBuilder - Used by extendable classes that need to use the builder pattern.

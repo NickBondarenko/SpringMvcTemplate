@@ -1,6 +1,6 @@
 package com.alphatek.tylt.domain.validate.constraints;
 
-import com.alphatek.tylt.domain.validate.constraints.validators.StaticDigitsValidator;
+import com.alphatek.tylt.domain.validate.validators.StaticDigitsValidator;
 
 import javax.validation.Constraint;
 import java.lang.annotation.*;

@@ -1,6 +1,6 @@
-package com.alphatek.tylt.web.converter;
+package com.alphatek.tylt.web.mvc.model.convert;
 
-import com.alphatek.tylt.domain.constant.State;
+import com.alphatek.tylt.web.mvc.model.State;
 import org.springframework.core.convert.converter.Converter;
 
 /**

@@ -7,15 +7,15 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-	<context:component-scan base-package="com.alphatek.tylt" />
+	<context:component-scan base-package="com.alphatek.tylt.web.mvc.controller" />
 
 	<!-- Jackson Configuration -->
-	<bean id="jacksonObjectMapper" class="com.alphatek.tylt.web.converter.json.ExtendedJacksonObjectMapperFactoryBean">
+	<bean id="jacksonObjectMapper" class="com.alphatek.tylt.web.support.json.ExtendedJacksonObjectMapperFactoryBean">
 		<property name="failOnEmptyBeans" value="false" />
 		<property name="simpleDateFormat" value="#{defaultDatePatternFormat.format}" />
 		<property name="characterEscapes">
 			<list>
-				<bean class="com.alphatek.tylt.web.converter.json.HtmlCharacterEscapes" />
+				<bean class="com.alphatek.tylt.web.support.json.HtmlCharacterEscapes" />
 			</list>
 		</property>
 	</bean>
@@ -47,13 +47,14 @@
 	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
 		<property name="favorPathExtension" value="false" />
 		<property name="favorParameter" value="true" />
+		<property name="defaultContentType" value="text/html" />
+		<property name="parameterName" value="mediaType" />
 		<property name="mediaTypes">
-			<value>
-				json=application/json
-				xml=application/xml
-				html=application/html
-				javascript=application/javascript
-			</value>
+			<map>
+				<entry key="html" value="text/html" />
+				<entry key="json" value="application/json" />
+				<entry key="xml" value="application/xml" />
+			</map>
 		</property>
 	</bean>
 
@@ -61,13 +62,13 @@
 	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
 		<property name="formatters">
 			<set>
-				<bean class="com.alphatek.tylt.web.format.DateFormatter" />
-				<bean class="com.alphatek.tylt.web.format.ZipCodeFormatter" />
+				<bean class="com.alphatek.tylt.web.mvc.model.format.DateFormatter" />
+				<bean class="com.alphatek.tylt.web.mvc.model.format.ZipCodeFormatter" />
 			</set>
 		</property>
 		<property name="converters">
 			<set>
-				<bean class="com.alphatek.tylt.web.converter.StateConverter" />
+				<bean class="com.alphatek.tylt.web.mvc.model.convert.StateConverter" />
 			</set>
 		</property>
 	</bean>

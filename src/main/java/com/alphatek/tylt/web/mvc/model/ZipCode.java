@@ -1,6 +1,6 @@
 package com.alphatek.tylt.web.mvc.model;
 
-import com.alphatek.tylt.construct.Buildable;
+import com.alphatek.tylt.domain.construct.Buildable;
 import com.alphatek.tylt.util.StringUtils;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
@@ -43,7 +43,7 @@ public final class ZipCode implements Buildable<ZipCode.Builder> {
 		return new Builder(this);
 	}
 
-	public static final class Builder implements com.alphatek.tylt.construct.Builder<ZipCode> {
+	public static final class Builder implements com.alphatek.tylt.domain.construct.Builder<ZipCode> {
 		@NotEmpty(message = "{com.alphatek.tylt.web.mvc.model.ZipCode.prefix[NotEmpty.message]}")
 		@Pattern(regexp = "^\\d{5}$", message = "{com.alphatek.tylt.web.mvc.model.ZipCode.prefix[Pattern.message]}")
 		private String prefix;

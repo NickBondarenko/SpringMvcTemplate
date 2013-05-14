@@ -1,8 +1,8 @@
-package com.alphatek.tylt.domain.constant;
+package com.alphatek.tylt.web.mvc.model;
 
 import static com.google.common.collect.Sets.immutableEnumSet;
 
-import com.alphatek.tylt.domain.code.CodeDescription;
+import com.alphatek.tylt.domain.CodeDescription;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;

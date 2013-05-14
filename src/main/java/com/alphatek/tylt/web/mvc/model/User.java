@@ -1,12 +1,12 @@
 package com.alphatek.tylt.web.mvc.model;
 
-import com.alphatek.tylt.construct.Buildable;
+import com.alphatek.tylt.domain.construct.Buildable;
 import com.google.common.base.Objects;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.Valid;
 
-public class User implements Buildable<User.Builder> {
+public final class User implements Buildable<User.Builder> {
 	private final int id;
 	private final String firstName;
 	private final String lastName;
@@ -41,7 +41,7 @@ public class User implements Buildable<User.Builder> {
 		return new Builder();
 	}
 
-	public static final class Builder implements com.alphatek.tylt.construct.Builder<User> {
+	public static final class Builder implements com.alphatek.tylt.domain.construct.Builder<User> {
 		private int id;
 		@NotEmpty(message = "{com.alphatek.tylt.web.mvc.model.user.firstName[NotEmpty.message]}")
 		private String firstName;

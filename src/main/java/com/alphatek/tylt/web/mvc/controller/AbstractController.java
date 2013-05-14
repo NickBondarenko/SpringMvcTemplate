@@ -13,7 +13,6 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -76,7 +75,7 @@ public abstract class AbstractController {
 		}
 	}
 
-	public String getHtmlOutput(HttpServletRequest request, HttpServletResponse response, String source) throws ServletException, IOException {
+	public String getHtmlOutput(HttpServletRequest request, HttpServletResponse response, String source) {
 		String htmlOutput = "";
 		try {
 			HttpSession session = request.getSession(false);

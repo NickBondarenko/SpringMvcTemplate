@@ -1,6 +1,6 @@
-package com.alphatek.tylt.domain.validate.constraints;
+package com.alphatek.tylt.web.mvc.model.validate.constraints;
 
-import com.alphatek.tylt.domain.validate.constraints.validators.StateValidator;
+import com.alphatek.tylt.web.mvc.model.validate.validators.StateValidator;
 
 import javax.validation.Constraint;
 import java.lang.annotation.*;
@@ -15,7 +15,7 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {StateValidator.class})
 public @interface State {
-	String message() default "{com.alphatek.tylt.domain.validate.constraints.State.message}";
+	String message() default "{com.alphatek.tylt.web.mvc.model.validate.constraints.State.message}";
 
 	Class[] groups() default {};
 

@@ -1,8 +1,7 @@
 package com.alphatek.tylt.web.mvc.model;
 
-import com.alphatek.tylt.construct.Buildable;
-import com.alphatek.tylt.domain.code.CodeDescription;
-import com.alphatek.tylt.domain.constant.State;
+import com.alphatek.tylt.domain.CodeDescription;
+import com.alphatek.tylt.domain.construct.Buildable;
 import com.google.common.base.Objects;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -63,7 +62,7 @@ public final class Address implements Buildable<Address.Builder> {
 	/**
 	 * The type Builder.
 	 */
-	public static final class Builder implements com.alphatek.tylt.construct.Builder<Address> {
+	public static final class Builder implements com.alphatek.tylt.domain.construct.Builder<Address> {
 		private int id;
 		@NotEmpty(message = "{com.alphatek.tylt.web.mvc.model.Address.street[NotEmpty.message]}")
 		private String street;

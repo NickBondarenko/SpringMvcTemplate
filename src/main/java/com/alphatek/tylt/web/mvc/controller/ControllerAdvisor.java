@@ -2,9 +2,9 @@ package com.alphatek.tylt.web.mvc.controller;
 
 import static com.alphatek.tylt.web.mvc.view.View.ERROR;
 
-import com.alphatek.tylt.error.AjaxControllerException;
-import com.alphatek.tylt.error.ControllerException;
-import com.alphatek.tylt.error.ResponseEntityExceptionHandlerStrategy;
+import com.alphatek.tylt.web.mvc.controller.error.AjaxControllerException;
+import com.alphatek.tylt.web.mvc.controller.error.ControllerException;
+import com.alphatek.tylt.web.mvc.controller.error.ResponseEntityExceptionHandlerStrategy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
@@ -24,7 +24,7 @@ import javax.servlet.RequestDispatcher;
  * @author jason.dimeo
  */
 @ControllerAdvice
-public class ControllerAdvisor extends AbstractController {
+public final class ControllerAdvisor extends AbstractController {
 
 	@InitBinder	public void initBinder(WebDataBinder webDataBinder) {
 		logger.debug("Running InitBinder...");

@@ -1,6 +1,6 @@
-package com.alphatek.tylt.domain.validate.constraints.validators;
+package com.alphatek.tylt.web.mvc.model.validate.validators;
 
-import com.alphatek.tylt.domain.validate.constraints.State;
+import com.alphatek.tylt.web.mvc.model.validate.constraints.State;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -14,6 +14,6 @@ public class StateValidator implements ConstraintValidator<State, String> {
 	@Override public void initialize(State state) {}
 
 	@Override public boolean isValid(String stateAbbreviation, ConstraintValidatorContext constraintValidatorContext) {
-		return com.alphatek.tylt.domain.constant.State.findByCode(stateAbbreviation) != null;
+		return com.alphatek.tylt.web.mvc.model.State.findByCode(stateAbbreviation) != null;
 	}
 }
