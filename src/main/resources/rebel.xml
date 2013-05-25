@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.zeroturnaround.com"
-	xsi:schemaLocation="http://www.zeroturnaround.com http://www.zeroturnaround.com/alderaan/rebel-2_0.xsd">
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.zeroturnaround.com" xsi:schemaLocation="http://www.zeroturnaround.com http://www.zeroturnaround.com/alderaan/rebel-2_0.xsd">
 
 	<classpath>
 		<dir name="/Users/jason.dimeo/Documents/Development/Projects/SpringMvcTemplate/target/classes">
+			<include name="database/h2/data.sql"/>
+			<include name="database/h2/schema.sql"/>
 			<include name="ehcache.xml"/>
 			<include name="logback.xml"/>
+			<include name="properties/database.properties"/>
 			<include name="properties/i18n/binding.properties"/>
-			<!--<include name="properties/system.properties"/>-->
-			<!--<include name="properties/themes/default.properties"/>-->
-			<include name="properties/validationMessages.properties"/>
+			<include name="properties/system.properties"/>
+			<include name="properties/themes/default.properties"/>
+			<include name="properties/validation/domainMessages.properties"/>
+			<include name="properties/validation/modelMessages.properties"/>
 			<include name="properties/views.properties"/>
 			<include name="rebel.xml"/>
 			<include name="tiles.xml"/>
+		</dir>
+		<dir name="/Users/jason.dimeo/Documents/Development/Projects/SpringMvcTemplate/target/classes">
 		</dir>
 	</classpath>
 
 	<web>
 		<link target="/">
-			<dir name="/Users/jason.dimeo/Documents/Development/Projects/SpringMvcTemplate/src/main/webapp"/>
-		</link>
-		<link>
-			<dir name="/Users/jason.dimeo/Documents/Development/Projects/SpringMvcTemplate/src/main/resources">
-				<exclude name="rebel.xml"/>
-				<include name="**"/>
+			<dir name="/Users/jason.dimeo/Documents/Development/Projects/SpringMvcTemplate/src/main/webapp">
 			</dir>
 		</link>
 	</web>

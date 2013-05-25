@@ -1,7 +1,7 @@
 package com.alphatek.tylt.web.mvc.model;
 
 import com.alphatek.tylt.domain.construct.Buildable;
-import com.alphatek.tylt.util.StringUtils;
+import com.alphatek.tylt.support.util.StringUtils;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import org.hibernate.validator.constraints.NotEmpty;

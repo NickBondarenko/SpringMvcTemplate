@@ -1,7 +1,8 @@
 package com.alphatek.tylt.web.mvc.controller;
 
+import com.alphatek.tylt.web.mvc.controller.error.ExceptionHandlerStrategy;
+import com.alphatek.tylt.web.mvc.controller.error.ResponseEntityBuilder;
 import com.alphatek.tylt.web.support.HttpServletResponseCopier;
-import com.alphatek.tylt.web.support.ResponseEntityBuilder;
 import com.google.common.base.Charsets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,10 +27,15 @@ public abstract class AbstractController {
 
 	public ResponseEntity<Object> getExceptionResponseEntity(ServletWebRequest request, Throwable throwable) {
 		// If ResponseEntity exists in request, return it and remove from response. If not, generate new ResponseEntity.
-		@SuppressWarnings("unchecked") ResponseEntity<Object> responseEntity = (ResponseEntity<Object>) request.getAttribute(RequestAttribute.RESPONSE_ENTITY.getName(), WebRequest.SCOPE_REQUEST);
+		@SuppressWarnings("unchecked")
+		ResponseEntity<Object> responseEntity = (ResponseEntity<Object>) request.getAttribute(RequestAttribute.RESPONSE_ENTITY.getName(), WebRequest.SCOPE_REQUEST);
 		if (responseEntity == null) {
-			responseEntity = ResponseEntityBuilder.fromWebRequest(request).withBody(throwable.getMessage()).build();
+			String message = throwable.getMessage();
+			responseEntity = ResponseEntityBuilder.fromWebRequest(request).withBody(message == null ? ExceptionHandlerStrategy.DEFAULT_ERROR_MESSAGE : message).build();
 		} else {
+			if (responseEntity.getBody() == null) {
+				responseEntity = ResponseEntityBuilder.newInstance(responseEntity).withBody(ExceptionHandlerStrategy.DEFAULT_ERROR_MESSAGE).build();
+			}
 			request.removeAttribute(RequestAttribute.RESPONSE_ENTITY.getName(), WebRequest.SCOPE_REQUEST);
 		}
 		return responseEntity;

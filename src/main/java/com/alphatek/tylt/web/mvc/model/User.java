@@ -1,12 +1,16 @@
 package com.alphatek.tylt.web.mvc.model;
 
+import com.alphatek.tylt.authority.UserAuthorityUtils;
 import com.alphatek.tylt.domain.construct.Buildable;
 import com.google.common.base.Objects;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.validation.Valid;
+import java.util.Collection;
 
-public final class User implements Buildable<User.Builder> {
+public final class User implements Buildable<User.Builder>, UserDetails {
 	private final int id;
 	private final String firstName;
 	private final String lastName;
@@ -302,9 +306,9 @@ public final class User implements Buildable<User.Builder> {
 		return enabled;
 	}
 
-	//	@Override public Collection<? extends GrantedAuthority> getAuthorities() {
-//		return UserAuthorityUtils.createAuthorities(this);
-//	}
+	@Override public Collection<? extends GrantedAuthority> getAuthorities() {
+		return UserAuthorityUtils.createAuthorities(this);
+	}
 
 	@Override public int hashCode() {
 		return Objects.hashCode(id, firstName, lastName, username, password, emailAddress, address, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled);

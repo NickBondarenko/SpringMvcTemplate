@@ -13,8 +13,8 @@ import javax.servlet.http.HttpSession;
 import java.lang.annotation.Annotation;
 
 public class SessionAttributeArgumentResolver implements HandlerMethodArgumentResolver {
-	@Override
-	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest,	WebDataBinderFactory binderFactory) throws Exception {
+
+	@Override	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest,	WebDataBinderFactory binderFactory) throws Exception {
     Annotation[] parameterAnnotations = parameter.getParameterAnnotations();
     Class<?> parameterType = parameter.getParameterType();
 
@@ -24,8 +24,10 @@ public class SessionAttributeArgumentResolver implements HandlerMethodArgumentRe
         String parameterName = sessionParam.value();
         boolean required = sessionParam.required();
         String defaultValue = sessionParam.defaultValue();
+
         HttpServletRequest httpRequest = (HttpServletRequest) webRequest.getNativeRequest();
         HttpSession session = httpRequest.getSession(false);
+
         Object result = null;
         if (session != null) { result = session.getAttribute(parameterName); }
         if (result == null) { result = defaultValue; }
@@ -46,8 +48,8 @@ public class SessionAttributeArgumentResolver implements HandlerMethodArgumentRe
     throw new HttpSessionRequiredException("No HttpSession found for resolving parameter '" + parameterName + "' of type [" + parameterType.getName() + "]");
   }
 
-	@Override
-	public boolean supportsParameter(MethodParameter parameter) {
+	@Override	public boolean supportsParameter(MethodParameter parameter) {
 		return parameter.hasParameterAnnotation(SessionAttribute.class);
 	}
+
 }

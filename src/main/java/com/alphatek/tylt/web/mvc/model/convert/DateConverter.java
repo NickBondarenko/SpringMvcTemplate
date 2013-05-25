@@ -1,7 +1,7 @@
 package com.alphatek.tylt.web.mvc.model.convert;
 
 import com.alphatek.tylt.domain.format.DatePatternFormat;
-import com.alphatek.tylt.util.DateUtils;
+import com.alphatek.tylt.support.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 

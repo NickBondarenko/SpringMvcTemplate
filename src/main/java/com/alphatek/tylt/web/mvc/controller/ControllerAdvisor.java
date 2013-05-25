@@ -4,6 +4,7 @@ import static com.alphatek.tylt.web.mvc.view.View.ERROR;
 
 import com.alphatek.tylt.web.mvc.controller.error.AjaxControllerException;
 import com.alphatek.tylt.web.mvc.controller.error.ControllerException;
+import com.alphatek.tylt.web.mvc.controller.error.ExceptionHandlerStrategy;
 import com.alphatek.tylt.web.mvc.controller.error.ResponseEntityExceptionHandlerStrategy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,25 +40,25 @@ public final class ControllerAdvisor extends AbstractController {
 		request.setAttribute(RequestAttribute.EXCEPTION_LOGGED.getName(), true, WebRequest.SCOPE_REQUEST);
 
 		try {
-			ResponseEntityExceptionHandlerStrategy responseEntityExceptionHandlerStrategy = ResponseEntityExceptionHandlerStrategy.findByException(exception);
+			ExceptionHandlerStrategy<ResponseEntity<Object>> exceptionHandlerStrategy = ResponseEntityExceptionHandlerStrategy.findByException(exception);
 
-			if (responseEntityExceptionHandlerStrategy != null) {
-				if (responseEntityExceptionHandlerStrategy.getHttpStatus() == HttpStatus.INTERNAL_SERVER_ERROR) {
+			if (exceptionHandlerStrategy != null) {
+				if (exceptionHandlerStrategy.getHttpStatus() == HttpStatus.INTERNAL_SERVER_ERROR) {
 					request.setAttribute(RequestDispatcher.ERROR_EXCEPTION, exception, WebRequest.SCOPE_REQUEST);
 				}
 
-				responseEntity = responseEntityExceptionHandlerStrategy.handle(request, exception);
+				responseEntity = exceptionHandlerStrategy.handle(request, exception);
 
-				if (responseEntityExceptionHandlerStrategy.isServerError()) {
+				if (exceptionHandlerStrategy.isServerError()) {
 					sendError(request, exception);
 				}
 			} else {
-				logger.warn("No ResponseEntityExceptionHandlerStrategy found for " + exception.getClass().getName());
+				logger.warn("No ExceptionHandlerStrategy found for " + exception.getClass().getName());
 				sendError(request, exception);
 				responseEntity = getExceptionResponseEntity(request, exception);
 			}
 		} catch (Exception e) {
-			logger.warn("Handling of [" + exception.getClass().getName() + "] resulted in Exception", e);
+			logger.warn("Handling of [" + exception.getClass().getName() + "] resulted in an Exception", e);
 		}
 
 		request.setAttribute(RequestAttribute.RESPONSE_ENTITY.getName(), responseEntity, WebRequest.SCOPE_REQUEST);
