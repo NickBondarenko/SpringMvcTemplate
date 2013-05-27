@@ -20,6 +20,7 @@
 		</property>
 	</bean>
 
+	<!-- MVC Configuration -->
 	<mvc:annotation-driven content-negotiation-manager="contentNegotiationManager" conversion-service="conversionService" validator="validatorFactory" ignoreDefaultModelOnRedirect="true">
 		<mvc:message-converters>
 			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" p:objectMapper-ref="jacksonObjectMapper" />
@@ -36,14 +37,24 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>
 			<mvc:exclude-mapping path="/admin/**" />
-			<bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor" />
+			<bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor" p:paramName="theme" />
 		</mvc:interceptor>
 	</mvc:interceptors>
 
 	<!-- MVC Resources -->
 	<mvc:resources mapping="/resources/**" location="/resources/" cache-period="31556926" />
+	<mvc:resources mapping="/favicon.ico" location="/" cache-period="31556926" />
 
+	<!-- MVC View Controllers -->
+	<mvc:view-controller path="/" view-name="home" />
+	<mvc:view-controller path="/home" view-name="home" />
+
+	<!-- i18n -->
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" p:defaultLocale="en" />
+
+	<!-- Theme Configuration -->
+	<bean id="themeSource" class="org.springframework.ui.context.support.ResourceBundleThemeSource" p:basenamePrefix="properties/themes/" />
+	<bean id="themeResolver" class="org.springframework.web.servlet.theme.SessionThemeResolver" p:defaultThemeName="default" />
 
 	<!-- Content Management -->
 	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
@@ -62,12 +73,6 @@
 
 	<!-- Converters / Formatters -->
 	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
-		<!--<property name="registerDefaultFormatters" value="false" />-->
-		<!--<property name="formatterRegistrars">-->
-			<!--<set>-->
-				<!--<bean class="org.springframework.format.datetime.DateFormatterRegistrar" p:formatter="#{defaultDatePatternFormat.format}" />-->
-			<!--</set>-->
-		<!--</property>-->
 		<property name="formatters">
 			<set>
 				<bean class="com.alphatek.tylt.web.mvc.model.format.DateFormatter" />
@@ -89,7 +94,7 @@
 	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
 		<property name="definitions">
 			<list>
-				<value>classpath:tiles.xml</value>
+				<value>/WEB-INF/tiles-config.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -98,7 +103,7 @@
 	<bean id="tilesViewResolver" class="org.springframework.web.servlet.view.tiles2.TilesViewResolver" p:order="1" />
 
 	<bean id="resourceBundleViewResolver" class="org.springframework.web.servlet.view.ResourceBundleViewResolver" p:order="2">
-		<property name="basename" value="classpath:properties/views" />
+		<property name="basename" value="properties/views" />
 	</bean>
 
 	<bean id="contentNegotiatingViewResolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver" p:order="3">
@@ -114,15 +119,6 @@
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
 		<property name="prefix" value="/WEB-INF/views/" />
 		<property name="suffix" value=".jsp" />
-	</bean>
-
-	<!-- Theme Configuration -->
-	<bean id="themeSource" class="org.springframework.ui.context.support.ResourceBundleThemeSource">
-		<property name="basenamePrefix" value="properties/themes/" />
-	</bean>
-
-	<bean id="themeResolver" class="org.springframework.web.servlet.theme.SessionThemeResolver">
-		<property name="defaultThemeName" value="default" />
 	</bean>
 
 </beans>

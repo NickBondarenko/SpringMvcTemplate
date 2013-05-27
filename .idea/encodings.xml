@@ -14,6 +14,11 @@
     <file url="file://$PROJECT_DIR$/src/main/resources/database/h2" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/properties/database.properties" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/applicationContext-database.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/footer.jsp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/header.jsp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/login.jsp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/resources/scripts/jquery.buildr.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/resources/themes" charset="UTF-8" />
   </component>
 </project>
 

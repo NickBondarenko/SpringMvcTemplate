@@ -1,12 +1,11 @@
 package com.alphatek.tylt.web.mvc.controller.error;
 
 import com.alphatek.tylt.domain.construct.Builder;
+import com.alphatek.tylt.web.support.ControllerUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.WebRequest;
-
-import javax.servlet.RequestDispatcher;
 
 /**
  * @author jason.dimeo
@@ -63,14 +62,14 @@ public class ResponseEntityBuilder {
 		}
 
 		@Override public BodyStep<T> fromWebRequest(WebRequest webRequest) {
-			httpStatus = findHttpStatus(webRequest);
-			httpHeaders = generateHttpHeaders(httpStatus);
+			httpStatus = ControllerUtils.findHttpStatus(webRequest);
+			httpHeaders = ControllerUtils.generateHttpHeaders(httpStatus);
 			return this;
 		}
 
 		@Override public BodyStep<T> fromHttpStatus(HttpStatus httpStatus) {
 			this.httpStatus = httpStatus;
-			httpHeaders = generateHttpHeaders(httpStatus);
+			httpHeaders = ControllerUtils.generateHttpHeaders(httpStatus);
 			return this;
 		}
 
@@ -92,20 +91,5 @@ public class ResponseEntityBuilder {
 		@Override public ResponseEntity<T> build() {
 			return new ResponseEntity<>(body, httpHeaders, httpStatus);
 		}
-	}
-
-	private static HttpStatus findHttpStatus(WebRequest request) {
-		Integer statusCode = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE, WebRequest.SCOPE_REQUEST);
-		if (statusCode == null) {
-			statusCode = 500;
-		}
-		return HttpStatus.valueOf(statusCode);
-	}
-
-	public static HttpHeaders generateHttpHeaders(HttpStatus httpStatus) {
-		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.set("status", String.valueOf(httpStatus.value()));
-		responseHeaders.set("reason", String.valueOf(httpStatus.getReasonPhrase()));
-		return responseHeaders;
 	}
 }

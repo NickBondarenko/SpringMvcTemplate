@@ -1,6 +1,7 @@
 package com.alphatek.tylt.web.mvc.controller.error;
 
 import com.alphatek.tylt.domain.ApplicationError;
+import com.alphatek.tylt.web.support.ControllerUtils;
 import com.google.common.base.Predicate;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
@@ -50,7 +51,7 @@ public enum ResponseEntityExceptionHandlerStrategy implements ExceptionHandlerSt
 		@Override public ResponseEntity<Object> handle(ServletWebRequest request, Exception ex) {
 			LOGGER.warn(ex.getMessage());
 
-			HttpHeaders httpHeaders = ResponseEntityBuilder.generateHttpHeaders(getHttpStatus());
+			HttpHeaders httpHeaders = ControllerUtils.generateHttpHeaders(getHttpStatus());
 			Set<HttpMethod> supportedMethods = ((HttpRequestMethodNotSupportedException) ex).getSupportedHttpMethods();
 			if (!supportedMethods.isEmpty()) {
 				httpHeaders.setAllow(supportedMethods);
@@ -62,7 +63,7 @@ public enum ResponseEntityExceptionHandlerStrategy implements ExceptionHandlerSt
 	},
 	HTTP_MEDIA_TYPE_NOT_SUPPORTED_EXCEPTION(HttpMediaTypeNotSupportedException.class, HttpStatus.UNSUPPORTED_MEDIA_TYPE, "Unsupported Media Type", true) {
 		@Override public ResponseEntity<Object> handle(ServletWebRequest request, Exception ex) {
-			HttpHeaders httpHeaders = ResponseEntityBuilder.generateHttpHeaders(getHttpStatus());
+			HttpHeaders httpHeaders = ControllerUtils.generateHttpHeaders(getHttpStatus());
 			List<MediaType> mediaTypes = ((HttpMediaTypeNotSupportedException) ex).getSupportedMediaTypes();
 			if (!CollectionUtils.isEmpty(mediaTypes)) {
 				httpHeaders.setAccept(mediaTypes);
