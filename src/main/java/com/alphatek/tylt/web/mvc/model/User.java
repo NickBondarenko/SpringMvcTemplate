@@ -1,7 +1,7 @@
 package com.alphatek.tylt.web.mvc.model;
 
-import com.alphatek.tylt.authority.UserAuthorityUtils;
 import com.alphatek.tylt.domain.construct.Buildable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,6 +22,7 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 	private final boolean accountNonLocked;
 	private final boolean credentialsNonExpired;
 	private final boolean enabled;
+	private final Collection<? extends GrantedAuthority> authorities;
 
 	private User(Builder builder) {
 		id = builder.id;
@@ -35,6 +36,7 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 		accountNonLocked = builder.accountNonLocked;
 		credentialsNonExpired = builder.credentialsNonExpired;
 		enabled = builder.enabled;
+		authorities = builder.authorities;
 	}
 
 	@Override public Builder asNewBuilder() {
@@ -62,17 +64,23 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 		private boolean accountNonLocked;
 		private boolean credentialsNonExpired;
 		private boolean enabled;
+		private Collection<? extends GrantedAuthority> authorities;
 
 		private Builder() {}
 
 		private Builder(User user) {
-			this.id = user.id;
-			this.firstName = user.firstName;
-			this.lastName = user.lastName;
-			this.username = user.username;
-			this.password = user.password;
-			this.emailAddress = user.emailAddress;
-			this.address = user.address.asNewBuilder();
+			id = user.id;
+			firstName = user.firstName;
+			lastName = user.lastName;
+			username = user.username;
+			password = user.password;
+			emailAddress = user.emailAddress;
+			address = user.address.asNewBuilder();
+			enabled = user.enabled;
+			accountNonExpired = user.accountNonExpired;
+			accountNonLocked = user.accountNonLocked;
+			credentialsNonExpired = user.credentialsNonExpired;
+			authorities = user.authorities;
 		}
 
 		public Builder id(int id) {
@@ -127,6 +135,11 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 
 		public Builder enabled(boolean enabled) {
 			this.enabled = enabled;
+			return this;
+		}
+
+		public Builder authorities(Collection<? extends GrantedAuthority> authorities) {
+			this.authorities = authorities;
 			return this;
 		}
 
@@ -219,6 +232,14 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 			this.enabled = enabled;
 		}
 
+		public Collection<? extends GrantedAuthority> getAuthorities() {
+			return authorities;
+		}
+
+		public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+			this.authorities = authorities;
+		}
+
 		@Override	public User build() {
 			return new User(this);
 		}
@@ -262,6 +283,7 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 
 	}
 
+	@JsonIgnore
 	public int getId() {
 		return id;
 	}
@@ -274,11 +296,11 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 		return lastName;
 	}
 
-	public String getUsername() {
+	@Override public String getUsername() {
 		return username;
 	}
 
-	public String getPassword() {
+	@Override public String getPassword() {
 		return password;
 	}
 
@@ -290,28 +312,28 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 		return address;
 	}
 
-	public boolean isAccountNonExpired() {
+	@Override public boolean isAccountNonExpired() {
 		return accountNonExpired;
 	}
 
-	public boolean isAccountNonLocked() {
+	@Override public boolean isAccountNonLocked() {
 		return accountNonLocked;
 	}
 
-	public boolean isCredentialsNonExpired() {
+	@Override public boolean isCredentialsNonExpired() {
 		return credentialsNonExpired;
 	}
 
-	public boolean isEnabled() {
+	@Override public boolean isEnabled() {
 		return enabled;
 	}
 
 	@Override public Collection<? extends GrantedAuthority> getAuthorities() {
-		return UserAuthorityUtils.createAuthorities(this);
+		return authorities;
 	}
 
 	@Override public int hashCode() {
-		return Objects.hashCode(id, firstName, lastName, username, password, emailAddress, address, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled);
+		return Objects.hashCode(id, firstName, lastName, username, password, emailAddress, address, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled, authorities);
 	}
 
 	@Override public boolean equals(Object obj) {
@@ -328,7 +350,8 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 			Objects.equal(this.accountNonExpired, other.accountNonExpired) &&
 			Objects.equal(this.accountNonLocked, other.accountNonLocked) &&
 			Objects.equal(this.credentialsNonExpired, other.credentialsNonExpired) &&
-			Objects.equal(this.enabled, other.enabled);
+			Objects.equal(this.enabled, other.enabled) &&
+			Objects.equal(this.authorities, other.authorities);
 	}
 
 	@Override public String toString() {
@@ -344,6 +367,7 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 			.add("accountNonLocked", accountNonLocked)
 			.add("credentialsNonExpired", credentialsNonExpired)
 			.add("enabled", enabled)
+			.add("authorities", authorities)
 			.toString();
 	}
 

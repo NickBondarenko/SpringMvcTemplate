@@ -13,7 +13,6 @@
 			<include name="properties/themes/default.properties"/>
 			<include name="properties/validation/domainMessages.properties"/>
 			<include name="properties/validation/modelMessages.properties"/>
-			<include name="properties/views.properties"/>
 			<include name="rebel.xml"/>
 		</dir>
 	</classpath>

@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
-    <file url="file://$PROJECT_DIR$/src/main/java/com/alphatek/tylt/authority/SpringSecurityUserContext.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/alphatek/tylt/authority/UserAuthorityUtils.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/alphatek/tylt/authority/UserContext.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/alphatek/tylt/repository/AbstractJdbcDao.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/alphatek/tylt/repository/AddressDao.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/alphatek/tylt/repository/AddressJdbcDao.java" charset="UTF-8" />
@@ -11,6 +9,7 @@
     <file url="file://$PROJECT_DIR$/src/main/java/com/alphatek/tylt/repository/UserDao.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/alphatek/tylt/repository/UserJdbcDao.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/alphatek/tylt/service/DefaultUserDetailsService.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/alphatek/tylt/web/mvc/controller/DefaultController.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/database/h2" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/properties/database.properties" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/applicationContext-database.xml" charset="UTF-8" />

@@ -29,14 +29,6 @@
 		<constructor-arg value="-web,-webAllowOthers,-webPort,8082" />
 	</bean>
 
-	<!--<jdbc:initialize-database>-->
-		<!--<jdbc:script/>-->
-	<!--</jdbc:initialize-database>-->
-
-	<!--<jdbc:embedded-database id="dataSource" type="H2">-->
-		<!--<jdbc:script location="classpath:/database/h2/schema.sql" />-->
-		<!--<jdbc:script location="classpath:/database/h2/data.sql" />-->
-	<!--</jdbc:embedded-database>-->
-
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager" p:dataSource-ref="dataSource" />
+
 </beans>

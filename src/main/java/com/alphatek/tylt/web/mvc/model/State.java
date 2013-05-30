@@ -34,7 +34,7 @@ public enum State {
 	GUAM("GU", "Guam"),
 	HAWAII("HI", "Hawaii"),
 	IDAHO("ID", "Idaho"),
-	ILLINIOS("IL", "Illinios"),
+	ILLINOIS("IL", "Illinois"),
 	INDIANA("IN", "Indiana"),
 	IOWA("IA", "Iowa"),
 	KANSAS("KS", "Kansas"),
