@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <sec:authorize access="authenticated" var="authenticated" />
-<c:set var="contexPath" value="${pageContext.request.contextPath}" />
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <!-- Fixed navbar -->
 <div class="navbar navbar-fixed-top">
@@ -16,17 +16,17 @@
 			<a class="brand" href="#">Spring MVC Template</a>
 			<div class="nav-collapse collapse">
 				<ul id="navMenu" class="nav">
-					<li class="active"><a href="${contexPath}/home">Home</a></li>
+					<li class="active"><a href="${contextPath}/home">Home</a></li>
 					<c:choose>
 						<c:when test="${authenticated}">
-							<li><a class="btn-header" href="">Account</a></li>
-							<li><a class="btn-header" href="/logout">Logout</a></li>
+							<li><a class="btn-header" href="${contextPath}/">Account</a></li>
+							<li><a class="btn-header" href="${contextPath}/logout">Logout</a></li>
 						</c:when>
 						<c:otherwise>
-							<li id="loginLink"><a href="${contexPath}/login">Login</a></li>
+							<li id="loginLink"><a href="${contextPath}/login">Login</a></li>
+							<li id="registrationLink"><a href="${contextPath}/registration">Register</a></li>
 						</c:otherwise>
 					</c:choose>
-					<li><a href="${contexPath}/register">Register</a></li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
 						<ul class="dropdown-menu">

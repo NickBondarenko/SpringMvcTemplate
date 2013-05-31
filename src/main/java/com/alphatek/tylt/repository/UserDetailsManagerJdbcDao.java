@@ -5,52 +5,81 @@ import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * User: jason.dimeo
  * Date: 2013-05-29 : 7:41 PM
  */
-@Repository
-public class ExtendedUserDetailsManager extends JdbcUserDetailsManager {
-	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
-	private static final String USER_QUERY = "SELECT id, username, password, email_address, first_name, last_name, enabled, account_non_expired, account_non_locked, credentials_non_expired, address_id FROM users WHERE ";
+public class UserDetailsManagerJdbcDao extends JdbcUserDetailsManager implements UserDetailsManagerDao {
+	private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+	private static final String FIND_USER_QUERY = "SELECT id, username, password, email_address, first_name, last_name, enabled, account_non_expired, account_non_locked, credentials_non_expired, address_id FROM users WHERE ";
 	private static final String GROUP_AUTHORITIES_BY_USERNAME_QUERY = "SELECT g.id, g.group_name, ga.authority FROM users u, groups g, group_members gm, group_authorities ga WHERE u.username = ? AND u.id = gm.user_id AND gm.group_id = g.id AND ga.group_id = g.id";
-	private static final String ADD_USER_QUERY = "INSERT INTO users (username, password, email_address, first_name, last_name, enabled, account_non_expired, account_non_locked, credentials_non_expired, address_id) VALUES (:username, :password, :emailAddress, :firstName, :lastName, :enabled, :accountNonExpired, :accountNonLocked, :credentialsNonExpired, :addressId)";
+	private static final String ADD_USER_QUERY = "INSERT INTO users (username, password, email_address, first_name, last_name, enabled, account_non_expired, account_non_locked, credentials_non_expired, address_id) VALUES (:username, :password, :emailAddress, :firstName, :lastName, :enabled, :accountNonExpired, :accountNonLocked, :credentialsNonExpired, :address.id)";
+	private static final String INSERT_GROUP_MEMBER_SQL = "INSERT INTO group_members (user_id, group_id) VALUES (:userId, :groupId)";
+	private static final String FIND_GROUP_ID_SQL = "SELECT id FROM groups WHERE group_name = ?";
 	private static final RowMapper<UserDetails> USER_MAPPER = new UserRowMapper("users.");
 
-	@Autowired public ExtendedUserDetailsManager(DataSource dataSource) {
+	@Autowired public UserDetailsManagerJdbcDao(DataSource dataSource) {
 		setDataSource(dataSource);
-		setGroupAuthoritiesByUsernameQuery(GROUP_AUTHORITIES_BY_USERNAME_QUERY);
 		namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(getJdbcTemplate());
+		setGroupAuthoritiesByUsernameQuery(GROUP_AUTHORITIES_BY_USERNAME_QUERY);
+		setFindGroupIdSql(FIND_GROUP_ID_SQL);
+	  setInsertGroupMemberSql(INSERT_GROUP_MEMBER_SQL);
 	}
 
+	@Transactional(readOnly = true)
 	@Override protected List<UserDetails> loadUsersByUsername(String username) {
-		Preconditions.checkNotNull(username, "username cannot be null");
+		Preconditions.checkNotNull(username, "Username cannot be null");
 
-		return getJdbcTemplate().query(USER_QUERY + "username = ?", USER_MAPPER, username);
+		return getJdbcTemplate().query(FIND_USER_QUERY + "username = ?", USER_MAPPER, username);
 	}
 
 	@Override public void createUser(UserDetails userDetails) {
-		Preconditions.checkNotNull(userDetails, "userDetails cannot be null");
+		createUser((User) userDetails);
+	}
 
-		User user = (User) userDetails;
+	@Override public long createUser(User user) {
+		Preconditions.checkNotNull(user, "User cannot be null");
 		Preconditions.checkArgument(user.getId() == 0, "user.getId() must be 0 when creating a " + User.class.getName());
 
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		namedParameterJdbcTemplate.update(ADD_USER_QUERY, new BeanPropertySqlParameterSource(user), keyHolder);
-		keyHolder.getKey();
+		return keyHolder.getKey().longValue();
+	}
+
+	@Override public void addUserToGroup(String username, String groupName) {
+		Preconditions.checkNotNull(username, "Username cannot be null");
+		Preconditions.checkNotNull(groupName, "Group name cannot be null");
+
+		User user = (User) getJdbcTemplate().queryForObject(FIND_USER_QUERY, USER_MAPPER, username);
+		long groupId = getJdbcTemplate().queryForObject(FIND_GROUP_ID_SQL, Long.class, groupName);
+		addUserToGroup(user, groupId);
+	}
+
+	@Override public void addUserToGroup(final User user, final long groupId) {
+		Preconditions.checkNotNull(user, "User cannot be null");
+		Preconditions.checkArgument(groupId > 0, "Invalid group id: %s. Value must be > 0", groupId);
+
+		SqlParameterSource sqlParameterSource = new MapSqlParameterSource(new HashMap<String, Long>() {{
+			put("userId", user.getId());
+			put("groupId", groupId);
+		}});
+		namedParameterJdbcTemplate.update(INSERT_GROUP_MEMBER_SQL, sqlParameterSource);
 	}
 
 	@Override protected UserDetails createUserDetails(String username, UserDetails userFromUserQuery, List<GrantedAuthority> combinedAuthorities) {
@@ -66,41 +95,14 @@ public class ExtendedUserDetailsManager extends JdbcUserDetailsManager {
 			.build();
 	}
 
-	//
-//	@Cacheable("userCache")
-//	@Transactional(readOnly = true)
-//	@Override public User retrieveUser(int id) {
-//		return (User) getJdbcTemplate().queryForObject(USER_QUERY + "id = ?", USER_MAPPER, id);
-//	}
-//
-//	@Cacheable("userSearchCache")
-//	@Transactional(readOnly = true)
-//	@Override public User findByUsername(String username) {
-//		Preconditions.checkNotNull(username, "username cannot be null");
-//		List<UserDetails> users = getJdbcTemplate().query(USER_QUERY + "username = ?", USER_MAPPER, username);
-//
-//		return users.isEmpty() ? null : (User) Iterables.getOnlyElement(users);
-//	}
-//
-//	@Override public int createUser(User userDetails) {
-//		Preconditions.checkNotNull(userDetails, "userDetails cannot be null");
-//		Preconditions.checkArgument(userDetails.getId() == 0, "userDetails.getId() must be 0 when creating a " + User.class.getName());
-//
-//		String sql = "INSERT INTO users (username, password, email_address, first_name, last_name, enabled, account_non_expired, account_non_locked, credentials_non_expired, address_id) VALUES (:username, :password, :emailAddress, :firstName, :lastName, :enabled, :accountNonExpired, :accountNonLocked, :credentialsNonExpired, :addressId)";
-//		KeyHolder keyHolder = new GeneratedKeyHolder();
-//		getJdbcTemplate().update(sql, new BeanPropertySqlParameterSource(userDetails), keyHolder);
-//
-//		return keyHolder.getKey().intValue();
-//	}
-
 	static final class UserRowMapper implements RowMapper<UserDetails> {
 		private final String columnLabelPrefix;
 
-		public UserRowMapper(String columnLabelPrefix) {
+		UserRowMapper(String columnLabelPrefix) {
 			this.columnLabelPrefix = columnLabelPrefix;
 		}
 
-		public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+		@Override public User mapRow(ResultSet rs, int rowNum) throws SQLException {
 			return User.newBuilder().id(rs.getInt(columnLabelPrefix + "id"))
 				.username(rs.getString(columnLabelPrefix + "username"))
 				.password(rs.getString(columnLabelPrefix + "password"))

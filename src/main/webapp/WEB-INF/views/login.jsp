@@ -43,6 +43,7 @@
 	$(document).ready(function() {
 		$('li.active').removeClass('active');
 		$('#loginLink').addClass('active');
+		$('#username').focus();
 	});
 </script>
 <div id="loginContainer" class="container">

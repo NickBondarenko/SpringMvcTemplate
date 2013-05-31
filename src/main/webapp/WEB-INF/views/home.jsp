@@ -6,6 +6,7 @@
 <ul class="unstyled">
 	<li>Spring Framework 3.2.3</li>
 	<li>Spring Security 3.1.4</li>
+	<li>Hibernate Validator (JSR-303) 4.3.1</li>
 	<li>Tiles 2.2</li>
 	<li>Twitter Bootstrap 2.3</li>
 	<li>jQuery 1.10</li>

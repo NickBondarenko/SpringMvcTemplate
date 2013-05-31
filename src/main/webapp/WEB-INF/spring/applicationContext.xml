@@ -11,6 +11,7 @@
 
 	<context:component-scan base-package="com.alphatek.tylt.web.mvc.model" />
 	<context:component-scan base-package="com.alphatek.tylt.web.mvc.view" />
+	<context:component-scan base-package="com.alphatek.tylt.authority" />
 	<context:component-scan base-package="com.alphatek.tylt.service" />
 	<context:component-scan base-package="com.alphatek.tylt.repository" />
 

@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.util.Collection;
 
 public final class User implements Buildable<User.Builder>, UserDetails {
-	private final int id;
+	private final long id;
 	private final String firstName;
 	private final String lastName;
 	private final String username;
@@ -48,7 +48,7 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 	}
 
 	public static final class Builder implements com.alphatek.tylt.domain.construct.Builder<User> {
-		private int id;
+		private long id;
 		@NotEmpty(message = "{com.alphatek.tylt.web.mvc.model.user.firstName[NotEmpty.message]}")
 		private String firstName;
 		@NotEmpty(message = "{com.alphatek.tylt.web.mvc.model.user.lastName[NotEmpty.message]}")
@@ -83,7 +83,7 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 			authorities = user.authorities;
 		}
 
-		public Builder id(int id) {
+		public Builder id(long id) {
 			this.id = id;
 			return this;
 		}
@@ -144,11 +144,11 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 		}
 
 		/** JavaBeans Getters/Setters **/
-		public int getId() {
+		public long getId() {
 			return id;
 		}
 
-		public void setId(int id) {
+		public void setId(long id) {
 			this.id = id;
 		}
 
@@ -283,8 +283,7 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 
 	}
 
-	@JsonIgnore
-	public int getId() {
+	@JsonIgnore	public long getId() {
 		return id;
 	}
 
@@ -300,6 +299,7 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 		return username;
 	}
 
+	@JsonIgnore
 	@Override public String getPassword() {
 		return password;
 	}

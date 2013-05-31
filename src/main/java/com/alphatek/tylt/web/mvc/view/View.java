@@ -2,7 +2,8 @@ package com.alphatek.tylt.web.mvc.view;
 
 public enum View {
 	HELLO("hello.page"),
-	ERROR("error.page");
+	ERROR("error.page"),
+	REGISTRATION("registration.page");
 
 	private final String name;
 	private View(String name) {
