@@ -71,7 +71,7 @@
 		<!--[if lt IE 9]>
 		<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
-		<script src="../../../resources/scripts/jquery-1.10.0.js"></script>
+		<script src="../../../resources/scripts/jquery-1.10.1.js"></script>
 		<script src="../../../resources/scripts/bootstrap.js"></script>
 		<script src="../../../resources/scripts/jquery.buildr.js"></script>
 		<script src="../../../resources/<spring:theme code="scripts" />/theme.js"></script>

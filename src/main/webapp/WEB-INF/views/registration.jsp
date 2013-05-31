@@ -15,6 +15,10 @@
 		-moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
 		box-shadow: 0 1px 2px rgba(0,0,0,.05);
 	}
+
+	fieldset legend [class^="icon-"], .cell fieldset legend [class*=" icon-"] {
+		vertical-align: baseline;
+	}
 </style>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -29,7 +33,7 @@
 <div id="registrationFragment" class="container">
 	<!-- header -->
 	<div class="page-header">
-		<h2 class="section_header">Register</h2>
+		<h1>Register</h1>
 	</div>
 	<div>
 		<sf:form id="registrationForm" modelAttribute="user" action="/registration" method="post" cssClass="form-registration">

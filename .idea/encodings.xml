@@ -8,7 +8,6 @@
     <file url="file://$PROJECT_DIR$/src/main/java/com/alphatek/tylt/repository/AddressJdbcDao.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/alphatek/tylt/repository/JdbcDao.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/alphatek/tylt/repository/UserDetailsManagerDao.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/java/com/alphatek/tylt/service/ControllerService.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/alphatek/tylt/service/DefaultRegistrationService.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/alphatek/tylt/service/RegistrationService.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/com/alphatek/tylt/web/mvc/controller/DefaultController.java" charset="UTF-8" />

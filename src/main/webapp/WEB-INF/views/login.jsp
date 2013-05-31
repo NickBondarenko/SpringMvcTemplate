@@ -1,5 +1,6 @@
 <jsp:directive.page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <style type="text/css">
 	#formContainer {
 		max-width: 350px;
@@ -38,6 +39,11 @@
 	.page-header .alert {
 		margin-bottom: 0;
 	}
+
+	#rememberMe {
+		vertical-align: text-top;
+		margin-right: 5px;
+	}
 </style>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -67,26 +73,26 @@
 	</div>
 	<div id="formContainer">
 		<div class="form-signin pull-left">
-			<form id="signinForm" action="${pageContext.request.contextPath}/login/authenticate" method="post">
+			<form id="signinForm" action="${contextPath}/login/authenticate" method="post">
 				<fieldset>
 					<legend>Enter your credentials</legend>
-					<label>Username</label>
+					<label for="username">Username</label>
 					<input type="text" id="username" name="username" class="input-xlarge" />
-					<label>Password</label>
+					<label for="password">Password</label>
 					<input type="password" id="password" name="password" class="input-xlarge" />
 					<div class="remember">
 						<div class="left">
-							<input id="remember_me" type="checkbox" class="inline-block" />
-							<label for="remember_me" class="inline-block">Remember me</label>
-						</div>
-						<div class="right">
-							<a href="/reset">Forgot password?</a>
+							<input id="rememberMe" type="checkbox" class="inline-block" />
+							<label for="rememberMe" class="inline-block">Remember me</label>
 						</div>
 					</div>
 					<button type="submit" class="btn btn-primary">Sign In</button>
+					<div class="right">
+						<a href="/reset">Forgot password?</a>
+					</div>
 				</fieldset>
 			</form>
-			<p class="already">Don't have an account? <a href="${pageContext.request.contextPath}/register">Register</a></p>
+			<p class="already">Don't have an account? <a href="${contextPath}/registration">Register</a></p>
 		</div>
 	</div>
 </div>
