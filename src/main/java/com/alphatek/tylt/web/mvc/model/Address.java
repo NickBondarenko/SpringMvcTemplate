@@ -21,6 +21,7 @@ public final class Address implements Buildable<Address.Builder> {
 	@NotNull(message = "{com.alphatek.tylt.web.mvc.model.Address.state[NotNull.message]}")
 	private final State state;
 	private final CodeDescription<String> country;
+	@NotNull(message = "{com.alphatek.tylt.web.mvc.model.Address.zipCode[NotNull.message]}")
 	@Valid private final ZipCode zipCode;
 	private final String county;
 	private final boolean isWithinCityLimits;
@@ -72,6 +73,7 @@ public final class Address implements Buildable<Address.Builder> {
 		@NotNull(message = "{com.alphatek.tylt.web.mvc.model.Address.state[NotNull.message]}")
 		private State state;
 		private CodeDescription<String> country;
+		@NotNull(message = "{com.alphatek.tylt.web.mvc.model.Address.zipCode[NotNull.message]}")
 		@Valid private ZipCode zipCode;
 		private String county;
 		private boolean isWithinCityLimits;

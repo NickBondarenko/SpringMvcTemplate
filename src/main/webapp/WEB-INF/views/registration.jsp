@@ -2,10 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="cg" tagdir="/WEB-INF/tags" %>
 
 <style type="text/css">
-	.form-registration {
-		padding: 19px 29px 29px;
+	.form-table {
 		background-color: #fafafa;
 		border: 1px solid #e5e5e5;
 		-webkit-border-radius: 5px;
@@ -14,10 +14,17 @@
 		-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
 		-moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
 		box-shadow: 0 1px 2px rgba(0,0,0,.05);
+		box-sizing: border-box;
+		padding: 20px;
 	}
 
 	fieldset legend [class^="icon-"], .cell fieldset legend [class*=" icon-"] {
 		vertical-align: baseline;
+	}
+
+	#buttonContainer {
+		clear: both;
+		padding: 10px 0;
 	}
 </style>
 <script type="text/javascript">
@@ -31,41 +38,29 @@
 	});
 </script>
 <div id="registrationFragment" class="container">
-	<!-- header -->
 	<div class="page-header">
 		<h1>Register</h1>
 	</div>
 	<div>
-		<sf:form id="registrationForm" modelAttribute="user" action="/registration" method="post" cssClass="form-registration">
+		<sf:form id="registrationForm" modelAttribute="user" action="/registration" method="post">
 			<spring:hasBindErrors name="user">
 				<div class="alert alert-block alert-error">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
-					<h4>Error(s)!</h4>
-					<sf:errors path="*" element="div" />
+					<h4>We were unable to complete your registration request due to errors on the form.</h4>
+					Please fix the inputs in red before submitting your registration request.
 				</div>
 			</spring:hasBindErrors>
-			<div class="row-fluid table">
+			<div class="row-fluid table form-table">
 				<div class="cell pull-left span6">
 					<fieldset>
 						<legend>User Info&nbsp;<i class="icon-user"></i></legend>
 						<div>
-							<sf:label path="firstName">First Name</sf:label>
-							<sf:input path="firstName" id="firstName" cssClass="txt" />
-							<sf:label path="lastName">Last Name</sf:label>
-							<sf:input path="lastName" id="lastName" />
-							<div class="control-group">
-								<sf:label path="emailAddress" cssClass="control-label">Email Address</sf:label>
-								<div class="controls">
-									<div class="input-prepend">
-										<span class="add-on"><i class="icon-envelope"></i></span>
-										<sf:input path="emailAddress" id="emailAddress" cssClass="" />
-									</div>
-								</div>
-							</div>
-							<sf:label path="username">Username</sf:label>
-							<sf:input path="username" id="username" cssClass="span8" />
-							<sf:label path="password">Password</sf:label>
-							<sf:password path="password" id="password" cssClass="span8" />
+							<cg:input-control-group path="firstName" label="First Name" />
+							<cg:input-control-group path="lastName" label="Last Name" />
+							<cg:input-control-group path="emailAddress" label="Email Address" icon="envelope" />
+							<cg:input-control-group path="username" cssClass="span8" />
+							<cg:input-control-group path="password" cssClass="span8" />
+							<cg:input-control-group path="confirmPassword" label="Confirm Password" cssClass="span8" />
 						</div>
 					</fieldset>
 				</div>
@@ -73,25 +68,17 @@
 					<fieldset>
 						<legend>Address Info&nbsp;<i class="icon-home"></i></legend>
 						<div>
-							<sf:label path="address.street">Street</sf:label>
-							<sf:input path="address.street" id="address.street" />
-							<sf:label path="address.additionalInfo">Additional Info</sf:label>
-							<sf:input path="address.additionalInfo" id="address.additionalInfo" />
-							<sf:label path="address.city">City</sf:label>
-							<sf:input path="address.city" id="address.city" />
-							<sf:label path="address.state">State</sf:label>
-							<sf:select path="address.state" id="address.state">
-								<sf:option value="">Select</sf:option>
-								<sf:options items="${requestScope.states}" itemValue="code" itemLabel="displayName" />
-							</sf:select>
-							<sf:label path="address.zipCode">Zip Code</sf:label>
-							<sf:input path="address.zipCode" id="address.zipCode" cssClass="span3" maxlength="10" placeholder="12345-1234" />
+							<cg:input-control-group path="address.street" label="Street" />
+							<cg:input-control-group path="address.additionalInfo" label="Additional Info" />
+							<cg:input-control-group path="address.city" label="City" />
+							<cg:select-control-group path="address.state" label="State" items="${requestScope.states}" itemValue="code" itemLabel="displayName" />
+							<cg:input-control-group path="address.zipCode" label="Zip Code" maxLength="10" placeholder="12345-1234" cssClass="span3" />
 						</div>
 					</fieldset>
 				</div>
-			</div>
-			<div id="buttonContainer" class="">
-				<button type="submit" class="btn btn-primary">Register</button>
+				<div id="buttonContainer">
+					<button type="submit" class="btn btn-primary">Register</button>
+				</div>
 			</div>
 		</sf:form>
 	</div>

@@ -1,8 +1,10 @@
 package com.alphatek.tylt.web.mvc.model;
 
 import com.alphatek.tylt.domain.construct.Buildable;
+import com.alphatek.tylt.web.mvc.model.validate.constraints.FieldMatch;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +18,7 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 	private final String lastName;
 	private final String username;
 	private final String password;
+	private final String confirmPassword;
 	private final String emailAddress;
 	private final Address address;
 	private final boolean accountNonExpired;
@@ -30,6 +33,7 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 		lastName = builder.lastName;
 		username = builder.username;
 		password = builder.password;
+		confirmPassword = builder.confirmPassword;
 		emailAddress = builder.emailAddress;
 		address = builder.address.build();
 		accountNonExpired = builder.accountNonExpired;
@@ -47,6 +51,7 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 		return new Builder();
 	}
 
+	@FieldMatch(field = "password", matches = "confirmPassword", message = "{com.alphatek.tylt.web.mvc.model.user.passwords.FieldMatch.message}")
 	public static final class Builder implements com.alphatek.tylt.domain.construct.Builder<User> {
 		private long id;
 		@NotEmpty(message = "{com.alphatek.tylt.web.mvc.model.user.firstName[NotEmpty.message]}")
@@ -57,7 +62,10 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 		private String username;
 		@NotEmpty(message = "{com.alphatek.tylt.web.mvc.model.user.password[NotEmpty.message]}")
 		private String password;
+		@NotEmpty(message = "{com.alphatek.tylt.web.mvc.model.user.confirmPassword[NotEmpty.message]}")
+		private String confirmPassword;
 		@NotEmpty(message = "{com.alphatek.tylt.web.mvc.model.user.emailAddress[NotEmpty.message]}")
+		@Email(message = "{com.alphatek.tylt.web.mvc.model.user.emailAddress[Email.message]}")
 		private String emailAddress;
 		@Valid private Address.Builder address = Address.newBuilder();
 		private boolean accountNonExpired;
@@ -74,6 +82,7 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 			lastName = user.lastName;
 			username = user.username;
 			password = user.password;
+			confirmPassword = user.confirmPassword;
 			emailAddress = user.emailAddress;
 			address = user.address.asNewBuilder();
 			enabled = user.enabled;
@@ -105,6 +114,11 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 
 		public Builder password(String password) {
 			this.password = password;
+			return this;
+		}
+
+		public Builder confirmPassword(String confirmPassword) {
+			this.confirmPassword = confirmPassword;
 			return this;
 		}
 
@@ -184,6 +198,14 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 			this.password = password;
 		}
 
+		public String getConfirmPassword() {
+			return confirmPassword;
+		}
+
+		public void setConfirmPassword(String confirmPassword) {
+			this.confirmPassword = confirmPassword;
+		}
+
 		public String getEmailAddress() {
 			return emailAddress;
 		}
@@ -245,7 +267,7 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 		}
 
 		@Override public int hashCode() {
-			return Objects.hashCode(id, firstName, lastName, username, password, emailAddress, address, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled);
+			return Objects.hashCode(id, firstName, lastName, username, password, confirmPassword, emailAddress, address, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled);
 		}
 
 		@Override public boolean equals(Object obj) {
@@ -257,6 +279,7 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 				Objects.equal(this.lastName, other.lastName) &&
 				Objects.equal(this.username, other.username) &&
 				Objects.equal(this.password, other.password) &&
+				Objects.equal(this.confirmPassword, other.confirmPassword) &&
 				Objects.equal(this.emailAddress, other.emailAddress) &&
 				Objects.equal(this.address, other.address) &&
 				Objects.equal(this.accountNonExpired, other.accountNonExpired) &&
@@ -272,6 +295,7 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 				.add("lastName", lastName)
 				.add("username", username)
 				.add("password", password)
+				.add("confirmPassword", confirmPassword)
 				.add("emailAddress", emailAddress)
 				.add("address", address)
 				.add("accountNonExpired", accountNonExpired)
@@ -304,6 +328,11 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 		return password;
 	}
 
+	@JsonIgnore
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
 	public String getEmailAddress() {
 		return emailAddress;
 	}
@@ -333,7 +362,7 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 	}
 
 	@Override public int hashCode() {
-		return Objects.hashCode(id, firstName, lastName, username, password, emailAddress, address, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled, authorities);
+		return Objects.hashCode(id, firstName, lastName, username, password, confirmPassword, emailAddress, address, accountNonExpired, accountNonLocked, credentialsNonExpired, enabled, authorities);
 	}
 
 	@Override public boolean equals(Object obj) {
@@ -345,6 +374,7 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 			Objects.equal(this.lastName, other.lastName) &&
 			Objects.equal(this.username, other.username) &&
 			Objects.equal(this.password, other.password) &&
+			Objects.equal(this.confirmPassword, other.confirmPassword) &&
 			Objects.equal(this.emailAddress, other.emailAddress) &&
 			Objects.equal(this.address, other.address) &&
 			Objects.equal(this.accountNonExpired, other.accountNonExpired) &&
@@ -361,6 +391,7 @@ public final class User implements Buildable<User.Builder>, UserDetails {
 			.add("lastName", lastName)
 			.add("username", username)
 			.add("password", password)
+			.add("confirmPassword", confirmPassword)
 			.add("emailAddress", emailAddress)
 			.add("address", address)
 			.add("accountNonExpired", accountNonExpired)

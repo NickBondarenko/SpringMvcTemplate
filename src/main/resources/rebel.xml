@@ -15,11 +15,14 @@
 			<include name="properties/validation/modelMessages.properties"/>
 			<include name="rebel.xml"/>
 		</dir>
+		<dir name="/Users/jason.dimeo/Documents/Development/Projects/SpringMvcTemplate/target/classes">
+		</dir>
 	</classpath>
 
 	<web>
 		<link target="/">
-			<dir name="/Users/jason.dimeo/Documents/Development/Projects/SpringMvcTemplate/src/main/webapp" />
+			<dir name="/Users/jason.dimeo/Documents/Development/Projects/SpringMvcTemplate/src/main/webapp">
+			</dir>
 		</link>
 	</web>
 
