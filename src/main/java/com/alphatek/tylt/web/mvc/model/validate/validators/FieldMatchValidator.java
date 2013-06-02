@@ -14,11 +14,8 @@ import javax.validation.ConstraintValidatorContext;
  * @author Keith Donald
  */
 public final class FieldMatchValidator implements ConstraintValidator<FieldMatch, Object> {
-
 	private String field;
-
 	private String matches;
-
 	private String message;
 
 	public void initialize(FieldMatch constraintAnnotation) {

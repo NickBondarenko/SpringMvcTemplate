@@ -89,10 +89,11 @@ public class UserDetailsManagerJdbcDao extends JdbcUserDetailsManager implements
 			returnUsername = username;
 		}
 
-		return ((User) userFromUserQuery).asNewBuilder()
-			.username(returnUsername)
-			.authorities(combinedAuthorities)
-			.build();
+		User user = (User) userFromUserQuery;
+		user.setUsername(returnUsername);
+		user.setAuthorities(combinedAuthorities);
+
+		return user;
 	}
 
 	static final class UserRowMapper implements RowMapper<UserDetails> {
@@ -103,17 +104,18 @@ public class UserDetailsManagerJdbcDao extends JdbcUserDetailsManager implements
 		}
 
 		@Override public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-			return User.newBuilder().id(rs.getInt(columnLabelPrefix + "id"))
-				.username(rs.getString(columnLabelPrefix + "username"))
-				.password(rs.getString(columnLabelPrefix + "password"))
-				.emailAddress(rs.getString(columnLabelPrefix + "email_address"))
-				.firstName(rs.getString(columnLabelPrefix + "first_name"))
-				.lastName(rs.getString(columnLabelPrefix + "last_name"))
-				.enabled(rs.getBoolean(columnLabelPrefix + "enabled"))
-				.accountNonLocked(rs.getBoolean(columnLabelPrefix + "account_non_locked"))
-				.accountNonExpired(rs.getBoolean(columnLabelPrefix + "account_non_expired"))
-				.credentialsNonExpired(rs.getBoolean(columnLabelPrefix + "credentials_non_expired"))
-				.build();
+			User user = new User();
+			user.setUsername(rs.getString(columnLabelPrefix + "username"));
+			user.setPassword(rs.getString(columnLabelPrefix + "password"));
+			user.setEmailAddress(rs.getString(columnLabelPrefix + "email_address"));
+			user.setFirstName(rs.getString(columnLabelPrefix + "first_name"));
+			user.setLastName(rs.getString(columnLabelPrefix + "last_name"));
+			user.setEnabled(rs.getBoolean(columnLabelPrefix + "enabled"));
+			user.setAccountNonLocked(rs.getBoolean(columnLabelPrefix + "account_non_locked"));
+			user.setAccountNonExpired(rs.getBoolean(columnLabelPrefix + "account_non_expired"));
+			user.setCredentialsNonExpired(rs.getBoolean(columnLabelPrefix + "credentials_non_expired"));
+
+			return user;
 		}
 	}
 }

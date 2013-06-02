@@ -3,7 +3,11 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <sec:authorize access="authenticated" var="authenticated" />
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-
+<style type="text/css">
+	#welcomeMessage {
+		padding: 10px 15px;
+	}
+</style>
 <!-- Fixed navbar -->
 <div class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
@@ -16,6 +20,7 @@
 			<a class="brand" href="#">Spring MVC Template</a>
 			<div class="nav-collapse collapse">
 				<ul id="navMenu" class="nav">
+					<li class="divider-vertical"></li>
 					<li class="active"><a href="${contextPath}/home">Home</a></li>
 					<c:choose>
 						<c:when test="${authenticated}">
@@ -39,7 +44,11 @@
 							<li><a href="#">One more separated link</a></li>
 						</ul>
 					</li>
+					<li class="divider-vertical"></li>
 				</ul>
+				<c:if test="${authenticated}">
+					<div id="welcomeMessage" class="pull-right">Welcome <sec:authentication property="principal.firstName" /> <sec:authentication property="principal.lastName" /></div>
+        </c:if>
 			</div>
 		</div>
 	</div>

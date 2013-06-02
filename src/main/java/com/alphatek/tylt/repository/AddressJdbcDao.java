@@ -29,18 +29,17 @@ public class AddressJdbcDao extends AbstractJdbcDao implements AddressDao {
 	private static final String SQL_SELECT = "SELECT * FROM address WHERE ";
 	private static final RowMapper<Address> ROW_MAPPER = new RowMapper<Address>() {
 		@Override public Address mapRow(ResultSet rs, int rowNum) throws SQLException {
-			ZipCode zipCode = ZipCode.parse(rs.getInt("zip_code_prefix") + "-" + rs.getInt("zip_code_suffix"));
-			return Address.newBuilder()
-				.id(rs.getInt("id"))
-				.street(rs.getString("street"))
-				.additionalInfo(rs.getString("additional_info"))
-				.city(rs.getString("city"))
-				.state(State.findByCode(rs.getString("state")))
-				.zipCode(zipCode)
-				.country(new CodeDescription<>("", rs.getString("country")))
-				.county(rs.getString("county"))
-				.withinCityLimits(rs.getBoolean("within_city_limits"))
-				.build();
+			Address address = new Address();
+			address.setId(rs.getInt("id"));
+			address.setStreet(rs.getString("street"));
+			address.setAdditionalInfo(rs.getString("additional_info"));
+			address.setCity(rs.getString("city"));
+			address.setState(State.findByCode(rs.getString("state")));
+			address.setZipCode(new ZipCode(rs.getString("zip_code_prefix"), rs.getString("zip_code_suffix")));
+			address.setCountry(new CodeDescription<>("", rs.getString("country")));
+			address.setCounty(rs.getString("county"));
+			address.setWithinCityLimits(rs.getBoolean("within_city_limits"));
+			return address;
 		}
 	};
 

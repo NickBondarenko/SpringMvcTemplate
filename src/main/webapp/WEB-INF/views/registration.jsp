@@ -26,6 +26,10 @@
 		clear: both;
 		padding: 10px 0;
 	}
+
+	.control-group .controls input, .control-group .controls select, .control-group .controls .input-prepend {
+		margin-bottom: 0;
+	}
 </style>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -57,10 +61,10 @@
 						<div>
 							<cg:input-control-group path="firstName" label="First Name" />
 							<cg:input-control-group path="lastName" label="Last Name" />
-							<cg:input-control-group path="emailAddress" label="Email Address" icon="envelope" />
-							<cg:input-control-group path="username" cssClass="span8" />
-							<cg:input-control-group path="password" cssClass="span8" />
-							<cg:input-control-group path="confirmPassword" label="Confirm Password" cssClass="span8" />
+							<cg:input-control-group path="emailAddress" label="Email Address" icon="envelope" cssClass="input-xlarge" />
+							<cg:input-control-group path="username" cssClass="input-xlarge" />
+							<cg:password-control-group path="password" cssClass="input-xlarge" />
+							<cg:password-control-group path="confirmPassword" label="Confirm Password" cssClass="input-xlarge" />
 						</div>
 					</fieldset>
 				</div>
@@ -72,7 +76,7 @@
 							<cg:input-control-group path="address.additionalInfo" label="Additional Info" />
 							<cg:input-control-group path="address.city" label="City" />
 							<cg:select-control-group path="address.state" label="State" items="${requestScope.states}" itemValue="code" itemLabel="displayName" />
-							<cg:input-control-group path="address.zipCode" label="Zip Code" maxLength="10" placeholder="12345-1234" cssClass="span3" />
+							<cg:input-control-group path="address.zipCode" label="Zip Code" maxLength="10" placeholder="XXXXX-XXXX" cssClass="span3" />
 						</div>
 					</fieldset>
 				</div>

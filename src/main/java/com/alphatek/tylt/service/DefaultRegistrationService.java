@@ -29,18 +29,18 @@ public class DefaultRegistrationService implements RegistrationService {
 		this.passwordEncoder = passwordEncoder;
 	}
 
-	@Override	public User registerUser(User.Builder userBuilder) {
-		int addressId = addAddress(userBuilder.getAddress().build());
+	@Override	public User registerUser(User user) {
+		int addressId = addAddress(user.getAddress());
 
-		userBuilder.password(passwordEncoder.encode(userBuilder.getPassword()))
-			.enabled(true)
-			.accountNonLocked(true)
-			.accountNonExpired(true)
-			.credentialsNonExpired(true)
-			.getAddress().id(addressId);
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		user.setEnabled(true);
+		user.setAccountNonLocked(true);
+		user.setAccountNonExpired(true);
+		user.setCredentialsNonExpired(true);
+		user.getAddress().setId(addressId);
 
-		long userId = userDetailsManagerDao.createUser(userBuilder.build());
-		User user = userBuilder.id(userId).build();
+		long userId = userDetailsManagerDao.createUser(user);
+		user.setId(userId);
 		userDetailsManagerDao.addUserToGroup(user, 1L);
 
 		userContext.setCurrentUser(user);

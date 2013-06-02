@@ -33,8 +33,8 @@ public class RegistrationController extends AbstractController {
 	}
 
 	@ModelAttribute("user")
-	public User.Builder addUser() {
-		return User.newBuilder();
+	public User addUser() {
+		return new User();
 	}
 
 	@ModelAttribute("states")
@@ -49,12 +49,12 @@ public class RegistrationController extends AbstractController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String register(@Valid @ModelAttribute("user") User.Builder userBuilder, BindingResult bindingResult, ModelMap modelMap) throws BindException {
+	public String register(@Valid @ModelAttribute("user") User user, BindingResult bindingResult, ModelMap modelMap) throws BindException {
 		if (bindingResult.hasErrors()) {
 			return handleBindingError(bindingResult, modelMap);
 		}
 
-		User user = registrationService.registerUser(userBuilder);
+		user = registrationService.registerUser(user);
 
 		modelMap.addAttribute("user", user);
 		return "redirect:/";

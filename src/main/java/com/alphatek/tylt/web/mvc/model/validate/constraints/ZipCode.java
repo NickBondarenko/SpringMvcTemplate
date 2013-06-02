@@ -1,11 +1,10 @@
 package com.alphatek.tylt.web.mvc.model.validate.constraints;
 
-import org.hibernate.validator.constraints.NotBlank;
+import com.alphatek.tylt.web.mvc.model.validate.validators.ZipCodeValidator;
 
 import javax.validation.Constraint;
+import javax.validation.Payload;
 import javax.validation.ReportAsSingleViolation;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.lang.annotation.*;
 
 /**
@@ -13,18 +12,15 @@ import java.lang.annotation.*;
  *         Date: 5/2/13
  *         Time: 11:20 AM
  */
-@NotBlank
-@Size(min = 5, max = 10)
-@Target({ ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.ANNOTATION_TYPE, ElementType.LOCAL_VARIABLE })
+@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(validatedBy = {})
+@Constraint(validatedBy = {ZipCodeValidator.class})
 @ReportAsSingleViolation
-@Pattern(regexp="\\d{5}(-\\d{4})?")
 public @interface ZipCode {
 	String message() default "{com.alphatek.tylt.web.mvc.model.validate.constraints.ZipCode.message}";
 
 	Class[] groups() default {};
 
-	Class[] payload() default {};
+	Class<? extends Payload>[] payload() default {};
 }
