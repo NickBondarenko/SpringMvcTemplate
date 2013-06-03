@@ -11,8 +11,8 @@ import java.util.Locale;
  * Date: 2013-06-02 : 8:43 PM
  */
 public class CodeDescriptionFormatter implements Formatter<CodeDescription<String>> {
-	@Override public CodeDescription<String> parse(String s, Locale locale) throws ParseException {
-		return new CodeDescription<>(s, "");
+	@Override public CodeDescription<String> parse(String code, Locale locale) throws ParseException {
+		return new CodeDescription<>(code, "");
 	}
 
 	@Override public String print(CodeDescription<String> codeDescription, Locale locale) {

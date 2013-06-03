@@ -26,4 +26,7 @@
 	<defaultCache eternal="true" maxElementsInMemory="100" overflowToDisk="false" />
 	<cache name="address" maxElementsInMemory="100" overflowToDisk="false" />
 	<cache name="states" maxElementsInMemory="1" overflowToDisk="false" />
+	<cache name="state" maxElementsInMemory="50" overflowToDisk="false" />
+	<cache name="stateByAbbreviation" maxElementsInMemory="50" overflowToDisk="false" />
+	<cache name="validState" maxElementsInMemory="100" overflowToDisk="false" />
 </ehcache>

@@ -1,7 +1,7 @@
 package com.alphatek.tylt.service;
 
-import com.alphatek.tylt.domain.CodeDescription;
 import com.alphatek.tylt.repository.StateDao;
+import com.alphatek.tylt.web.mvc.model.State;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,7 +15,7 @@ import java.util.List;
 public class DefaultAddressService implements AddressService {
 	@Resource private StateDao stateDao;
 
-	@Override public List<CodeDescription<String>> getStateList() {
+	@Override public List<State> getStateList() {
 		return stateDao.retrieveStateList();
 	}
 }

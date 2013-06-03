@@ -2,9 +2,9 @@ package com.alphatek.tylt.web.mvc.controller;
 
 import static com.alphatek.tylt.web.mvc.view.View.REGISTRATION;
 
-import com.alphatek.tylt.domain.CodeDescription;
 import com.alphatek.tylt.service.AddressService;
 import com.alphatek.tylt.service.RegistrationService;
+import com.alphatek.tylt.web.mvc.model.State;
 import com.alphatek.tylt.web.mvc.model.User;
 import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class RegistrationController extends AbstractController {
 	}
 
 	@ModelAttribute("states")
-	public List<CodeDescription<String>> addStates() {
+	public List<State> addStates() {
 		return addressService.getStateList();
 	}
 
@@ -57,9 +57,8 @@ public class RegistrationController extends AbstractController {
 			return handleBindingError(bindingResult, modelMap);
 		}
 
-		user = registrationService.registerUser(user);
+		registrationService.registerUser(user);
 
-		modelMap.addAttribute("user", user);
 		return "redirect:/";
 	}
 

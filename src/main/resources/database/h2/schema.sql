@@ -8,7 +8,7 @@ DROP TABLE group_members;
 CREATE TABLE state (
 	id BIGINT IDENTITY PRIMARY KEY,
 	abbreviation CHAR (2) NOT NULL,
-	description VARCHAR (64) NOT NULL
+	name VARCHAR (128) NOT NULL
 );
 
 CREATE TABLE address (

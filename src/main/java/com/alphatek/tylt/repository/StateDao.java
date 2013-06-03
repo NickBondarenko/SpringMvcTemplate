@@ -1,6 +1,6 @@
 package com.alphatek.tylt.repository;
 
-import com.alphatek.tylt.domain.CodeDescription;
+import com.alphatek.tylt.web.mvc.model.State;
 
 import java.util.List;
 
@@ -10,7 +10,11 @@ import java.util.List;
  */
 public interface StateDao {
 
-	List<CodeDescription<String>> retrieveStateList();
+	List<State> retrieveStateList();
 
-	CodeDescription<String> retrieveStateById(int id);
+	State retrieveStateById(int id);
+
+	State retrieveByAbbreviation(String abbreviation);
+
+	boolean isValidStateAbbreviation(String abbreviation);
 }

@@ -1,6 +1,7 @@
 package com.alphatek.tylt.web.mvc.model;
 
 import com.alphatek.tylt.web.mvc.model.validate.constraints.FieldMatch;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -56,6 +57,7 @@ public final class User implements Serializable, UserDetails {
 		return new User();
 	}
 
+	@JsonIgnore
 	public long getId() {
 		return id;
 	}
@@ -88,6 +90,7 @@ public final class User implements Serializable, UserDetails {
 		this.username = username;
 	}
 
+	@JsonIgnore
 	@Override public String getPassword() {
 		return password;
 	}
@@ -96,6 +99,7 @@ public final class User implements Serializable, UserDetails {
 		this.password = password;
 	}
 
+	@JsonIgnore
 	public String getConfirmPassword() {
 		return confirmPassword;
 	}

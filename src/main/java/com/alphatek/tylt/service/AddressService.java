@@ -1,6 +1,6 @@
 package com.alphatek.tylt.service;
 
-import com.alphatek.tylt.domain.CodeDescription;
+import com.alphatek.tylt.web.mvc.model.State;
 
 import java.util.List;
 
@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface AddressService {
 
-	List<CodeDescription<String>> getStateList();
+	List<State> getStateList();
 }
