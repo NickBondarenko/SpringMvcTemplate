@@ -2,8 +2,9 @@ package com.alphatek.tylt.web.mvc.controller;
 
 import static com.alphatek.tylt.web.mvc.view.View.REGISTRATION;
 
+import com.alphatek.tylt.domain.CodeDescription;
+import com.alphatek.tylt.service.AddressService;
 import com.alphatek.tylt.service.RegistrationService;
-import com.alphatek.tylt.web.mvc.model.State;
 import com.alphatek.tylt.web.mvc.model.User;
 import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
-import java.util.Set;
+import java.util.List;
 
 /**
  * Contact Controller
@@ -27,9 +28,11 @@ import java.util.Set;
 @RequestMapping("/registration")
 public class RegistrationController extends AbstractController {
 	private final RegistrationService registrationService;
+	private final AddressService addressService;
 
-	@Autowired public RegistrationController(RegistrationService registrationService) {
+	@Autowired public RegistrationController(RegistrationService registrationService, AddressService addressService) {
 		this.registrationService = Preconditions.checkNotNull(registrationService, "registrationService cannot be null");
+		this.addressService = Preconditions.checkNotNull(addressService, "addressService cannot be null");
 	}
 
 	@ModelAttribute("user")
@@ -38,8 +41,8 @@ public class RegistrationController extends AbstractController {
 	}
 
 	@ModelAttribute("states")
-	public Set<State> addStates() {
-		return State.getStatesSet();
+	public List<CodeDescription<String>> addStates() {
+		return addressService.getStateList();
 	}
 
 	// Default view when request is /registration

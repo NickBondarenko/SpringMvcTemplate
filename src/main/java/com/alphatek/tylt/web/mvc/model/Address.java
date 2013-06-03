@@ -19,7 +19,7 @@ public final class Address implements Serializable {
 	@NotEmpty(message = "{com.alphatek.tylt.web.mvc.model.Address.city[NotEmpty.message]}")
 	private String city;
 	@NotNull(message = "{com.alphatek.tylt.web.mvc.model.Address.state[NotNull.message]}")
-	private State state;
+	@Valid private CodeDescription<String> state;
 	private CodeDescription<String> country;
 	@NotNull(message = "{com.alphatek.tylt.web.mvc.model.Address.zipCode[NotNull.message]}")
 	@Valid private ZipCode zipCode;
@@ -80,11 +80,11 @@ public final class Address implements Serializable {
 		this.city = city;
 	}
 
-	public State getState() {
+	public CodeDescription<String> getState() {
 		return state;
 	}
 
-	public void setState(State state) {
+	public void setState(CodeDescription<String> state) {
 		this.state = state;
 	}
 

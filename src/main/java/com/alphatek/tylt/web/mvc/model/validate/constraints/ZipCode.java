@@ -1,18 +1,25 @@
 package com.alphatek.tylt.web.mvc.model.validate.constraints;
 
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
 import com.alphatek.tylt.web.mvc.model.validate.validators.ZipCodeValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import javax.validation.ReportAsSingleViolation;
-import java.lang.annotation.*;
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * @author jason.dimeo
  *         Date: 5/2/13
  *         Time: 11:20 AM
  */
-@Target({ElementType.TYPE, ElementType.ANNOTATION_TYPE})
+@Target({TYPE, ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Constraint(validatedBy = {ZipCodeValidator.class})
@@ -23,4 +30,11 @@ public @interface ZipCode {
 	Class[] groups() default {};
 
 	Class<? extends Payload>[] payload() default {};
+
+	@Target({TYPE, ANNOTATION_TYPE})
+	@Retention(RUNTIME)
+	@Documented
+	public @interface List {
+		ZipCode[] value();
+	}
 }

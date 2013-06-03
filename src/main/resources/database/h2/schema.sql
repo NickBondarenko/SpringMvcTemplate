@@ -6,7 +6,8 @@ DROP TABLE group_authorities;
 DROP TABLE group_members;
 
 CREATE TABLE state (
-	abbreviation CHAR (2) PRIMARY KEY,
+	id BIGINT IDENTITY PRIMARY KEY,
+	abbreviation CHAR (2) NOT NULL,
 	description VARCHAR (64) NOT NULL
 );
 
@@ -15,13 +16,13 @@ CREATE TABLE address (
 	street VARCHAR (256) NOT NULL,
 	additional_info VARCHAR (256),
 	city VARCHAR (256) NOT NULL,
-	state CHAR (2) NOT NULL,
+	state_id BIGINT NOT NULL,
 	zip_code_prefix INTEGER NOT NULL,
 	zip_code_suffix INTEGER,
 	country VARCHAR (256),
 	county VARCHAR (256),
 	within_city_limits BOOLEAN NOT NULL,
-	CONSTRAINT FK_ADDRESS_STATE FOREIGN KEY(state) REFERENCES state(abbreviation)
+	CONSTRAINT FK_ADDRESS_STATE FOREIGN KEY(state_id) REFERENCES state(id)
 );
 
 CREATE TABLE users (
@@ -58,12 +59,3 @@ CREATE TABLE group_members (
 	CONSTRAINT FK_GROUP_MEMBERS_GROUP FOREIGN KEY(group_id) REFERENCES groups(id),
 	CONSTRAINT FK_GROUP_MEMBERS_USER FOREIGN KEY(user_id) REFERENCES users(id)
 );
-
--- CREATE TABLE authorities (
--- 	id BIGINT IDENTITY PRIMARY KEY,
--- 	user_id BIGINT NOT NULL,
--- 	authority VARCHAR (256) NOT NULL,
--- 	CONSTRAINT FK_AUTHORITIES_USERS FOREIGN KEY(user_id) REFERENCES users(id)
--- );
---
--- CREATE UNIQUE INDEX IX_AUTH_ID ON authorities(id, user_id, authority);

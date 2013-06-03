@@ -24,6 +24,6 @@
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd" updateCheck="true" monitoring="autodetect" dynamicConfig="true">
 	<diskStore path="java.io.tmpdir"/>
 	<defaultCache eternal="true" maxElementsInMemory="100" overflowToDisk="false" />
-	<cache name="userCache" maxElementsInMemory="100" overflowToDisk="false" />
-	<cache name="userSearchCache" maxElementsInMemory="100" overflowToDisk="false" />
+	<cache name="address" maxElementsInMemory="100" overflowToDisk="false" />
+	<cache name="states" maxElementsInMemory="1" overflowToDisk="false" />
 </ehcache>

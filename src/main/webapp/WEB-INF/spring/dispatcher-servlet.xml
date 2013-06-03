@@ -78,13 +78,14 @@
 			<set>
 				<bean class="com.alphatek.tylt.web.mvc.model.format.DateFormatter" />
 				<bean class="com.alphatek.tylt.web.mvc.model.format.ZipCodeFormatter" />
+				<bean class="com.alphatek.tylt.web.mvc.model.format.CodeDescriptionFormatter" />
 			</set>
 		</property>
-		<property name="converters">
-			<set>
-				<bean class="com.alphatek.tylt.web.mvc.model.convert.StateConverter" />
-			</set>
-		</property>
+		<!--<property name="converters">-->
+			<!--<set>-->
+				<!--<bean class="some.class" />-->
+			<!--</set>-->
+		<!--</property>-->
 	</bean>
 
 	<bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor">

@@ -75,7 +75,7 @@
 							<cg:input-control-group path="address.street" label="Street" />
 							<cg:input-control-group path="address.additionalInfo" label="Additional Info" />
 							<cg:input-control-group path="address.city" label="City" />
-							<cg:select-control-group path="address.state" label="State" items="${requestScope.states}" itemValue="code" itemLabel="displayName" />
+							<cg:select-control-group path="address.state.code" label="State" items="${requestScope.states}" itemValue="code" itemLabel="description" />
 							<cg:input-control-group path="address.zipCode" label="Zip Code" maxLength="10" placeholder="XXXXX-XXXX" cssClass="span3" />
 						</div>
 					</fieldset>

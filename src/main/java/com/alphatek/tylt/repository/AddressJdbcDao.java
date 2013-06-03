@@ -2,9 +2,9 @@ package com.alphatek.tylt.repository;
 
 import com.alphatek.tylt.domain.CodeDescription;
 import com.alphatek.tylt.web.mvc.model.Address;
-import com.alphatek.tylt.web.mvc.model.State;
 import com.alphatek.tylt.web.mvc.model.ZipCode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -24,9 +24,9 @@ import java.util.List;
  */
 @Repository
 public class AddressJdbcDao extends AbstractJdbcDao implements AddressDao {
-	private static final String SQL_INSERT = "INSERT INTO address(street, additional_info, city, state, zip_code_prefix, zip_code_suffix, country, county, within_city_limits) " +
-		"VALUES (:street, :additionalInfo, :city, :state.code, :zipCode.prefix, :zipCode.suffix, :country, :county, :withinCityLimits)";
-	private static final String SQL_SELECT = "SELECT * FROM address WHERE ";
+	private static final String SQL_INSERT = "INSERT INTO address(street, additional_info, city, state_id, zip_code_prefix, zip_code_suffix, country, county, within_city_limits) " +
+		"VALUES (:street, :additionalInfo, :city, (SELECT ID FROM state WHERE abbreviation = :state.code), :zipCode.prefix, :zipCode.suffix, :country, :county, :withinCityLimits)";
+	private static final String SQL_SELECT = "SELECT id, street, additional_info, city, state.abbreviation, state.description, zip_code_prefix, zip_code_suffix, country, county, within_city_limits FROM address, state WHERE address.state_id = state.id AND ";
 	private static final RowMapper<Address> ROW_MAPPER = new RowMapper<Address>() {
 		@Override public Address mapRow(ResultSet rs, int rowNum) throws SQLException {
 			Address address = new Address();
@@ -34,7 +34,7 @@ public class AddressJdbcDao extends AbstractJdbcDao implements AddressDao {
 			address.setStreet(rs.getString("street"));
 			address.setAdditionalInfo(rs.getString("additional_info"));
 			address.setCity(rs.getString("city"));
-			address.setState(State.findByCode(rs.getString("state")));
+			address.setState(new CodeDescription<>(rs.getString("state.abbreviation"), rs.getString("state.description")));
 			address.setZipCode(new ZipCode(rs.getString("zip_code_prefix"), rs.getString("zip_code_suffix")));
 			address.setCountry(new CodeDescription<>("", rs.getString("country")));
 			address.setCounty(rs.getString("county"));
@@ -53,6 +53,7 @@ public class AddressJdbcDao extends AbstractJdbcDao implements AddressDao {
 		return keyHolder.getKey().intValue();
 	}
 
+	@Cacheable("address")
 	@Override public Address retrieveAddress(int id) {
 		return getNamedParameterJdbcTemplate().queryForObject(SQL_SELECT + "address.id = :id", new MapSqlParameterSource("id", id), ROW_MAPPER);
 	}

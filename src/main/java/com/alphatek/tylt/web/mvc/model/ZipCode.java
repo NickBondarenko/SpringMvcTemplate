@@ -5,6 +5,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
 import java.io.Serializable;
+
 @com.alphatek.tylt.web.mvc.model.validate.constraints.ZipCode(message = "{com.alphatek.tylt.web.mvc.model.ZipCode.message}")
 public final class ZipCode implements Serializable {
 	private static final String DELIMITER = "-";

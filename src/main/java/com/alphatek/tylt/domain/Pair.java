@@ -30,7 +30,6 @@ public class Pair<F, S> {
 	@Override public boolean equals(Object obj) {
 		if (this == obj) { return true; }
 		if (obj == null || getClass() != obj.getClass()) { return false; }
-
 		final Pair other = (Pair) obj;
 		return Objects.equal(this.first, other.first) && Objects.equal(this.second, other.second);
 	}

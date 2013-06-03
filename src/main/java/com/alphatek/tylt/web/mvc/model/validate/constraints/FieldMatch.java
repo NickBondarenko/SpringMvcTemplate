@@ -39,13 +39,13 @@ public @interface FieldMatch {
 	 */
 	String matches() default "";
 
+	/**
+	 * Used to specify multiple confirm fields per class.
+	 */
 	@Target({TYPE, ANNOTATION_TYPE})
 	@Retention(RUNTIME)
 	@Documented
 	@interface List {
-		/**
-		 * Used to specify multiple confirm fields per class.
-		 */
 		FieldMatch[] value();
 	}
 }

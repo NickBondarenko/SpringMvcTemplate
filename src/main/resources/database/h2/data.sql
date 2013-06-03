@@ -58,7 +58,7 @@ INSERT INTO state(ABBREVIATION, DESCRIPTION) VALUES ('WV', 'West Virginia');
 INSERT INTO state(ABBREVIATION, DESCRIPTION) VALUES ('WI', 'Wisconsin');
 INSERT INTO state(ABBREVIATION, DESCRIPTION) VALUES ('WY', 'Wyoming');
 
-INSERT INTO address(street, additional_info, city, state, zip_code_prefix, zip_code_suffix, country, county, within_city_limits) VALUES ('11562 8th St N APT 708', '', 'Saint Petersburg', 'FL', 33716, 0, 'United States', 'Pineallas', TRUE);
+INSERT INTO address(street, additional_info, city, state_id, zip_code_prefix, zip_code_suffix, country, county, within_city_limits) VALUES ('11562 8th St N APT 708', '', 'Saint Petersburg', 12, 33716, 0, 'United States', 'Pineallas', TRUE);
 
 INSERT INTO users(username, password, email_address, first_name, last_name, enabled, account_non_expired, account_non_locked, credentials_non_expired, address_id) VALUES ('user1@example.com','38aab7ba97bd6bb2e51add1e5617eabfc8d13ec85c004e909eec4b70172437ae85e0c56e43fe51b0','user1@example.com','User', '1', true, true, true, true, 1);
 INSERT INTO users(username, password, email_address, first_name, last_name, enabled, account_non_expired, account_non_locked, credentials_non_expired, address_id) VALUES ('admin1@example.com','98afcd6f54569da7fea7fe4b1bf79d59dd27e559d38ee75cabd796f43058ebe15f201dfd453942e0','admin1@example.com','Admin', '1', true, true, true, true, 1);
