@@ -248,14 +248,14 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-clean-plugin</artifactId>
+				<artifactId>maven-deliverable-plugin</artifactId>
 				<version>2.5</version>
 				<executions>
 					<execution>
-						<id>auto-clean</id>
+						<id>auto-deliverable</id>
 						<phase>initialize</phase>
 						<goals>
-							<goal>clean</goal>
+							<goal>deliverable</goal>
 						</goals>
 					</execution>
 				</executions>

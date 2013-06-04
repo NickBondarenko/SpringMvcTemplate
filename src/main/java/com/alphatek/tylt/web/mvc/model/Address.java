@@ -1,6 +1,5 @@
 package com.alphatek.tylt.web.mvc.model;
 
-import com.alphatek.tylt.domain.CodeDescription;
 import com.google.common.base.Objects;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -12,7 +11,7 @@ import java.io.Serializable;
  * The type Address.
  */
 public final class Address implements Serializable {
-	private int id;
+	private long id;
 	@NotEmpty(message = "{com.alphatek.tylt.web.mvc.model.Address.street[NotEmpty.message]}")
 	private String street;
 	private String additionalInfo;
@@ -20,13 +19,13 @@ public final class Address implements Serializable {
 	private String city;
 	@NotNull(message = "{com.alphatek.tylt.web.mvc.model.Address.state[NotNull.message]}")
 	private State state;
-	private CodeDescription<String> country;
+	private Country country;
 	@NotNull(message = "{com.alphatek.tylt.web.mvc.model.Address.zipCode[NotNull.message]}")
 	@Valid private ZipCode zipCode;
 	private String county;
 	private boolean withinCityLimits;
 	private int municipalityCode;
-	private boolean clean;
+	private boolean deliverable;
 
 	public Address() {}
 
@@ -41,18 +40,22 @@ public final class Address implements Serializable {
 		county = address.county;
 		withinCityLimits = address.withinCityLimits;
 		municipalityCode = address.municipalityCode;
-		clean = address.clean;
+		deliverable = address.deliverable;
 	}
 
 	public static Address newInstance() {
 		return new Address();
 	}
 
-	public int getId() {
+	public static Address newInstance(Address address) {
+		return new Address(address);
+	}
+
+	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -88,11 +91,11 @@ public final class Address implements Serializable {
 		this.state = state;
 	}
 
-	public CodeDescription<String> getCountry() {
+	public Country getCountry() {
 		return country;
 	}
 
-	public void setCountry(CodeDescription<String> country) {
+	public void setCountry(Country country) {
 		this.country = country;
 	}
 
@@ -128,16 +131,16 @@ public final class Address implements Serializable {
 		this.municipalityCode = municipalityCode;
 	}
 
-	public boolean isClean() {
-		return clean;
+	public boolean isDeliverable() {
+		return deliverable;
 	}
 
-	public void setClean(boolean clean) {
-		this.clean = clean;
+	public void setDeliverable(boolean deliverable) {
+		this.deliverable = deliverable;
 	}
 
 	@Override public int hashCode() {
-		return Objects.hashCode(id, street, additionalInfo, city, state, country, zipCode, county, withinCityLimits, municipalityCode, clean);
+		return Objects.hashCode(id, street, additionalInfo, city, state, country, zipCode, county, withinCityLimits, municipalityCode, deliverable);
 	}
 
 	@Override public boolean equals(Object obj) {
@@ -154,7 +157,7 @@ public final class Address implements Serializable {
 			Objects.equal(this.county, other.county) &&
 			Objects.equal(this.withinCityLimits, other.withinCityLimits) &&
 			Objects.equal(this.municipalityCode, other.municipalityCode) &&
-			Objects.equal(this.clean, other.clean);
+			Objects.equal(this.deliverable, other.deliverable);
 	}
 
 	@Override public String toString() {
@@ -169,7 +172,7 @@ public final class Address implements Serializable {
 			.add("county", county)
 			.add("withinCityLimits", withinCityLimits)
 			.add("municipalityCode", municipalityCode)
-			.add("clean", clean)
+			.add("deliverable", deliverable)
 			.toString();
 	}
 }

@@ -57,6 +57,10 @@ public final class User implements Serializable, UserDetails {
 		return new User();
 	}
 
+	public static User newInstance(User user) {
+		return new User(user);
+	}
+
 	@JsonIgnore
 	public long getId() {
 		return id;

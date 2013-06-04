@@ -12,38 +12,47 @@
     </libraries>
     <schema name="PUBLIC" catalog="TYLT"/>
     <table name="ADDRESS" schema="PUBLIC" catalog="TYLT" type="TABLE">
-      <column name="ID" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfREJDNDgxRDRfMzZFMV80QTMxX0JFNjlfMEFEMUM4MzNFMDgyKQ==" autoIncrement="true"/>
+      <column name="ID" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfQkQ4OTQ1MDlfNjBDQV80NkUwXzgwNTRfQkE0NjY0QjM0OEJBKQ==" autoIncrement="true"/>
       <column name="STREET" sqlType="VARCHAR" length="256" precision="0" nullable="false" jdbcType="12"/>
       <column name="ADDITIONAL_INFO" sqlType="VARCHAR" length="256" precision="0" nullable="true" jdbcType="12"/>
       <column name="CITY" sqlType="VARCHAR" length="256" precision="0" nullable="false" jdbcType="12"/>
       <column name="STATE_ID" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5"/>
       <column name="ZIP_CODE_PREFIX" sqlType="INTEGER" length="10" precision="0" nullable="false" jdbcType="4"/>
       <column name="ZIP_CODE_SUFFIX" sqlType="INTEGER" length="10" precision="0" nullable="true" jdbcType="4"/>
-      <column name="COUNTRY" sqlType="VARCHAR" length="256" precision="0" nullable="true" jdbcType="12"/>
+      <column name="COUNTRY_ID" sqlType="BIGINT" length="19" precision="0" nullable="true" jdbcType="-5"/>
       <column name="COUNTY" sqlType="VARCHAR" length="256" precision="0" nullable="true" jdbcType="12"/>
       <column name="WITHIN_CITY_LIMITS" sqlType="BOOLEAN" length="1" precision="0" nullable="false" jdbcType="16"/>
       <primary-key name="CONSTRAINT_E" columns="ID"/>
+      <foreign-key name="FK_ADDRESS_COUNTRY" columns="COUNTRY_ID" ref-table="COUNTRY" ref-schema="PUBLIC" ref-catalog="TYLT" ref-columns="ID" update-rule="1" delete-rule="1" deferrability="2"/>
       <foreign-key name="FK_ADDRESS_STATE" columns="STATE_ID" ref-table="STATE" ref-schema="PUBLIC" ref-catalog="TYLT" ref-columns="ID" update-rule="1" delete-rule="1" deferrability="2"/>
       <exported-key name="FK_USERS_ADDRESS" table="USERS" schema="PUBLIC" catalog="TYLT" columns="ADDRESS_ID"/>
+      <index name="FK_ADDRESS_COUNTRY_INDEX_E" unique="false" columns="COUNTRY_ID"/>
       <index name="FK_ADDRESS_STATE_INDEX_E" unique="false" columns="STATE_ID"/>
     </table>
+    <table name="COUNTRY" schema="PUBLIC" catalog="TYLT" type="TABLE">
+      <column name="ID" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfRTNGMTk2MURfNTFGMl80Rjk1XzlGM0NfRTlGMTYwNTIzQzA5KQ==" autoIncrement="true"/>
+      <column name="CODE" sqlType="CHAR" length="2" precision="0" nullable="false" jdbcType="1"/>
+      <column name="NAME" sqlType="VARCHAR" length="256" precision="0" nullable="false" jdbcType="12"/>
+      <primary-key name="CONSTRAINT_6" columns="ID"/>
+      <exported-key name="FK_ADDRESS_COUNTRY" table="ADDRESS" schema="PUBLIC" catalog="TYLT" columns="COUNTRY_ID"/>
+    </table>
     <table name="GROUPS" schema="PUBLIC" catalog="TYLT" type="TABLE">
-      <column name="ID" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfNDEyQzM5MkNfMDkyM180MUZBXzlBREVfMjAwQzg4QUZBMDQzKQ==" autoIncrement="true"/>
+      <column name="ID" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfNDdBMTZGNTlfMzI5MF80ODYyX0E5MTdfRjNENTAwMTA5OTQwKQ==" autoIncrement="true"/>
       <column name="GROUP_NAME" sqlType="VARCHAR" length="256" precision="0" nullable="false" jdbcType="12"/>
       <primary-key name="CONSTRAINT_7" columns="ID"/>
       <exported-key name="FK_GROUP_AUTHORITIES_GROUP" table="GROUP_AUTHORITIES" schema="PUBLIC" catalog="TYLT" columns="GROUP_ID"/>
       <exported-key name="FK_GROUP_MEMBERS_GROUP" table="GROUP_MEMBERS" schema="PUBLIC" catalog="TYLT" columns="GROUP_ID"/>
     </table>
     <table name="GROUP_AUTHORITIES" schema="PUBLIC" catalog="TYLT" type="TABLE">
-      <column name="ID" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfREYyRjEzQTBfODc5QV80N0NBX0I4QzVfRDBCQzRBNzg0RDYyKQ==" autoIncrement="true"/>
+      <column name="ID" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfNENCODE5NzVfODZGRV80NzEwX0FFRTBfOThDMEQ2ODBDMTNFKQ==" autoIncrement="true"/>
       <column name="GROUP_ID" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5"/>
       <column name="AUTHORITY" sqlType="VARCHAR" length="256" precision="0" nullable="false" jdbcType="12"/>
-      <primary-key name="CONSTRAINT_6" columns="ID"/>
+      <primary-key name="CONSTRAINT_68" columns="ID"/>
       <foreign-key name="FK_GROUP_AUTHORITIES_GROUP" columns="GROUP_ID" ref-table="GROUPS" ref-schema="PUBLIC" ref-catalog="TYLT" ref-columns="ID" update-rule="1" delete-rule="1" deferrability="2"/>
       <index name="FK_GROUP_AUTHORITIES_GROUP_INDEX_6" unique="false" columns="GROUP_ID"/>
     </table>
     <table name="GROUP_MEMBERS" schema="PUBLIC" catalog="TYLT" type="TABLE">
-      <column name="ID" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfOEVDRDRBMkJfQ0NDQ180MDg4Xzg3NDRfOEMyMjk2NzVBODgxKQ==" autoIncrement="true"/>
+      <column name="ID" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfMTQ3MjY4RjRfNUI2OF80ODRBX0FFQzBfRTgyMDJDRDI5MTc0KQ==" autoIncrement="true"/>
       <column name="USER_ID" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5"/>
       <column name="GROUP_ID" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5"/>
       <primary-key name="CONSTRAINT_F" columns="ID"/>
@@ -53,14 +62,14 @@
       <index name="FK_GROUP_MEMBERS_USER_INDEX_F" unique="false" columns="USER_ID"/>
     </table>
     <table name="STATE" schema="PUBLIC" catalog="TYLT" type="TABLE">
-      <column name="ID" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfQTkxRjc2MUFfODNCRF80NTkzXzg3MURfODMzNEMxQUZFODg4KQ==" autoIncrement="true"/>
+      <column name="ID" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfOTU4ODU4QTJfRDY3M180QjMyXzg0OURfMDE3RTczRjA1NDFFKQ==" autoIncrement="true"/>
       <column name="ABBREVIATION" sqlType="CHAR" length="2" precision="0" nullable="false" jdbcType="1"/>
       <column name="NAME" sqlType="VARCHAR" length="128" precision="0" nullable="false" jdbcType="12"/>
       <primary-key name="CONSTRAINT_4" columns="ID"/>
       <exported-key name="FK_ADDRESS_STATE" table="ADDRESS" schema="PUBLIC" catalog="TYLT" columns="STATE_ID"/>
     </table>
     <table name="USERS" schema="PUBLIC" catalog="TYLT" type="TABLE">
-      <column name="ID" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfODc4QzhDQzBfM0I1Ql80RDU3Xzg1MjNfNDk4RjMzRUQ0NTIyKQ==" autoIncrement="true"/>
+      <column name="ID" sqlType="BIGINT" length="19" precision="0" nullable="false" jdbcType="-5" def="KE5FWFQgVkFMVUUgRk9SIFBVQkxJQy5TWVNURU1fU0VRVUVOQ0VfQkU2NDNCOTZfMkY5Ml80RjM3XzlERDVfRDFGQjQxMUJEM0Q2KQ==" autoIncrement="true"/>
       <column name="USERNAME" sqlType="VARCHAR" length="256" precision="0" nullable="false" jdbcType="12"/>
       <column name="PASSWORD" sqlType="VARCHAR" length="256" precision="0" nullable="false" jdbcType="12"/>
       <column name="EMAIL_ADDRESS" sqlType="VARCHAR" length="256" precision="0" nullable="false" jdbcType="12"/>

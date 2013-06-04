@@ -24,7 +24,7 @@ public class DefaultRegistrationService implements RegistrationService {
 	@Resource private PasswordEncoder passwordEncoder;
 
 	@Override	public User registerUser(User user) {
-		int addressId = addAddress(user.getAddress());
+		long addressId = addAddress(user.getAddress());
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		user.setConfirmPassword("");
@@ -43,7 +43,7 @@ public class DefaultRegistrationService implements RegistrationService {
 		return user;
 	}
 
-	private int addAddress(Address address) {
+	private long addAddress(Address address) {
 		return addressDao.insertAddress(address);
 	}
 

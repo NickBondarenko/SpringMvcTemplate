@@ -3,20 +3,38 @@ package com.alphatek.tylt.web.mvc.model;
 import com.alphatek.tylt.domain.CodeDescription;
 import com.google.common.base.Objects;
 
+import java.io.Serializable;
+
 /**
  * User: jason.dimeo
  * Date: 2013-06-03 : 1:30 PM
  */
 @com.alphatek.tylt.web.mvc.model.validate.constraints.State(message = "{com.alphatek.tylt.web.mvc.model.State.message}")
-public class State {
+public final class State implements Serializable {
 	private final CodeDescription<String> stateCodeDescription;
 
 	public State() {
 		stateCodeDescription = new CodeDescription<>();
 	}
 
+	public State(String abbreviation) {
+		stateCodeDescription = new CodeDescription<>(abbreviation, "");
+	}
+
 	public State(String abbreviation, String name) {
 		stateCodeDescription = new CodeDescription<>(abbreviation, name);
+	}
+
+	public static State newInstance() {
+		return new State();
+	}
+
+	public static State newInstance(String abbreviation) {
+		return new State(abbreviation);
+	}
+
+	public static State newInstance(String abbreviation, String name) {
+		return new State(abbreviation, name);
 	}
 
 	public String getAbbreviation() {

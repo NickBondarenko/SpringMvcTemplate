@@ -4,6 +4,7 @@ import com.google.common.base.Objects;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * CodeDescription model. Used to hold a <code>code<T></code>
@@ -12,15 +13,36 @@ import javax.validation.constraints.NotNull;
  * Time: 8:53 PM
  * @author jason.dimeo
  */
-public class CodeDescription<T> {
+public final class CodeDescription<T> implements Serializable {
 	@NotNull private T code;
 	@NotBlank private String description;
 
 	public CodeDescription() {}
 
+	public CodeDescription(T code) {
+		this.code = code;
+	}
+
 	public CodeDescription(T code, String description) {
 		this.code = code;
 		this.description = description;
+	}
+
+	public CodeDescription(CodeDescription<T> codeDescription) {
+		code = codeDescription.code;
+		description = codeDescription.description;
+	}
+
+	public static <T> CodeDescription<T> newInstance() {
+		return new CodeDescription<>();
+	}
+
+	public static <T> CodeDescription<T> newInstance(T code, String description) {
+		return new CodeDescription<>(code, description);
+	}
+
+	public static <T> CodeDescription<T> newInstance(CodeDescription<T> codeDescription) {
+		return new CodeDescription<>(codeDescription);
 	}
 
 	public T getCode() {

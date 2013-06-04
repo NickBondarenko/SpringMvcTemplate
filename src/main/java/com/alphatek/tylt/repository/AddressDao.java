@@ -10,7 +10,7 @@ import java.util.List;
  *         Time: 9:03 PM
  */
 public interface AddressDao {
-	Address retrieveAddress(int id);
+	Address retrieveAddress(long id);
 	List<Address> findAddress(Address address);
-	int insertAddress(Address address);
+	long insertAddress(Address address);
 }

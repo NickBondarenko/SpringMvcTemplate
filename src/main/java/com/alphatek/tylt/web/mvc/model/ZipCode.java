@@ -14,6 +14,12 @@ public final class ZipCode implements Serializable {
 
 	public ZipCode() {}
 
+	public ZipCode(String prefix) {
+		String[] zipCodeAspects = parse(prefix);
+		this.prefix = zipCodeAspects[0];
+		this.suffix = zipCodeAspects[1];
+	}
+
 	public ZipCode(String prefix, String suffix) {
 		this.prefix = prefix;
 		this.suffix = suffix;
@@ -28,19 +34,33 @@ public final class ZipCode implements Serializable {
 		return new ZipCode();
 	}
 
-	public static ZipCode parse(String zipCode) {
+	public static ZipCode newInstance(String prefix) {
+		return new ZipCode(prefix);
+	}
+
+	public static ZipCode newInstance(String prefix, String suffix) {
+		return new ZipCode(prefix, suffix);
+	}
+
+	public static ZipCode newInstance(ZipCode zipCode) {
+		return new ZipCode(zipCode);
+	}
+
+	private String[] parse(String zipCode) {
 		Preconditions.checkNotNull(zipCode, "Unable to parse null Zip Code");
 		Preconditions.checkArgument(!zipCode.isEmpty(), "Unable to parse empty Zip Code");
 
-		ZipCode newZipCode;
-		if (zipCode.contains(DELIMITER)) {
-			String[] zipCodeAspects = zipCode.split(DELIMITER);
-			newZipCode = new ZipCode(zipCodeAspects[0], zipCodeAspects[1]);
-		} else {
-			newZipCode = new ZipCode();
-			newZipCode.setPrefix(zipCode);
+		String[] zipCodeAspects = zipCode.split(DELIMITER, 1);
+		for (int i = 0; i < zipCodeAspects.length; i++) {
+			if (zipCodeAspects[i].length() > 5) {
+				zipCodeAspects[i] = zipCodeAspects[i].substring(0, 5);
+			}
 		}
-		return newZipCode;
+
+		if (zipCodeAspects.length == 1) {
+			zipCodeAspects = new String[] {zipCodeAspects[0], ""};
+		}
+		return zipCodeAspects;
 	}
 
 	public static String getDelimiter() {

@@ -79,6 +79,7 @@
 				<bean class="com.alphatek.tylt.web.mvc.model.format.DateFormatter" />
 				<bean class="com.alphatek.tylt.web.mvc.model.format.StateFormatter" />
 				<bean class="com.alphatek.tylt.web.mvc.model.format.ZipCodeFormatter" />
+				<bean class="com.alphatek.tylt.web.mvc.model.format.CountryCodeFormatter" />
 				<bean class="com.alphatek.tylt.web.mvc.model.format.CodeDescriptionFormatter" />
 			</set>
 		</property>

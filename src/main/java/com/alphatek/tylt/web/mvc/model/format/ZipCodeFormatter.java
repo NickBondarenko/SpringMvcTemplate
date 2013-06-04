@@ -13,15 +13,15 @@ import java.util.Locale;
  */
 public class ZipCodeFormatter implements Formatter<ZipCode> {
 	/**
-	 * Parse a text String to produce a ZipCode.
+	 * Parse a zipCodeText String to produce a ZipCode.
 	 *
-	 * @param text the text string
+	 * @param zipCodeText the zipCodeText string
 	 * @param locale the current user locale
 	 * @return an instance of ZipCode
 	 * @throws java.text.ParseException when a parse exception occurs in a java.text parsing library
 	 */
-	@Override	public ZipCode parse(String text, Locale locale) throws ParseException {
-		return ZipCode.parse(text);
+	@Override	public ZipCode parse(String zipCodeText, Locale locale) throws ParseException {
+		return new ZipCode(zipCodeText);
 	}
 
 	/**
@@ -29,7 +29,7 @@ public class ZipCodeFormatter implements Formatter<ZipCode> {
 	 *
 	 * @param zipCode the instance to print
 	 * @param locale the current user locale
-	 * @return the printed text string
+	 * @return the printed zipCodeText string
 	 */
 	@Override	public String print(ZipCode zipCode, Locale locale) {
 		return zipCode.getFormattedZipCode();

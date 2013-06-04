@@ -1,3 +1,4 @@
+DROP TABLE country;
 DROP TABLE state;
 DROP TABLE address;
 DROP TABLE users;
@@ -5,9 +6,15 @@ DROP TABLE groups;
 DROP TABLE group_authorities;
 DROP TABLE group_members;
 
+CREATE TABLE country (
+	id BIGINT IDENTITY PRIMARY KEY,
+	code CHAR (2) NOT NULL UNIQUE,
+	name VARCHAR (256) NOT NULL
+);
+
 CREATE TABLE state (
 	id BIGINT IDENTITY PRIMARY KEY,
-	abbreviation CHAR (2) NOT NULL,
+	abbreviation CHAR (2) NOT NULL UNIQUE,
 	name VARCHAR (128) NOT NULL
 );
 
@@ -19,10 +26,11 @@ CREATE TABLE address (
 	state_id BIGINT NOT NULL,
 	zip_code_prefix INTEGER NOT NULL,
 	zip_code_suffix INTEGER,
-	country VARCHAR (256),
+	country_id BIGINT,
 	county VARCHAR (256),
 	within_city_limits BOOLEAN NOT NULL,
-	CONSTRAINT FK_ADDRESS_STATE FOREIGN KEY(state_id) REFERENCES state(id)
+	CONSTRAINT FK_ADDRESS_STATE FOREIGN KEY(state_id) REFERENCES state(id),
+	CONSTRAINT FK_ADDRESS_COUNTRY FOREIGN KEY(country_id) REFERENCES country(id)
 );
 
 CREATE TABLE users (
