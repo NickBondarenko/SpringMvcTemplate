@@ -72,7 +72,7 @@
 					<fieldset>
 						<legend>Address Info&nbsp;<i class="icon-home"></i></legend>
 						<div>
-							<cg:input-control-group path="address.country" label="Country" />
+							<cg:select-control-group path="address.country" label="Country" items="${requestScope.countries}" itemValue="code" itemLabel="name" />
 							<cg:input-control-group path="address.street" label="Street" />
 							<cg:input-control-group path="address.additionalInfo" label="Additional Info" />
 							<cg:input-control-group path="address.city" label="City" />

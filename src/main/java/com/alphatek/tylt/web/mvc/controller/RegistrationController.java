@@ -4,6 +4,7 @@ import static com.alphatek.tylt.web.mvc.view.View.REGISTRATION;
 
 import com.alphatek.tylt.service.AddressService;
 import com.alphatek.tylt.service.RegistrationService;
+import com.alphatek.tylt.web.mvc.model.Country;
 import com.alphatek.tylt.web.mvc.model.State;
 import com.alphatek.tylt.web.mvc.model.User;
 import com.google.common.base.Preconditions;
@@ -43,6 +44,11 @@ public class RegistrationController extends AbstractController {
 	@ModelAttribute("states")
 	public List<State> addStates() {
 		return addressService.getStateList();
+	}
+
+	@ModelAttribute("countries")
+	public List<Country> addCountries() {
+		return addressService.getCountryList();
 	}
 
 	// Default view when request is /registration

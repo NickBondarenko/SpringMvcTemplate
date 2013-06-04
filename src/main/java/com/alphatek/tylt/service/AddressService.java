@@ -1,5 +1,6 @@
 package com.alphatek.tylt.service;
 
+import com.alphatek.tylt.web.mvc.model.Country;
 import com.alphatek.tylt.web.mvc.model.State;
 
 import java.util.List;
@@ -11,4 +12,6 @@ import java.util.List;
 public interface AddressService {
 
 	List<State> getStateList();
+
+	List<Country> getCountryList();
 }

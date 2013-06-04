@@ -10,6 +10,7 @@ import java.io.Serializable;
  *         Date: 6/3/13
  *         Time: 6:33 PM
  */
+@com.alphatek.tylt.web.mvc.model.validate.constraints.Country(message = "{com.alphatek.tylt.web.mvc.model.Country.message}")
 public class Country implements Serializable {
 	private long id;
 	private final CodeDescription<String> countryCodeDescription;

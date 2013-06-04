@@ -11,6 +11,7 @@ import java.io.Serializable;
  */
 @com.alphatek.tylt.web.mvc.model.validate.constraints.State(message = "{com.alphatek.tylt.web.mvc.model.State.message}")
 public final class State implements Serializable {
+	private long id;
 	private final CodeDescription<String> stateCodeDescription;
 
 	public State() {
@@ -18,7 +19,7 @@ public final class State implements Serializable {
 	}
 
 	public State(String abbreviation) {
-		stateCodeDescription = new CodeDescription<>(abbreviation, "");
+		stateCodeDescription = new CodeDescription<>(abbreviation);
 	}
 
 	public State(String abbreviation, String name) {
@@ -35,6 +36,14 @@ public final class State implements Serializable {
 
 	public static State newInstance(String abbreviation, String name) {
 		return new State(abbreviation, name);
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 	public String getAbbreviation() {
@@ -54,18 +63,19 @@ public final class State implements Serializable {
 	}
 
 	@Override public int hashCode() {
-		return Objects.hashCode(stateCodeDescription);
+		return Objects.hashCode(id, stateCodeDescription);
 	}
 
 	@Override public boolean equals(Object obj) {
 		if (this == obj) { return true; }
 		if (obj == null || getClass() != obj.getClass()) { return false; }
 		final State other = (State) obj;
-		return Objects.equal(this.stateCodeDescription, other.stateCodeDescription);
+		return Objects.equal(this.id, other.id) && Objects.equal(this.stateCodeDescription, other.stateCodeDescription);
 	}
 
 	@Override public String toString() {
 		return Objects.toStringHelper(this)
+			.add("id", id)
 			.add("abbreviation", stateCodeDescription.getCode())
 			.add("name", stateCodeDescription.getDescription())
 			.toString();

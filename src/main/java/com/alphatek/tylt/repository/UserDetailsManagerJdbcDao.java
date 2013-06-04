@@ -32,7 +32,22 @@ public class UserDetailsManagerJdbcDao extends JdbcUserDetailsManager implements
 	private static final String ADD_USER_QUERY = "INSERT INTO users (username, password, email_address, first_name, last_name, enabled, account_non_expired, account_non_locked, credentials_non_expired, address_id) VALUES (:username, :password, :emailAddress, :firstName, :lastName, :enabled, :accountNonExpired, :accountNonLocked, :credentialsNonExpired, :address.id)";
 	private static final String INSERT_GROUP_MEMBER_SQL = "INSERT INTO group_members (user_id, group_id) VALUES (:userId, :groupId)";
 	private static final String FIND_GROUP_ID_SQL = "SELECT id FROM groups WHERE group_name = ?";
-	private static final RowMapper<UserDetails> USER_MAPPER = new UserRowMapper("users.");
+	private static final RowMapper<UserDetails> USER_MAPPER = new RowMapper<UserDetails>() {
+		@Override public UserDetails mapRow(ResultSet resultSet, int i) throws SQLException {
+			User user = new User();
+			user.setUsername(resultSet.getString("username"));
+			user.setPassword(resultSet.getString("password"));
+			user.setEmailAddress(resultSet.getString("email_address"));
+			user.setFirstName(resultSet.getString("first_name"));
+			user.setLastName(resultSet.getString("last_name"));
+			user.setEnabled(resultSet.getBoolean("enabled"));
+			user.setAccountNonLocked(resultSet.getBoolean("account_non_locked"));
+			user.setAccountNonExpired(resultSet.getBoolean("account_non_expired"));
+			user.setCredentialsNonExpired(resultSet.getBoolean("credentials_non_expired"));
+
+			return user;
+		}
+	};
 
 	@Autowired public UserDetailsManagerJdbcDao(DataSource dataSource) {
 		setDataSource(dataSource);
@@ -96,26 +111,4 @@ public class UserDetailsManagerJdbcDao extends JdbcUserDetailsManager implements
 		return user;
 	}
 
-	static final class UserRowMapper implements RowMapper<UserDetails> {
-		private final String columnLabelPrefix;
-
-		UserRowMapper(String columnLabelPrefix) {
-			this.columnLabelPrefix = columnLabelPrefix;
-		}
-
-		@Override public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-			User user = new User();
-			user.setUsername(rs.getString(columnLabelPrefix + "username"));
-			user.setPassword(rs.getString(columnLabelPrefix + "password"));
-			user.setEmailAddress(rs.getString(columnLabelPrefix + "email_address"));
-			user.setFirstName(rs.getString(columnLabelPrefix + "first_name"));
-			user.setLastName(rs.getString(columnLabelPrefix + "last_name"));
-			user.setEnabled(rs.getBoolean(columnLabelPrefix + "enabled"));
-			user.setAccountNonLocked(rs.getBoolean(columnLabelPrefix + "account_non_locked"));
-			user.setAccountNonExpired(rs.getBoolean(columnLabelPrefix + "account_non_expired"));
-			user.setCredentialsNonExpired(rs.getBoolean(columnLabelPrefix + "credentials_non_expired"));
-
-			return user;
-		}
-	}
 }
