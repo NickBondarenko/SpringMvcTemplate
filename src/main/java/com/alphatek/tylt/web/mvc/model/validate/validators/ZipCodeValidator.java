@@ -12,7 +12,7 @@ import javax.validation.ConstraintValidatorContext;
  *         Date: 6/1/13
  *         Time: 4:25 PM
  */
-public class ZipCodeValidator implements ConstraintValidator<ZipCode, Object> {
+public final class ZipCodeValidator implements ConstraintValidator<ZipCode, Object> {
 	private static final String REG_EXP = "\\d{5}(-\\d{4})?";
 
 	@Override public void initialize(ZipCode constraintAnnotation) {}

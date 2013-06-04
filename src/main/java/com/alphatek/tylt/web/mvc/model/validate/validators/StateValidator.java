@@ -13,7 +13,7 @@ import javax.validation.ConstraintValidatorContext;
  * Date: 2013-06-03 : 1:55 PM
  */
 @Component
-public class StateValidator implements ConstraintValidator<com.alphatek.tylt.web.mvc.model.validate.constraints.State, State> {
+public final class StateValidator implements ConstraintValidator<com.alphatek.tylt.web.mvc.model.validate.constraints.State, State> {
 	@Resource private StateDao stateDao;
 
 	@Override public void initialize(com.alphatek.tylt.web.mvc.model.validate.constraints.State constraintAnnotation) {}

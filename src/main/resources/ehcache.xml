@@ -29,4 +29,7 @@
 	<cache name="state" maxElementsInMemory="50" overflowToDisk="false" />
 	<cache name="stateByAbbreviation" maxElementsInMemory="50" overflowToDisk="false" />
 	<cache name="validState" maxElementsInMemory="100" overflowToDisk="false" />
+	<cache name="countries" maxElementsInMemory="100" overflowToDisk="false" />
+	<cache name="countryById" maxElementsInMemory="100" overflowToDisk="false" />
+	<cache name="validCountry" maxElementsInMemory="100" overflowToDisk="false" />
 </ehcache>

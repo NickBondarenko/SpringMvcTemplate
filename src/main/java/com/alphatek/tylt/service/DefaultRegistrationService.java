@@ -2,6 +2,7 @@ package com.alphatek.tylt.service;
 
 import com.alphatek.tylt.authority.UserContext;
 import com.alphatek.tylt.repository.AddressDao;
+import com.alphatek.tylt.repository.CountryDao;
 import com.alphatek.tylt.repository.UserDetailsManagerDao;
 import com.alphatek.tylt.web.mvc.model.Address;
 import com.alphatek.tylt.web.mvc.model.User;
@@ -20,10 +21,15 @@ import javax.annotation.Resource;
 public class DefaultRegistrationService implements RegistrationService {
 	@Resource private UserDetailsManagerDao userDetailsManagerDao;
 	@Resource private AddressDao addressDao;
+	@Resource private CountryDao countryDao;
 	@Resource private UserContext userContext;
 	@Resource private PasswordEncoder passwordEncoder;
 
 	@Override	public User registerUser(User user) {
+		if (user.getAddress().getCountry() == null) {
+			user.getAddress().setCountry(countryDao.retrieveById(1L));
+		}
+
 		long addressId = addAddress(user.getAddress());
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
