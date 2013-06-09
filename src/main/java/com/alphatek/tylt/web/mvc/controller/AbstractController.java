@@ -1,11 +1,13 @@
 package com.alphatek.tylt.web.mvc.controller;
 
 import com.alphatek.tylt.web.mvc.controller.error.ExceptionHandlerStrategy;
-import com.alphatek.tylt.web.mvc.controller.error.ResponseEntityBuilder;
 import com.alphatek.tylt.web.support.HttpServletResponseCopier;
+import com.alphatek.tylt.web.support.RequestAttribute;
+import com.alphatek.tylt.web.support.ResponseEntityBuilder;
 import com.google.common.base.Charsets;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -21,7 +23,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Locale;
 
-public abstract class AbstractController {
+public abstract class AbstractController implements Controller {
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	private static final Object[] EMPTY_OBJECT = new Object[] {};
 
@@ -112,28 +114,40 @@ public abstract class AbstractController {
 		return WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
 	}
 
-	public String getContextMessage(HttpServletRequest request, String code) {
+	public String getMessage(HttpServletRequest request, String code) {
 		return getWebApplicationContext(request).getMessage(code, EMPTY_OBJECT, Locale.getDefault());
 	}
 
-	public boolean springBeanExists(HttpServletRequest request, String id) {
+	public String getMessage(HttpServletRequest request, String code, Object[] args) {
+		return getWebApplicationContext(request).getMessage(code, args, Locale.getDefault());
+	}
+
+	public String getMessage(HttpServletRequest request, String code, Object[] args, Locale locale) {
+		return getWebApplicationContext(request).getMessage(code, args, locale);
+	}
+
+	public boolean beanExists(HttpServletRequest request, String id) {
 		return getWebApplicationContext(request).containsBean(id);
 	}
 
-	public <T> T getSpringBean(HttpServletRequest request, Class<T> clazz) {
+	public <T> T getBean(HttpServletRequest request, Class<T> clazz) {
 		return getWebApplicationContext(request).getBean(clazz);
 	}
 
-	public <T> T getSpringBean(HttpServletRequest request, String id, Class<T> clazz) {
+	public <T> T getBean(HttpServletRequest request, String id, Class<T> clazz) {
 		return getWebApplicationContext(request).getBean(id, clazz);
 	}
 
-	public Object getSpringBean(HttpServletRequest request, String id) {
+	public Object getBean(HttpServletRequest request, String id) {
 		return getWebApplicationContext(request).getBean(id);
 	}
 
-	public Object getSpringBean(HttpServletRequest request, String id, Object... args) {
+	public Object getBean(HttpServletRequest request, String id, Object... args) {
 		return getWebApplicationContext(request).getBean(id, args);
+	}
+
+	public Resource getResource(HttpServletRequest request, String location) {
+		return getWebApplicationContext(request).getResource(location);
 	}
 
 	public String getBaseURL(HttpServletRequest request) {

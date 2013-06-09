@@ -1,5 +1,6 @@
 package com.alphatek.tylt.web.mvc.controller;
 
+import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -9,13 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Locale;
 
-/**
- * Created with IntelliJ IDEA.
- * Date: 3/23/13
- * Time: 12:37 AM
- * @author jason.dimeo
- */
 public interface Controller {
 
 	ResponseEntity<Object> getExceptionResponseEntity(ServletWebRequest request, Throwable throwable);
@@ -37,17 +33,23 @@ public interface Controller {
 
 	WebApplicationContext getWebApplicationContext(HttpServletRequest request);
 
-	String getContextMessage(HttpServletRequest request, String code);
+	String getMessage(HttpServletRequest request, String code);
 
-	boolean springBeanExists(HttpServletRequest request, String id);
+	String getMessage(HttpServletRequest request, String code, Object[] args);
 
-	<T> T getSpringBean(HttpServletRequest request, Class<T> clazz);
+	String getMessage(HttpServletRequest request, String code, Object[] args, Locale locale);
 
-	<T> T getSpringBean(HttpServletRequest request, String id, Class<T> clazz);
+	boolean beanExists(HttpServletRequest request, String id);
 
-	Object getSpringBean(HttpServletRequest request, String id);
+	<T> T getBean(HttpServletRequest request, Class<T> clazz);
 
-	Object getSpringBean(HttpServletRequest request, String id, Object... args);
+	<T> T getBean(HttpServletRequest request, String id, Class<T> clazz);
+
+	Object getBean(HttpServletRequest request, String id);
+
+	Object getBean(HttpServletRequest request, String id, Object... args);
+
+	Resource getResource(HttpServletRequest request, String location);
 
 	String getBaseURL(HttpServletRequest request);
 

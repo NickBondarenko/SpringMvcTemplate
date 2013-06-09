@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="cg" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
 <style type="text/css">
 	.form-table {
@@ -59,12 +59,12 @@
 					<fieldset>
 						<legend>User Info&nbsp;<i class="icon-user"></i></legend>
 						<div>
-							<cg:input-control-group path="firstName" label="First Name" />
-							<cg:input-control-group path="lastName" label="Last Name" />
-							<cg:input-control-group path="emailAddress" label="Email Address" icon="envelope" cssClass="input-xlarge" />
-							<cg:input-control-group path="username" cssClass="input-xlarge" />
-							<cg:password-control-group path="password" cssClass="input-xlarge" />
-							<cg:password-control-group path="confirmPassword" label="Confirm Password" cssClass="input-xlarge" />
+							<tags:input-control-group path="firstName" label="First Name" />
+							<tags:input-control-group path="lastName" label="Last Name" />
+							<tags:input-control-group path="emailAddress" label="Email Address" icon="envelope" cssClass="input-xlarge" />
+							<tags:input-control-group path="username" cssClass="input-xlarge" />
+							<tags:password-control-group path="password" cssClass="input-xlarge" />
+							<tags:password-control-group path="confirmPassword" label="Confirm Password" cssClass="input-xlarge" />
 						</div>
 					</fieldset>
 				</div>
@@ -72,12 +72,12 @@
 					<fieldset>
 						<legend>Address Info&nbsp;<i class="icon-home"></i></legend>
 						<div>
-							<cg:select-control-group path="address.country" label="Country" items="${requestScope.countries}" itemValue="code" itemLabel="name" />
-							<cg:input-control-group path="address.street" label="Street" />
-							<cg:input-control-group path="address.additionalInfo" label="Additional Info" />
-							<cg:input-control-group path="address.city" label="City" />
-							<cg:select-control-group path="address.state" label="State" items="${requestScope.states}" itemValue="abbreviation" itemLabel="name" />
-							<cg:input-control-group path="address.zipCode" label="Zip Code" maxLength="10" placeholder="XXXXX-XXXX" cssClass="span3" />
+							<tags:select-control-group path="address.country" label="Country" items="${requestScope.countries}" itemValue="code" itemLabel="name" />
+							<tags:input-control-group path="address.street" label="Street" />
+							<tags:input-control-group path="address.additionalInfo" label="Additional Info" />
+							<tags:input-control-group path="address.city" label="City" />
+							<tags:select-control-group path="address.state" label="State" items="${requestScope.states}" itemValue="abbreviation" itemLabel="name" />
+							<tags:input-control-group path="address.zipCode" label="Zip Code" maxLength="10" placeholder="XXXXX-XXXX" cssClass="span3" />
 						</div>
 					</fieldset>
 				</div>

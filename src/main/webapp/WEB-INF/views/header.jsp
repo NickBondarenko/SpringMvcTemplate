@@ -24,7 +24,7 @@
 					<li class="active"><a href="${contextPath}/home">Home</a></li>
 					<c:choose>
 						<c:when test="${authenticated}">
-							<li><a class="btn-header" href="${contextPath}/">Account</a></li>
+							<li><a class="btn-header" href="${contextPath}/account">Account</a></li>
 							<li><a class="btn-header" href="${contextPath}/logout">Logout</a></li>
 						</c:when>
 						<c:otherwise>
@@ -33,9 +33,9 @@
 						</c:otherwise>
 					</c:choose>
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a href="#">Action</a></li>
+							<li><a href="${contextPath}/admin">Admin</a></li>
 							<li><a href="#">Another action</a></li>
 							<li><a href="#">Something else here</a></li>
 							<li class="divider"></li>

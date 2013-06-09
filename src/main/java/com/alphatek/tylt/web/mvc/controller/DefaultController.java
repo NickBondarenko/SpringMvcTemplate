@@ -7,16 +7,13 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author jason.dimeo
- *         Date: 4/27/13
- *         Time: 3:58 PM
+ * Date: 2013-04-27
+ * Time: 3:58 PM
  */
 @Controller
-public class DefaultController {
+public class DefaultController extends AbstractController {
 	@RequestMapping(value = "/default")
 	public String afterLogin(HttpServletRequest request) {
-		if (request.isUserInRole("ROLE_ADMIN")) {
-			return "redirect:/admin";
-		}
-		return "redirect:/";
+		return request.isUserInRole("ROLE_ADMIN") ? "redirect:/admin" : "redirect:/";
 	}
 }

@@ -2,6 +2,7 @@ package com.alphatek.tylt.web.mvc.controller.error;
 
 import com.alphatek.tylt.domain.ApplicationError;
 import com.alphatek.tylt.web.support.ControllerUtils;
+import com.alphatek.tylt.web.support.ResponseEntityBuilder;
 import com.google.common.base.Predicate;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;

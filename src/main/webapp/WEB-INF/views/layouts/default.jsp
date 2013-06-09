@@ -39,8 +39,7 @@
 			}
 
 				/* Set the fixed height of the footer here */
-			#push,
-			#footer {
+			#push, #footer {
 				height: 60px;
 			}
 			#footer {

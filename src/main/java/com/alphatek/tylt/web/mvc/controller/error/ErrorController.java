@@ -1,8 +1,8 @@
 package com.alphatek.tylt.web.mvc.controller.error;
 
 import com.alphatek.tylt.web.mvc.controller.AbstractController;
-import com.alphatek.tylt.web.mvc.controller.RequestAttribute;
 import com.alphatek.tylt.web.support.ControllerUtils;
+import com.alphatek.tylt.web.support.RequestAttribute;
 import com.google.common.base.Throwables;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;

@@ -1,7 +1,7 @@
-package com.alphatek.tylt.web.mvc.controller.error;
+package com.alphatek.tylt.web.support;
 
 import com.alphatek.tylt.domain.construct.Builder;
-import com.alphatek.tylt.web.support.ControllerUtils;
+import com.google.common.base.Objects;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -91,5 +91,27 @@ public class ResponseEntityBuilder {
 		@Override public ResponseEntity<T> build() {
 			return new ResponseEntity<>(body, httpHeaders, httpStatus);
 		}
+
+		@Override public int hashCode() {
+			return Objects.hashCode(body, httpStatus, httpHeaders);
+		}
+
+		@Override public boolean equals(Object obj) {
+			if (this == obj) { return true; }
+			if (obj == null || getClass() != obj.getClass()) { return false; }
+			final Steps other = (Steps) obj;
+			return Objects.equal(this.body, other.body) &&
+				Objects.equal(this.httpStatus, other.httpStatus) &&
+				Objects.equal(this.httpHeaders, other.httpHeaders);
+		}
+
+		@Override public String toString() {
+			return Objects.toStringHelper(this)
+				.add("body", body)
+				.add("httpStatus", httpStatus)
+				.add("httpHeaders", httpHeaders)
+				.toString();
+		}
+
 	}
 }

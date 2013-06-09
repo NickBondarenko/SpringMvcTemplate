@@ -6,12 +6,11 @@ import com.alphatek.tylt.web.mvc.controller.error.AjaxControllerException;
 import com.alphatek.tylt.web.mvc.controller.error.ControllerException;
 import com.alphatek.tylt.web.mvc.controller.error.ExceptionHandlerStrategy;
 import com.alphatek.tylt.web.mvc.controller.error.ResponseEntityExceptionHandlerStrategy;
+import com.alphatek.tylt.web.support.RequestAttribute;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,17 +18,17 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.RequestDispatcher;
 
 /**
- * Controller Advisor - Global Controller Advisor
- * Date: 3/30/2013
- * Time: 10:36 AM
+ * Controller Adviser - Global Controller Adviser
  * @author jason.dimeo
+ * Date: 2013-03-30
+ * Time: 10:36 AM
  */
 @ControllerAdvice
-public final class ControllerAdvisor extends AbstractController {
+public final class ControllerAdviser extends AbstractController {
 
-	@InitBinder	public void initBinder(WebDataBinder webDataBinder) {
-		logger.debug("Running InitBinder...");
-	}
+//	@InitBinder	public void initBinder(WebDataBinder webDataBinder) {
+//		logger.debug("Running InitBinder...");
+//	}
 
 	@ExceptionHandler public ResponseEntity<Object> handleException(ServletWebRequest request, Exception exception) {
 		ResponseEntity<Object> responseEntity = null;

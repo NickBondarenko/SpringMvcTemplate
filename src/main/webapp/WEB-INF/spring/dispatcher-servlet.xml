@@ -49,6 +49,8 @@
 	<mvc:view-controller path="/" view-name="home.page" />
 	<mvc:view-controller path="/home" view-name="home.page" />
 	<mvc:view-controller path="/login" view-name="login.page" />
+	<mvc:view-controller path="/account" view-name="account.page" />
+	<mvc:view-controller path="/admin" view-name="admin.page" />
 
 	<!-- i18n -->
 	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver" p:defaultLocale="en" />
@@ -57,7 +59,7 @@
 	<bean id="themeSource" class="org.springframework.ui.context.support.ResourceBundleThemeSource" p:basenamePrefix="properties/themes/" />
 	<bean id="themeResolver" class="org.springframework.web.servlet.theme.SessionThemeResolver" p:defaultThemeName="default" />
 
-	<!-- Content Management -->
+	<!-- Content Negotiation -->
 	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
 		<property name="favorPathExtension" value="false" />
 		<property name="favorParameter" value="true" />
