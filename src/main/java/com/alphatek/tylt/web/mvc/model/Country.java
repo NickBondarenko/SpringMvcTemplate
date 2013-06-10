@@ -7,11 +7,12 @@ import java.io.Serializable;
 
 /**
  * @author jason.dimeo
- *         Date: 6/3/13
- *         Time: 6:33 PM
+ * Date: 2013-06-03
+ * Time: 6:33 PM
+ * Note: This class has a natural ordering that is inconsistent with equals.
  */
 @com.alphatek.tylt.web.mvc.model.validate.constraints.Country(message = "{com.alphatek.tylt.web.mvc.model.Country.message}")
-public class Country implements Serializable {
+public final class Country implements Comparable<Country>, Serializable {
 	private long id;
 	private final CodeDescription<String> countryCodeDescription;
 
@@ -70,6 +71,12 @@ public class Country implements Serializable {
 
 	public void setName(String name) {
 		countryCodeDescription.setDescription(name);
+	}
+
+	@Override public int compareTo(Country o) {
+		int codeDiff = countryCodeDescription.getCode().compareTo(o.countryCodeDescription.getCode());
+		if (codeDiff != 0) { return codeDiff; }
+		return countryCodeDescription.getDescription().compareTo(o.countryCodeDescription.getDescription());
 	}
 
 	@Override public int hashCode() {

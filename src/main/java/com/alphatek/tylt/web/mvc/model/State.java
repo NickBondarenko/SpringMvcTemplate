@@ -6,11 +6,12 @@ import com.google.common.base.Objects;
 import java.io.Serializable;
 
 /**
- * User: jason.dimeo
+ * @author jason.dimeo
  * Date: 2013-06-03 : 1:30 PM
+ * Note: This class has a natural ordering that is inconsistent with equals.
  */
 @com.alphatek.tylt.web.mvc.model.validate.constraints.State(message = "{com.alphatek.tylt.web.mvc.model.State.message}")
-public final class State implements Serializable {
+public final class State implements Comparable<State>, Serializable {
 	private long id;
 	private final CodeDescription<String> stateCodeDescription;
 
@@ -60,6 +61,12 @@ public final class State implements Serializable {
 
 	public void setName(String name) {
 		stateCodeDescription.setDescription(name);
+	}
+
+	@Override public int compareTo(State state) {
+		int abbreviationDiff = stateCodeDescription.getCode().compareTo(state.stateCodeDescription.getCode());
+		if (abbreviationDiff != 0) { return abbreviationDiff; }
+		return stateCodeDescription.getDescription().compareTo(state.stateCodeDescription.getDescription());
 	}
 
 	@Override public int hashCode() {

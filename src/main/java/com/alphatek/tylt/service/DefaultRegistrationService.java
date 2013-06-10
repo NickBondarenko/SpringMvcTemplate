@@ -19,7 +19,7 @@ import javax.annotation.Resource;
  */
 @Service
 public class DefaultRegistrationService implements RegistrationService {
-	@Resource private UserDetailsManagerDao userDetailsManagerDao;
+	@Resource private UserDetailsManagerDao userDetailsManager;
 	@Resource private AddressDao addressDao;
 	@Resource private CountryDao countryDao;
 	@Resource private UserContext userContext;
@@ -40,9 +40,9 @@ public class DefaultRegistrationService implements RegistrationService {
 		user.setCredentialsNonExpired(true);
 		user.getAddress().setId(addressId);
 
-		long userId = userDetailsManagerDao.createUser(user);
+		long userId = userDetailsManager.createUser(user);
 		user.setId(userId);
-		userDetailsManagerDao.addUserToGroup(user, 1L);
+		userDetailsManager.addUserToGroup(user, 1L);
 
 		userContext.setCurrentUser(user);
 

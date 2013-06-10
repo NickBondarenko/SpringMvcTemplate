@@ -7,7 +7,7 @@ import com.google.common.base.Preconditions;
 import java.io.Serializable;
 
 @com.alphatek.tylt.web.mvc.model.validate.constraints.ZipCode(message = "{com.alphatek.tylt.web.mvc.model.ZipCode.message}")
-public final class ZipCode implements Serializable {
+public final class ZipCode implements Comparable<ZipCode>, Serializable {
 	private static final String DELIMITER = "-";
 	private String prefix;
 	private String suffix;
@@ -88,6 +88,12 @@ public final class ZipCode implements Serializable {
 			return prefix;
 		}
 		return prefix + DELIMITER + suffix;
+	}
+
+	@Override public int compareTo(ZipCode zipCode) {
+		int prefixDiff = prefix.compareTo(zipCode.prefix);
+		if (prefixDiff != 0) { return prefixDiff; }
+		return suffix.compareTo(zipCode.suffix);
 	}
 
 	@Override public int hashCode() {
