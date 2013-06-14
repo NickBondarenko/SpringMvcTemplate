@@ -383,7 +383,7 @@
     	};
     }
 
-    if ($('#overlay').length == 0) {
+    if (!$('#overlay').exists()) {
     	if (Modernizr.compliantzindex) {
 		    $overlay = $('<div />', {
 			    id: 'overlay'
