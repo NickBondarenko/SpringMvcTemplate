@@ -32,14 +32,14 @@
 	}
 </style>
 <script type="text/javascript">
-	$(document).ready(function() {
+	function ready() {
 		$('li.active').removeClass('active');
 		$('#registrationLink').addClass('active');
 		$('#firstName').focus();
 		if (${requestScope.hasBindingErrors eq true}) {
 			$('.alert-error').show();
 		}
-	});
+	}
 </script>
 <div id="registrationFragment" class="container">
 	<div class="page-header">

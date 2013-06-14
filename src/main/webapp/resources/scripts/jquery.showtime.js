@@ -1,14 +1,15 @@
 (function($, undefined) {
   var plugin = {
+	  $st: undefined,
 		$showtime: undefined,
 		$container: undefined,
 		$content: undefined,
+	  $header: undefined,
 		$footer: undefined,
 		$loading: undefined,
 		$closeBtnImage: undefined,
 		initialized: false,
 		open: false,
-		ie: $.browser.msie,
 		settings: undefined,
 		imageCache: undefined,
 		currentScrollTop: undefined,
@@ -16,9 +17,9 @@
 		bypassFixed: false,
 		mode: 'dialog',
 		eventMappings: {
-			'showtime.open': function(e, opts) {
+			'showtime.open': function(e, content, opts) {
 				e.preventDefault();
-				events.open(e, opts);
+				events.open(e, content, opts);
 			},
 			'showtime.complete': function(e) {
 				events.complete(e);
@@ -34,9 +35,9 @@
 			}
 		}
 	};
-	$.fn.showtime = function(msg, options) {
-		if ($.isPlainObject(msg)) {
-			options = msg;
+	$.fn.showtime = function(content, options) {
+		if ($.isPlainObject(content)) {
+			options = content;
 		}
 
 		if (!plugin.initialized) {
@@ -64,7 +65,7 @@
 		  	$this.on('click', function(e) {
 		  		e.preventDefault();
 				  plugin.mode = 'dialog';
-		  		plugin.$showtime.trigger('showtime.open', [{$elem: $(this)}]);
+		  		plugin.$showtime.trigger('showtime.open', [content, {$elem: $doc}]);
 		  	});
 			}
 		});
@@ -74,39 +75,43 @@
 		defaults: {
 			showOverlay: true,
 			modalOverlay: false,
-			iframeOverlay: true,
 			opacity: 0.75,
 			minWidth: 350,
 			minHeight: 32,
 			maxWidth: 550,
 			fixed: true,
 			autoSizeAfterOpen: false,
-			ctxPath: ctxPath,
+			ctxPath: '../../resources/',
 			speed: 200,
 			title: '',
+			font: {families: ['Average+Sans::latin'], url: '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js'},
+			content: undefined,
 			helpAttribute: 'for',
-			draggable: {cursor: 'move', handle: 'h1, #showtimeFooter', opacity: 0.40, cancel: '#showtimeButtons, #showtimeContent', initialized: false},
+			draggable: {cursor: 'move', handle: '#showtimeHeader, #showtimeFooter', opacity: 0.40, cancel: '#showtimeContent, .showtime-button, #closeBtn', initialized: false},
+			resizable: {alsoResize: '#showtimeContent', autoHide: true, handles: 'e, se, s'},
 			buttons: {close: null},
     	loadingMessage: 'Loading, please wait...',
-      loadingImage: '/Company/common/refs/images/loading_throb.gif',
+      loadingImage: 'images/loading.gif',
 			callback: $.noop,
 			ajaxOpts: {}
 		},
-		open: function(msg, options) {
-			if ($.isPlainObject(msg)) {
-				options = msg;
+		open: function(content, options) {
+			if ($.isPlainObject(content)) {
+				options = content;
 			}
 
 	  	if (options) {
 			  $doc.data('showtime-options', options);
-			}
+			} else {
+			  $doc.removeData('showtime-options');
+		  }
 
 			if (!plugin.initialized) {
 				events.init.apply(this, [options]);
 				options = null;
 			}
 			plugin.mode = 'dialog';
-			plugin.$showtime.trigger('showtime.open', [{$elem: $doc}]);
+			plugin.$showtime.trigger('showtime.open', [content, {$elem: $doc}]);
 		},
 		showLoading: function(options) {
 			var currentSettings;
@@ -142,6 +147,8 @@
 				plugin.$showtime = buildHtml();
 				$body.append(plugin.$showtime);
 
+				loadFont(plugin.settings.font);
+
 				plugin.$container = $('#showtimeContainer');
 				plugin.$content = $('#showtimeContent');
 				plugin.$footer = $('#showtimeFooter');
@@ -161,10 +168,13 @@
 				plugin.initialized = false;
 			}
 		},
-		open: function(e, opts) {
+		open: function(e, content, opts) {
 			try {
 				if (plugin.open) { return; }
 				plugin.open = true;
+
+				plugin.settings = $.extend({}, $.showtime.defaults, opts || {});
+
 				addDocumentEvents();
 
 				var $this = opts.$elem,
@@ -207,8 +217,10 @@
 					    } else if (href.match(/.pdf$/i)) {
 					      getPDF({url: href, width: 900, height: 600});
 							} else {
-								getExternalData(ctxPath + href, plugin.settings.ajaxOpts);
+								getExternalData(plugin.settings.ctxPath + href, plugin.settings.ajaxOpts);
 					    }
+						} else if (content) {
+							launchShowtime(content);
 						}
 						break;
 					case 'helpText':
@@ -219,7 +231,7 @@
 				}
 			} catch (e) {
 				plugin.open = false;
-				$.showDialog('Error Opening Showtime Plugin<br />' + e.message, {mode: 'error', title: plugin.pluginErrorText});
+				$.error('Error Opening Showtime Plugin<br />' + e.message);
 			}
 		},
 		buttonClick: function(e, elem, buttonName, callback) {
@@ -252,7 +264,7 @@
 //	      		if (plugin.settings.draggable && plugin.settings.draggable.initialized) {
 //	      			plugin.$showtime.draggable('destroy');
 //						}
-	      		if (plugin.settings.fixed && !$.support.fixed) {
+	      		if (plugin.settings.fixed && !Modernizr.positionfixed) {
 							plugin.$showtime.removeClass('fixed-pos-hack');
 						}
 	  				plugin.$showtime.trigger('showtime.complete');
@@ -260,7 +272,7 @@
 	  			hideOverlay();
 				}
 			} catch (e) {
-				$.showDialog('Error Closing Showtime Plugin<br />' + e.message, {mode: 'error', title: plugin.pluginErrorText});
+				$.error('Error Closing Showtime Plugin<br />' + e.message);
 			}
   	},
   	complete: function(e) {
@@ -277,7 +289,7 @@
     			delete plugin.cachedSettings;
     		}
 			} catch (e) {
-				$.showDialog('Error in complete event<br />' + e.message, {mode: 'error', title: plugin.pluginErrorText});
+			  $.error('Error in complete event<br />' + e.message);
 			}
 		},
 		escape: function(e) {
@@ -286,6 +298,20 @@
       }
     }
 	};
+
+	function loadFont(options) {
+		window.WebFontConfig = {
+			google: { families: options.families }
+		};
+		(function() {
+			var wf = document.createElement('script');
+			wf.src = ('https:' == document.location.protocol ? 'https' : 'http') + options.url;
+			wf.type = 'text/javascript';
+			wf.async = 'true';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(wf, s);
+		})();
+	}
 
 	function buildHtml() {
 		return $('<div />', {id: 'showtime'}).build(function(buildr) {
@@ -322,7 +348,7 @@
 	}
 
 	function addFixedSupport() {
-		if (!$.support.fixed) {
+		if (!Modernizr.positionfixed) {
 			plugin.$showtime.addClass('fixed-pos-hack');
 		} else {
 			plugin.$showtime.css('position', 'fixed');
@@ -330,7 +356,7 @@
 	}
 
 	function removeFixedSupport() {
-		if (!$.support.fixed) {
+		if (!Modernizr.positionfixed) {
 			plugin.$showtime.removeClass('fixed-pos-hack');
 			plugin.$showtime.get('0').style.removeExpression('top');
 		}
@@ -346,7 +372,7 @@
     var $overlay,
       cssAttributes;
 
-    if ($.support.fixed) {
+    if (Modernizr.positionfixed) {
     	cssAttributes = {opacity: plugin.settings.opacity};
     } else {
     	cssAttributes = {
@@ -358,15 +384,15 @@
     }
 
     if ($('#overlay').length == 0) {
-    	if (plugin.settings.iframeOverlay && plugin.ie) {
-				$overlay = $('<iframe />', {
-	      	id: 'overlay',
-	      	src: 'empty.html'
-	      });
+    	if (Modernizr.compliantzindex) {
+		    $overlay = $('<div />', {
+			    id: 'overlay'
+		    });
 			} else {
-				$overlay = $('<div />', {
-	      	id: 'overlay'
-	      });
+		    $overlay = $('<iframe />', {
+			    id: 'overlay',
+			    src: plugin.settings.ctxPath + '../../resources/empty.html'
+		    });
 			}
       $body.append($overlay);
     }
@@ -374,10 +400,10 @@
     $overlay.hide().css(cssAttributes).fadeIn('fast', callback);
 
 	  var closeFunction = plugin.settings.modalOverlay ? $.noop : $.showtime.close;
-	  if (plugin.settings.iframeOverlay && plugin.ie) {
-		  $overlay.contents().on('click', closeFunction);
-	  } else {
+	  if (Modernizr.compliantzindex) {
 		  $overlay.on('click', closeFunction);
+	  } else {
+		  $overlay.contents().on('click', closeFunction);
 	  }
   }
 
@@ -477,12 +503,17 @@
 				  if (plugin.settings.title) {
 					  var $header = $('<div />', {id: 'showtimeHeader'}).build(function(buildr) {
 						  buildr.h1(plugin.settings.title, {id: 'showtimeTitle', 'class': 'content-seperator'});
-						  buildr.span({id: 'closeBtn'}).on('click', function() {
+						  buildr.button({id: 'closeBtn'}).on('click', function() {
 							  plugin.$showtime.trigger('showtime.close');
 						  });
 					  }).prependTo(plugin.$container);
 
 					  containerHeight += $header.outerHeight(true);
+				  }
+
+				  if (plugin.settings.resizable) {
+					  plugin.settings.resizable = $.extend(true, {minHeight: containerHeight, minWidth: containerWidth}, plugin.settings.resizable);
+					  plugin.$container.resizable(plugin.settings.resizable);
 				  }
 
 				  leftMargin = (containerWidth + parseInt(plugin.$showtime.css('borderLeftWidth'), 10) + parseInt(plugin.$showtime.css('borderRightWidth'), 10)) / 2 * -1;
@@ -520,7 +551,7 @@
   }
 
   function addShowtimeEvents() {
-  	plugin.$showtime.bind({
+  	plugin.$showtime.on({
   		'showtime.open': plugin.eventMappings['showtime.open'],
   		'showtime.button-click': plugin.eventMappings['showtime.button-click'],
   		'showtime.close': plugin.eventMappings['showtime.close'],
@@ -578,14 +609,14 @@
 					}
 					launchShowtime(resp);
 	      } catch (e) {
-	      	$.showDialog('Error on page<br />' + e.message, {title: 'Error'});
+		      $.error('Error on page<br />' + e.message);
 	      }
 	    },
 	    error: function(XMLHttpRequest, textStatus) {
 	      try {
 					launchShowtime(XMLHttpRequest.responseText);
 	      } catch (e) {
-	      	$.showDialog('Error on page<br />' + e.message, {title: 'Error'});
+		      $.error('Error on page<br />' + e.message);
 	      }
 	    }
 	  });

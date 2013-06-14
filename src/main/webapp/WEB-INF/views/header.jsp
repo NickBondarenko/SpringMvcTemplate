@@ -3,11 +3,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <sec:authorize access="authenticated" var="authenticated" />
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<style type="text/css">
-	#welcomeMessage {
-		padding: 10px 15px;
-	}
-</style>
 <!-- Fixed navbar -->
 <div class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
@@ -36,7 +31,7 @@
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li><a href="${contextPath}/admin">Admin</a></li>
-							<li><a href="#">Another action</a></li>
+							<li><a id="anotherAction" href="#">Another action</a></li>
 							<li><a href="#">Something else here</a></li>
 							<li class="divider"></li>
 							<li class="nav-header">Nav header</li>

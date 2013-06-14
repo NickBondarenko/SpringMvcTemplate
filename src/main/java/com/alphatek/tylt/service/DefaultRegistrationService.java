@@ -13,13 +13,14 @@ import javax.annotation.Resource;
 
 /**
  * Default Registration Service
- * Date: 3/31/13
- * Time: 5:56 PM
  * @author jason.dimeo
+ * Date: 2013-03-31
+ * Time: 5:56 PM
  */
 @Service
 public class DefaultRegistrationService implements RegistrationService {
-	@Resource private UserDetailsManagerDao userDetailsManager;
+	@Resource(name = "userDetailsManager")
+	private UserDetailsManagerDao userDetailsManagerDao;
 	@Resource private AddressDao addressDao;
 	@Resource private CountryDao countryDao;
 	@Resource private UserContext userContext;
@@ -40,9 +41,9 @@ public class DefaultRegistrationService implements RegistrationService {
 		user.setCredentialsNonExpired(true);
 		user.getAddress().setId(addressId);
 
-		long userId = userDetailsManager.createUser(user);
+		long userId = userDetailsManagerDao.createUser(user);
 		user.setId(userId);
-		userDetailsManager.addUserToGroup(user, 1L);
+		userDetailsManagerDao.addUserToGroup(user, 1L);
 
 		userContext.setCurrentUser(user);
 
