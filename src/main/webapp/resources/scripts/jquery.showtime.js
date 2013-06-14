@@ -147,7 +147,9 @@
 				plugin.$showtime = buildHtml();
 				$body.append(plugin.$showtime);
 
-				loadFont(plugin.settings.font);
+				if (plugin.settings.font) {
+					loadFont(plugin.settings.font);
+				}
 
 				plugin.$container = $('#showtimeContainer');
 				plugin.$content = $('#showtimeContent');
@@ -231,7 +233,7 @@
 				}
 			} catch (e) {
 				plugin.open = false;
-				$.error('Error Opening Showtime Plugin<br />' + e.message);
+				$.error('Error Opening Showtime Plugin' + e.message);
 			}
 		},
 		buttonClick: function(e, elem, buttonName, callback) {
@@ -272,7 +274,7 @@
 	  			hideOverlay();
 				}
 			} catch (e) {
-				$.error('Error Closing Showtime Plugin<br />' + e.message);
+				$.error('Error Closing Showtime Plugin' + e.message);
 			}
   	},
   	complete: function(e) {
@@ -289,7 +291,7 @@
     			delete plugin.cachedSettings;
     		}
 			} catch (e) {
-			  $.error('Error in complete event<br />' + e.message);
+			  $.error('Error in complete event' + e.message);
 			}
 		},
 		escape: function(e) {
@@ -303,14 +305,13 @@
 		window.WebFontConfig = {
 			google: { families: options.families }
 		};
-		(function() {
-			var wf = document.createElement('script');
-			wf.src = ('https:' == document.location.protocol ? 'https' : 'http') + options.url;
-			wf.type = 'text/javascript';
-			wf.async = 'true';
-			var s = document.getElementsByTagName('script')[0];
-			s.parentNode.insertBefore(wf, s);
-		})();
+
+		var wf = document.createElement('script');
+		wf.src = ('https:' == document.location.protocol ? 'https' : 'http') + options.url;
+		wf.type = 'text/javascript';
+		wf.async = 'true';
+		var script = document.getElementsByTagName('script')[0];
+		script.parentNode.insertBefore(wf, script);
 	}
 
 	function buildHtml() {
@@ -609,14 +610,14 @@
 					}
 					launchShowtime(resp);
 	      } catch (e) {
-		      $.error('Error on page<br />' + e.message);
+		      $.error('Error on page' + e.message);
 	      }
 	    },
 	    error: function(XMLHttpRequest, textStatus) {
 	      try {
 					launchShowtime(XMLHttpRequest.responseText);
 	      } catch (e) {
-		      $.error('Error on page<br />' + e.message);
+		      $.error('Error on page' + e.message);
 	      }
 	    }
 	  });
