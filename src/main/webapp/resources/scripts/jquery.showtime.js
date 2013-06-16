@@ -42,7 +42,6 @@
 
 		if (!plugin.initialized) {
 			events.init.apply(this, [options]);
-//			options = null;
 		}
 
 		return this.each$(function(index, $this) {
@@ -72,10 +71,10 @@
 			maxWidth: 550,
 			fixed: true,
 			autoSizeAfterOpen: false,
-			ctxPath: '../../resources/',
+			contextPath: '../../resources/',
 			speed: 200,
 			title: '',
-			font: {families: ['Ubuntu:400,500,700,400italic,500italic,700italic:latin'], url: '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js'},
+			fontFamilies: ['Ubuntu:400,500,700,400italic,500italic,700italic:latin'],
 			content: undefined,
 			helpAttribute: 'for',
 			draggable: {cursor: 'move', handle: '#showtimeHeader, #showtimeFooter', opacity: 0.40, cancel: '#showtimeContent, .showtime-button, #closeBtn', initialized: false},
@@ -107,18 +106,12 @@
 		showLoading: function(options) {
 			var currentSettings;
 			if (!plugin.initialized) {
-				events.init(options || {});
-			} else {
-				currentSettings = plugin.settings;
-				plugin.settings = $.extend({}, $.showtime.defaults, options || {});
-				plugin.settings.callback = function() {
-					plugin.settings = $.extend({}, $.showtime.defaults, currentSettings);
-				};
+				events.init.apply(this, [options || {}]);
 			}
 
 			plugin.settings.modalOverlay = true;
 			plugin.mode = 'loading';
-			plugin.$showtime.trigger('showtime.open', [{mode: 'loading'}]);
+			plugin.$showtime.trigger('showtime.open', [null, {mode: 'loading'}]);
 		},
 	  close: function() {
 			if (plugin.initialized) { plugin.$showtime.trigger('showtime.close'); }
@@ -154,7 +147,7 @@
 
 		    // cache images
 		    plugin.imageCache = {loadingImage: new Image()};
-		    plugin.imageCache.loadingImage.src = plugin.settings.ctxPath + plugin.settings.loadingImage;
+		    plugin.imageCache.loadingImage.src = plugin.settings.contextPath + plugin.settings.loadingImage;
 
 		    plugin.initialized = true;
 			} catch (e) {
@@ -182,18 +175,10 @@
 
 				$.each(plugin.settings.buttons, function(key, value) {
 					$('#showtimeButtons').build(function(buildr) {
-						buildr.button(key.charAt(0).toUpperCase() + key.slice(1), {id: key + 'ShowtimeButton', 'class': 'showtime-button default'}).on('click.showtime', function(e) {
+						buildr.button(key.charAt(0).toUpperCase() + key.slice(1), {id: key + 'ShowtimeButton'}).on('click.showtime', function(e) {
 							plugin.$showtime.trigger('showtime.button-click', [this, key, value]);
 						});
 					});
-
-					if ($.support.quirksMode) {
-						$('#' + key + 'ShowtimeButton').on('mouseenter mouseup', function(e) {
-							$(this).toggleClasses({hover: true, 'default': false});
-						}).on('mouseleave mousedown', function(e) {
-							$(this).toggleClasses({hover: false, 'default': true});
-						});
-					}
 				});
 
 				switch (plugin.mode) {
@@ -210,16 +195,17 @@
 					    } else if (href.match(/.pdf$/i)) {
 					      getPDF({url: href, width: 900, height: 600});
 							} else {
-								getExternalData(plugin.settings.ctxPath + href, plugin.settings.ajaxOpts);
+								getExternalData(plugin.settings.contextPath + href, plugin.settings.ajaxOpts);
 					    }
 						} else if (content) {
 							launchShowtime(content);
 						}
 						break;
-					case 'helpText':
-						plugin.settings.title = 'Help Text';
-						var field = opts.$elem.attr(plugin.settings.helpAttribute).toUpperCase();
-						getHelpText(field);
+					case 'lightbox':
+
+						break;
+					case '':
+
 						break;
 				}
 			} catch (e) {
@@ -292,15 +278,16 @@
     }
 	};
 
-	function loadFont(options) {
+	function loadFont(fontFamily) {
 		window.WebFontConfig = {
-			google: { families: options.families }
+			google: { families: fontFamily }
 		};
 
-			var wf = document.createElement('script');
-			wf.src = ('https:' == document.location.protocol ? 'https' : 'http') + options.url;
-			wf.type = 'text/javascript';
-			wf.async = 'true';
+		var wf = document.createElement('script');
+		wf.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+		wf.type = 'text/javascript';
+		wf.async = 'true';
+
 		var script = document.getElementsByTagName('script')[0];
 		script.parentNode.insertBefore(wf, script);
 	}
@@ -381,7 +368,7 @@
 			} else {
 		    $overlay = $('<iframe />', {
 			    id: 'overlay',
-			    src: plugin.settings.ctxPath + '../../resources/empty.html'
+			    src: plugin.settings.contextPath + '../../resources/empty.html'
 		    });
 			}
       $body.append($overlay);
@@ -557,7 +544,6 @@
   }
 
   function getExternalData(href, opts) {
-  	showAjaxLoading = false;
 	  return $.ajax(href, opts).done(function(data, textStatus, jqXHR) {
 		  launchShowtime(data);
 	  });
@@ -583,32 +569,4 @@
 //			launchShowtime(content);
 //		}
   }
-
-	function getHelpText(field) {
-	  var url = plugin.settings.ctxPath + '/AjaxServlet';
-	  showAjaxLoading = false;
-	  $.ajax({
-	    type: 'GET',
-	    dataType: 'text',
-	    url: url,
-	    data: {command: 'getHelp', product: '*ALL', fieldName: field},
-	    success: function(resp) {
-	      try {
-	      	if (resp === '') {
-						resp = 'No help text associated with this item';
-					}
-					launchShowtime(resp);
-	      } catch (e) {
-		      $.error('Error on page' + e.message);
-	      }
-	    },
-	    error: function(XMLHttpRequest, textStatus) {
-	      try {
-					launchShowtime(XMLHttpRequest.responseText);
-	      } catch (e) {
-		      $.error('Error on page' + e.message);
-	      }
-	    }
-	  });
-	}
 })(jQuery);

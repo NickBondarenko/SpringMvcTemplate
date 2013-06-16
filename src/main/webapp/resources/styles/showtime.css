@@ -34,7 +34,7 @@
 
 #showtimeContainer {
 	width: 350px;
-	height: 29px;
+	height: 32px;
 	background-color: white;
 	z-index: 9999;
 }
@@ -42,7 +42,7 @@
 #showtimeContent {
 	width: auto;
 	height: auto;
-	min-height: 19px;
+	min-height: 22px;
 	padding: 5px;
 	text-align: justify;
 }
@@ -91,10 +91,9 @@
 #showtimeFooter #showtimeButtons {
 	display: block;
 	text-align: right;
-
 }
 
-#showtimeButtons button.showtime-button {
+#showtimeButtons button {
 	color: #525252;
 	font-family: Ubuntu, "Trebuchet MS", Helvitica, sans-serif !important;
 	width: 60px;
@@ -115,7 +114,7 @@
 	box-sizing: border-box;
 }
 
-#showtimeButtons button.showtime-button:hover, #showtimeButtons button.hover {
+#showtimeButtons button:hover, #showtimeButtons button.hover {
 	background: #ecf0f1; /* Old browsers */
 	background: -moz-linear-gradient(top, #ecf0f1 0%, #7f8c8d 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ecf0f1), color-stop(100%,#7f8c8d)); /* Chrome,Safari4+ */
@@ -139,6 +138,7 @@
 
 #showtimeLoading {
 	padding: 3px;
+	font-weight: bold;
 }
 
 #showtimeLoading img {
