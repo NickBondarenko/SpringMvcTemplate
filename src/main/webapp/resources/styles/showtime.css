@@ -17,19 +17,19 @@
 	top: 50px;
 	left: 50%;
   color: #525252;
-  font: bold 16px/20px "Average Sans", "Trebuchet MS", Helvitica, sans-serif;
-	-webkit-font-smoothing: antialiased;
+  font-family: Ubuntu, "Trebuchet MS", Helvitica, sans-serif !important;
+	-webkit-font-smoothing: antialiased !important;
   border: 8px solid transparent;
-  *border-color: #525252;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
-	border-radius: 8px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
 	-moz-box-shadow: #666 0 0 15px;
 	-webkit-box-shadow: #666 0 0 15px;
 	box-shadow: #666 0 0 15px;
 	background: transparent url("../images/b.png") repeat 0 0;
 	z-index: 9998;
 	text-align: center;
+	*border-color: #525252;
 }
 
 #showtimeContainer {
@@ -44,13 +44,12 @@
 	height: auto;
 	min-height: 19px;
 	padding: 5px;
-	/*font: 1em Telex, "Trebuchet MS", Helvitica, sans-serif;*/
 	text-align: justify;
 }
 
 .content-seperator {
-	*font-size: 1px;
 	border-bottom: 2px solid #525252;
+	*font-size: 1px;
 }
 
 #showtimeHeader {
@@ -85,7 +84,6 @@
 	position: relative;
 	bottom: 0;
 	right: 0;
-	/*height: 40px;*/
 	padding: 4px;
 	background-color: #bdc3c7;
 }
@@ -93,16 +91,12 @@
 #showtimeFooter #showtimeButtons {
 	display: block;
 	text-align: right;
-	/*position: absolute;*/
-	/*top: 4px;*/
-	/*right: 4px;*/
 
 }
 
 #showtimeButtons button.showtime-button {
 	color: #525252;
-	font: bold 1em/1.2em "Average Sans", "Trebuchet MS", Helvitica, sans-serif;
-	/*height: 34px;*/
+	font-family: Ubuntu, "Trebuchet MS", Helvitica, sans-serif !important;
 	width: 60px;
 	cursor: default;
 	background: #f1f1f1; /* Old browsers */
@@ -154,11 +148,4 @@
 
 #showtimeLoading span {
 	vertical-align: middle;
-}
-
-.ui-resizable-s {
-	bottom: 0;
-}
-.ui-resizable-e {
-	right: 0;
 }

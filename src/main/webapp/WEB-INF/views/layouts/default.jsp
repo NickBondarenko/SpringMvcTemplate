@@ -10,6 +10,7 @@
 		<meta name="robots" content="all" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link type="text/css" rel="stylesheet" href="../../../resources/styles/bootstrap.css" />
+		<link type="text/css" rel="stylesheet" href="../../../resources/styles/base.css" />
 		<link type="text/css" rel="stylesheet" href="../../../resources/styles/bootstrap-responsive.css" />
 		<link type="text/css" rel="stylesheet" href="../../../resources/scripts/jquery-ui-1.10.3/css/ui-darkness/jquery-ui-1.10.3.custom.min.css" />
 		<link type="text/css" rel="stylesheet" href="../../../resources/styles/showtime.css" />
@@ -18,54 +19,7 @@
 		<link type="text/css" rel="canonical" href="" />
 		<link type="image/x-icon" rel="icon" href="../../../resources/<spring:theme code="images" />/favicon.ico" />
 		<style type="text/css">
-			html,	body {
-				height: 100%;
-				/* The html and body elements cannot have any padding or margin. */
-			}
 
-			body {
-				-webkit-font-smoothing: antialiased;
-				font-size: 16px;
-				font-family: 'Lato', sans-serif !important;
-			}
-
-				/* Wrapper for page content to push down footer */
-			#wrap {
-				min-height: 100%;
-				height: auto !important;
-				height: 100%;
-				/* Negative indent footer by it's height */
-				margin: 0 auto -60px;
-			}
-
-				/* Set the fixed height of the footer here */
-			#push, #footer {
-				height: 60px;
-			}
-			#footer {
-				background-color: #f5f5f5;
-			}
-
-				/* Lastly, apply responsive CSS fixes as necessary */
-			@media (max-width: 767px) {
-				#footer {
-					margin-left: -20px;
-					margin-right: -20px;
-					padding-left: 20px;
-					padding-right: 20px;
-				}
-			}
-
-			#wrap > .container {
-				padding-top: 60px;
-			}
-			.container .credit {
-				margin: 20px 0;
-			}
-
-			code {
-				font-size: 80%;
-			}
 		</style>
 		<script src="../../../resources/scripts/modernizr.custom.60227.js"></script>
 		<script src="../../../resources/scripts/modernizr.tests.js"></script>

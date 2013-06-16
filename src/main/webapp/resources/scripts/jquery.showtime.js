@@ -42,7 +42,7 @@
 
 		if (!plugin.initialized) {
 			events.init.apply(this, [options]);
-			options = null;
+//			options = null;
 		}
 
 		return this.each$(function(index, $this) {
@@ -54,20 +54,11 @@
 				$this.data('showtime-options', options);
 			}
 
-			var helpText = $this.hasClass('helpTextField');
-	  	if (helpText) {
-	  		$this.on('click', function(e) {
-		  		e.preventDefault();
-				  plugin.mode = 'helpText';
-		  		plugin.$showtime.trigger('showtime.open', [{$elem: $(this)}]);
-	  		});
-			} else {
-		  	$this.on('click', function(e) {
-		  		e.preventDefault();
-				  plugin.mode = 'dialog';
-		  		plugin.$showtime.trigger('showtime.open', [content, {$elem: $doc}]);
-		  	});
-			}
+			$this.on('click', function(e) {
+				e.preventDefault();
+				plugin.mode = $this.hasClass('helpTextField') ? 'helpText' : 'dialog';
+				plugin.$showtime.trigger('showtime.open', [content, $.extend({}, options, {$elem: $(this)})]);
+			});
 		});
 	};
 
@@ -84,7 +75,7 @@
 			ctxPath: '../../resources/',
 			speed: 200,
 			title: '',
-			font: {families: ['Average+Sans::latin'], url: '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js'},
+			font: {families: ['Ubuntu:400,500,700,400italic,500italic,700italic:latin'], url: '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js'},
 			content: undefined,
 			helpAttribute: 'for',
 			draggable: {cursor: 'move', handle: '#showtimeHeader, #showtimeFooter', opacity: 0.40, cancel: '#showtimeContent, .showtime-button, #closeBtn', initialized: false},
@@ -175,12 +166,12 @@
 				if (plugin.open) { return; }
 				plugin.open = true;
 
-				plugin.settings = $.extend({}, $.showtime.defaults, opts || {});
+				plugin.settings = $.extend(true, {}, $.showtime.defaults, opts || {});
 
 				addDocumentEvents();
 
 				var $this = opts.$elem,
-				runtimeOptions;
+					runtimeOptions;
 				if ($this) {
 					runtimeOptions = $this.data('showtime-options');
 					if (runtimeOptions) {
@@ -306,10 +297,10 @@
 			google: { families: options.families }
 		};
 
-		var wf = document.createElement('script');
-		wf.src = ('https:' == document.location.protocol ? 'https' : 'http') + options.url;
-		wf.type = 'text/javascript';
-		wf.async = 'true';
+			var wf = document.createElement('script');
+			wf.src = ('https:' == document.location.protocol ? 'https' : 'http') + options.url;
+			wf.type = 'text/javascript';
+			wf.async = 'true';
 		var script = document.getElementsByTagName('script')[0];
 		script.parentNode.insertBefore(wf, script);
 	}
@@ -386,9 +377,7 @@
 
     if (!$('#overlay').exists()) {
     	if (Modernizr.compliantzindex) {
-		    $overlay = $('<div />', {
-			    id: 'overlay'
-		    });
+		    $overlay = $('<div />', {id: 'overlay'});
 			} else {
 		    $overlay = $('<iframe />', {
 			    id: 'overlay',
@@ -476,7 +465,7 @@
 			  plugin.$content.appendTo($body);
 			  contentWidth = plugin.$content.outerWidth(true);
 
-			  if (plugin.settings.draggable) {
+			  if (plugin.settings.draggable && $.fn.draggable) {
 				  plugin.$showtime.draggable(plugin.settings.draggable);
 				  plugin.settings.draggable.initialized = true;
 			  }
@@ -512,7 +501,7 @@
 					  containerHeight += $header.outerHeight(true);
 				  }
 
-				  if (plugin.settings.resizable) {
+				  if (plugin.settings.resizable && $.fn.resizable) {
 					  plugin.settings.resizable = $.extend(true, {minHeight: containerHeight, minWidth: containerWidth}, plugin.settings.resizable);
 					  plugin.$container.resizable(plugin.settings.resizable);
 				  }
