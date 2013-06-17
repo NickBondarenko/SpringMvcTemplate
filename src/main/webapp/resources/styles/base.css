@@ -52,3 +52,7 @@ body, button {
 code {
 	font-size: 80%;
 }
+
+#welcomeMessage {
+	padding: 10px 20px;
+}

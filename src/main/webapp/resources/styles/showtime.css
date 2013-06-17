@@ -34,7 +34,7 @@
 
 #showtimeContainer {
 	width: 350px;
-	height: 32px;
+	min-height: 1.3em;
 	background-color: white;
 	z-index: 9999;
 }
@@ -42,12 +42,12 @@
 #showtimeContent {
 	width: auto;
 	height: auto;
-	min-height: 22px;
-	padding: 5px;
+	min-height: 1em;
+	padding: .3em;
 	text-align: justify;
 }
 
-.content-seperator {
+#showtime .content-seperator {
 	border-bottom: 2px solid #525252;
 	*font-size: 1px;
 }
@@ -60,7 +60,7 @@
 	text-align: left;
 	font-size: 1.3em;
 	margin: 0 5px;
-	padding-bottom: 3px;
+	padding-bottom: 2px;
 	line-height: 1.4em;
 	text-shadow: 1px 1px 2px #808080;
 }
@@ -76,7 +76,7 @@
 	background: transparent url("../images/close-button.png") no-repeat 0 0;
 }
 
-#showtimeHeader span#closeBtn:hover, #showtimeHeader span#closeBtn.hover {
+#closeBtn:hover, #closeBtn.hover {
 	cursor: pointer;
 }
 
@@ -88,7 +88,7 @@
 	background-color: #bdc3c7;
 }
 
-#showtimeFooter #showtimeButtons {
+#showtimeButtons {
 	display: block;
 	text-align: right;
 }
@@ -137,7 +137,7 @@
 }
 
 #showtimeLoading {
-	padding: 3px;
+	padding: .3em;
 	font-weight: bold;
 }
 

@@ -1,19 +1,15 @@
-var $body,
-	/** @type {jQuery} $html - html DOMElement. */
-	$html = jQuery('html'),
-	/** @type {jQuery} $win - Window element. */
-	$win = jQuery(window),
-	/** @type {jQuery} $doc - Document element. */
-	$doc = jQuery(document).ready(function() {
-		$body = jQuery('body');
-	});
-
 /**
- * Closure for Extensions
+ * jQuery Extensions
  * @param {jQuery} $ - The jQuery object
  * @param {undefined} undefined
  */
-(function($, undefined) {
+define('jquery.extensions', ['jquery'], function($, undefined) {
+	window.$html = jQuery('html');
+	window.$win = jQuery(window);
+	window.$doc = jQuery(document).ready(function() {
+		window.$body = jQuery('body');
+	});
+
 	/** @classDescription regex - Various regex objects. */
 	var regex = {
 		/** @type {RegExp} script - Check for instance of <script> tag. */
@@ -187,80 +183,6 @@ var $body,
 		}
 		return flatObj;
 	}
-
-	$.extend = $.fn.extend = function() {
-		var options = undefined, name = undefined, src = undefined, copy = undefined, copyIsArray = undefined, clone = undefined,
-			target = arguments[0] || {},
-			i = 1,
-			length = arguments.length,
-			deep = false;
-
-		// Handle a deep copy situation
-		if (typeof target === "boolean") {
-			deep = target;
-			target = arguments[1] || {};
-			// skip the boolean and the target
-			i = 2;
-		}
-
-		// Handle case when target is a string or something (possible in deep copy)
-		if (typeof target !== "object" && !jQuery.isFunction(target)) {
-			target = {};
-		}
-
-		// extend jQuery itself if only one argument is passed
-		if (length === i) {
-			target = this;
-			--i;
-		}
-
-		for (; i < length; i++) {
-			// Only deal with non-null/undefined values
-			if ((options = arguments[i]) != null) {
-				// Extend the base object
-				for (var x = 0, keys = _keys(options), name = undefined, copy = undefined, len = keys.length; x < len; x++) {
-					copy = options[name = keys[x]];
-
-					// Prevent never-ending loop
-					if (target === copy) { continue; }
-
-					// Recurse if we're merging plain objects or arrays
-					if (deep && copy && (jQuery.isPlainObject(copy) || (copyIsArray = jQuery.isArray(copy)))) {
-						if (copyIsArray) {
-							copyIsArray = false;
-							clone = src && jQuery.isArray(src) ? src : [];
-						} else {
-							clone = src && jQuery.isPlainObject(src) ? src : {};
-						}
-
-						// Never move original objects, clone them
-						target[name] = jQuery.extend(deep, clone, copy);
-
-					// Don't bring in undefined values
-					} else if (copy !== undefined) {
-						target[name] = copy;
-					}
-				}
-			}
-		}
-
-		// Return the modified object
-		return target;
-	};
-
-	/**
-	 * Extensions to the jQuery support properties.
-	 */
-	$.extend($.support, {
-		/**
-		 * @type {Boolean} quirksMode - Returns true if the browser is in quirks mode, false otherwise.
-		 */
-		quirksMode: document.compatMode == 'BackCompat',
-		/**
-		 * @type {Boolean} fixed - Returns true if the browser supports the CSS display property 'fixed', false otherwise.
-		 */
-		fixed: document.compatMode == 'CSS1Compat' && window.XMLHttpRequest
-	});
 
 	/**
 	 * Extensions to jQuery's CSS3 selectors
@@ -499,12 +421,12 @@ var $body,
 				_setInputValue(this, val);
 			});
 	  },
-	  defaultValue: function(value) {
-
-	  },
-	  revert: function() {
-
-	  },
+//	  defaultValue: function(value) {
+//
+//	  },
+//	  revert: function() {
+//
+//	  },
 	  root: function() {
 	  	var $elem = undefined;
 	  	this.each$(function(index, $this) {
@@ -623,39 +545,6 @@ var $body,
 	});
 
 	$.extend({
-		/**
-		 * Function each. General purpose iterator. Used to iterate over arrays or objects.
-		 * @param {array||object} object - The array or object to iterate over.
-		 * @param {function} iterator - Function to call at each iteration.
-		 * @param args - ** internal use only **
-		 * @returns {array||object} The object passed to the function.
-		 */
-	  each: function(object, iterator, args) {
-			var length = object.length, isObj = length === undefined || $.isFunction(object);
-
-			if (args) {
-				if (isObj) {
-					for (var i = 0, keys = _keys(object), keyLength = keys.length; i < keyLength; i++) {
-						if (iterator.call(object[keys[i]], args) === false) { break; }
-					}
-				} else {
-					for (var i = 0; i < length; i++) {
-						if (iterator.call(object[i], args) === false) { break; }
-					}
-				}
-			} else {
-				if (isObj) {
-					for (var i = 0, keys = _keys(object), name = undefined, value = undefined, keyLength = keys.length; i < keyLength; i++) {
-						if (iterator.call(value = object[name = keys[i]], name, value) === false) { break; }
-					}
-				} else {
-					for (var i = 0, value = undefined; i < length; i++) {
-						if (iterator.call(value = object[i], i, value) === false) {	break; }
-					}
-				}
-			}
-			return object;
-	  },
 	  isNode: _isNode,
 	  isElement: _isElement,
 		/**
@@ -965,4 +854,4 @@ var $body,
 			}
 	  }
 	});
-})(jQuery);
+});

@@ -1,4 +1,4 @@
-(function($, undefined) {
+define('jquery.showtime', ['jquery', 'jquery.extensions', 'jquery.buildr'], function($, undefined) {
   var plugin = {
 	  $st: undefined,
 		$showtime: undefined,
@@ -81,7 +81,7 @@
 			resizable: {alsoResize: '#showtimeContent', autoHide: true, handles: 'e, se, s'},
 			buttons: {close: null},
     	loadingMessage: 'Loading, please wait...',
-      loadingImage: 'images/loading.gif',
+      loadingImage: 'images/roller.gif',
 			callback: $.noop,
 			ajaxOpts: {}
 		},
@@ -569,4 +569,4 @@
 //			launchShowtime(content);
 //		}
   }
-})(jQuery);
+});
