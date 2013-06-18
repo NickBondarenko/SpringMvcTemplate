@@ -379,6 +379,24 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 		exists: function() {
 			return this.length > 0;
 		},
+		preloadImages: function(callback) {
+			var self = this;
+			var numberOfLoadedImages = 0;
+			$.when($.Deferred(function(dfd) {
+				for (var i = 0, len = self.length, image = undefined; i < len; i++) {
+					image = new Image();
+					image.src = self[i];
+					var $image = $(image).on('load', function() {
+						if (++numberOfLoadedImages == len) {
+							dfd.resolve();
+						}
+					});
+					if ($image.prop('complete')) {
+						$image.trigger('load');
+					}
+				}
+			}).promise()).then(callback);
+		},
 	  /**
 	   * Function value. Gets or sets the value of an input.
 	   * @param {any} value - The value to set. (optional)
