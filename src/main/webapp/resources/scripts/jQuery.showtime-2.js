@@ -18,7 +18,7 @@
 	}),
   $title = $('<h1 />', {
 		id: 'showtimeTitle',
-		'class': 'content-seperator'
+		'class': 'content-separator'
 	}),
 	$closeButton = $('<span />', {
 		id: 'closeBtn'
@@ -39,7 +39,7 @@
 		frameborder: '0',
 		style: 'top: expression(((parseInt(this.parentNode.currentStyle.borderTopWidth) || 0) * -1) + \'px\');' +
 					 'left: expression(((parseInt(this.parentNode.currentStyle.borderLeftWidth) || 0) * -1) + \'px\');' +
-					 'width: expression(this.parentNode.offsetWidth + \'px\');' + 
+					 'width: expression(this.parentNode.offsetWidth + \'px\');' +
 					 'height: expression(this.parentNode.offsetHeight + \'px\')'
 	}),
   $win = $(window),
@@ -49,7 +49,7 @@
 	quirksMode = document.compatMode == 'BackCompat',
 	cssFixedSupport = !$.browser.msie || $.browser.msie && document.compatMode == 'CSS1Compat' && window.XMLHttpRequest,
 	pluginErrorText = 'Showtime Error';
-	
+
 	$.fn.showtime = function(method, options) {
 		if (this.length === 0) {
 			return this;
@@ -61,12 +61,12 @@
 				options = method;
 				method = undefined;
 			}
-	    
+
 	    if (method in methods) {
 				$showtime.queue('showtime.method', function(next) {
 					console.log('calling method: ' + method);
 					settings = $.extend(true, {}, $.showtime.defaults, options || {});
-			    if (!initialized || $.isEmptyObject(settings)) {	    	
+			    if (!initialized || $.isEmptyObject(settings)) {
 			    	methods.init.apply($this, [function() {
 			    		methods[method].apply($this, [next]);
 			    	}]);
@@ -74,7 +74,7 @@
 						methods[method].apply($this, [next]);
 					}
 				});
-				
+
 				if (settings.callback) {
 					$showtime.queue('showtime.method', function(next) {
 						settings.callback.call();
@@ -82,7 +82,7 @@
 						next();
 					});
 				}
-				
+
 				$showtime.queue('showtime.method', function() {
 					nextMain();
 				});
@@ -94,7 +94,7 @@
 				$.error('Method: ' +  method + ' does not exist on jQuery.showtime');
 			}
 		});
-		
+
 		if (mainQueue.length === 1) {
 			$doc.dequeue('showtime.main');
 		}
@@ -107,10 +107,10 @@
 				iframe: true,
 				opacity: 0.8,
 				onOpen: function() {
-					
+
 				},
 				onClose: function() {
-					
+
 				}
 			},
 			dialog: {
@@ -148,10 +148,10 @@
 					initialized: false
 				},
 				onOpen: function() {
-					
+
 				},
 				onClose: function() {
-					
+
 				}
 			},
 			contextPath: '',
@@ -182,7 +182,7 @@
 			}
 		}
 	};
-	
+
 	var methods = {
 		init: function(callback) {
 			$body = $('body');
@@ -191,22 +191,22 @@
 	    	components.overlay.destroy();
 	    	components.dialog.destroy();
 			}
-	    
+
 	    staticMethods.addRuntimeEvents();
-			
+
 			if ($showtime.closest('body').length === 0) {
 				$showtime.html($container.append($content)).appendTo($body);
-				
+
 		    if ($.browser.msie && settings.cssPie.enabled) {
 					$showtime.css({behavior: 'url(' + settings.contextPath + settings.cssPie.path});
 				}
 			}
-			
+
 	    // cache images
 			staticMethods.cacheImage('indicatorImage', settings.contextPath + settings.dialog.indicatorImage, false);
-	    
+
 	    cssFixedSupport ? $showtime.css('position', 'fixed') : $showtime.addClass('fixed-pos-hack');
-			
+
 			initialized = true;
 			if (callback) { callback.call(); }
 		},
@@ -222,7 +222,7 @@
 	    if ($.inArray(components.overlay.status, ['closed', 'destroyed']) > -1) {
 	    	methods.showOverlay.apply(this, []);
 			}
-	    
+
 	    if (components.dialog.status === 'closed') {
 	    	components.dialog.create().show.apply(this, arguments);
 			}
@@ -262,10 +262,10 @@
 				$.each(queues, function(index, queue) {
 					$showtime.clearQueue(queue);
 				});
-			}			
+			}
 		},
 		getContent: function($elem, url, data, callback) {
-			$elem.load(url, data, function(responseText, textStatus, xhr) {				
+			$elem.load(url, data, function(responseText, textStatus, xhr) {
 				if (responseText === '') {
 					$elem.html('No data returned from getContent()');
 				}
@@ -308,7 +308,7 @@
 			});
 	  },
 	  removeRuntimeEvents: function() {
-	  	$doc.unbind('.showtime');  	
+	  	$doc.unbind('.showtime');
 	  },
 		close: function(callback) {
 			if (components.overlay.status === 'open') {
@@ -316,19 +316,19 @@
 					components.overlay.hide();
 					next();
 				});
-			}			
-				
+			}
+
 			if (components.dialog.status === 'open') {
 				$showtime.queue('showtime.close', function(next) {
 					components.dialog.hide(next);
 				});
-			}			
+			}
 
 			$showtime.queue('showtime.close', function(next) {
 				staticMethods.removeRuntimeEvents();
 				if (callback) { callback.call(); }
 			});
-			
+
 			$showtime.dequeue('showtime.close');
 		},
 		getDocumentHeight: function() {
@@ -343,7 +343,7 @@
 					document.documentElement.offsetHeight,
 					document.body.offsetHeight
 				);
-		
+
 				if (scrollHeight < offsetHeight) {
 					return $(window).height() + 'px';
 				} else {
@@ -365,7 +365,7 @@
 					document.documentElement.offsetWidth,
 					document.body.offsetWidth
 				);
-		
+
 				if (scrollWidth < offsetWidth) {
 					return $(window).width() + 'px';
 				} else {
@@ -389,18 +389,18 @@
 		    var $this = this,
 		    cssAttributes,
 		    closeFunction;
-				
+
 				if ($.browser.msie && $.browser.version < 7 && settings.overlay.iframe) {
 					$.fn.bgiframe ? $overlay.bgiframe() : $overlay.append($iframe);
 				}
-				
+
 				if (this[0].tagName.toLowerCase() === 'body') {
 		    	cssAttributes = {
 		    		position: cssFixedSupport ? 'fixed' : 'absolute',
 		    		height: cssFixedSupport ? '100%' : staticMethods.getDocumentHeight(),
 		  	    width: cssFixedSupport ? '100%' : staticMethods.getDocumentWidth()
 			    };
-		    	
+
 		    	if (!cssFixedSupport) {
 			    	$win.bind('resize.showtimeOverlay', function(event) {
 			    		components.overlay.resize.apply($this, []);
@@ -417,11 +417,11 @@
 		    		components.overlay.resize.apply($this, []);
 		    	});
 				}
-		    
+
 		    closeFunction = settings.overlay.modal ? $.noop : function() {
 		    	staticMethods.close();
 	      };
-	      
+
 	      $overlay.hide().click(closeFunction).css(cssAttributes).appendTo(this).fadeTo(settings.speed, settings.overlay.opacity, function() {
 	      	components.overlay.setStatus('open');
 	      	if (callback) { callback.call(); }
@@ -456,13 +456,13 @@
 				components.overlay.setStatus('open');
 				if (callback) { callback.call(); }
 			},
-			destroy: function(callback) {				
+			destroy: function(callback) {
 				if (components.overlay.status === 'open') {
 					$showtime.queue('showtime.overlay.destroy', function(next) {
 						components.overlay.hide.apply(this, [next]);
 					});
 				}
-				
+
 				$showtime.queue('showtime.overlay.destroy', function(next) {
 					components.overlay.events.remove();
 					$overlay.remove().css({top: '0px', left: '0px'});
@@ -470,14 +470,14 @@
 					next();
 					if (callback) { callback.call(); }
 				});
-				
+
 				$showtime.dequeue('showtime.overlay.destroy');
 			},
 			setStatus: function(status, callback) {
 				this.status = status;
 				console.log('overlay status: ' + status);
 				switch (status) {
-				case 'open':					
+				case 'open':
 					$overlay.trigger('onOpen.showtimeOverlay');
 					break;
 				case 'closed':
@@ -506,7 +506,7 @@
 					this.onClose = $.noop;
 				},
 				onOpen: function(event) {
-					
+
 				},
 				onClose: function(event) {
 
@@ -529,11 +529,11 @@
           height: imageCache.indicatorImage.height,
           width: imageCache.indicatorImage.width
         }).after($('<span />').html(settings.dialog.indicatorMessage))).fadeIn(settings.speed));
-		    
+
 		    var cssAttributes;
 		    if (this[0].tagName.toLowerCase() !== 'body') {
 		    	var offsets = this.offset();
-		    	
+
 		    	cssAttributes = {
 		    		top: offsets.top + 50 + 'px',
 		    		left: offsets.left,
@@ -549,14 +549,14 @@
 						marginLeft: $showtime.outerWidth() / 2 * -1
 					};
 				}
-		    
+
 		    $showtime.queue('showtime.dialog.show', function(next) {
 			    $showtime.css(cssAttributes).fadeIn(settings.speed, function() {
 			    	next();
-			    });			    
+			    });
 		    });
-		    
-		    if (settings.content) {		    	
+
+		    if (settings.content) {
 		    	$showtime.queue('showtime.dialog.show', function(next) {
 			  		if (settings.dialog.fixed) {
 							if (!cssFixedSupport) {
@@ -576,7 +576,7 @@
 				  				});
 				  			});
 							}
-			  			
+
 			  			$showtime.queue('showtime.dialog.scroll', function(scrollNext) {
 								if (!cssFixedSupport) {
 									$showtime.removeClass('fixed-pos-hack');
@@ -586,11 +586,11 @@
 								scrollNext();
 								next();
 			  			});
-			  			
+
 			  			$showtime.dequeue('showtime.dialog.scroll');
 			  		}
 		    	});
-			  		
+
 		    	$showtime.queue('showtime.dialog.show', function(next) {
 		    		$content.appendTo($body);
 		    		if ($.isPlainObject(settings.content)) {
@@ -600,7 +600,7 @@
 							next();
 						}
 		    	});
-		    	
+
 		    	$showtime.queue('showtime.dialog.show', function(next) {
 						if (settings.dialog.title) {
 							$title.text(settings.dialog.title);
@@ -609,28 +609,28 @@
 								staticMethods.close();
 							})).prependTo($container);
 						}
-						
+
 						if (settings.dialog.buttons) {
 							$.each(settings.dialog.buttons, function(key, button) {
 								components.button.create(key, button).appendTo($buttons);
 							});
 							$footer.hide().html($buttons).appendTo($container);
 						}
-						
+
 						if (settings.dialog.draggable.enabled && $.ui) {
 							$showtime.draggable(settings.dialog.draggable);
 							settings.dialog.draggable.initialized = true;
 						}
-						
+
 						if (settings.dialog.resizable.enabled && $.ui) {
 							$showtime.resizable(settings.dialog.resizable);
 							settings.dialog.resizable.initialized = true;
 						}
-						
+
 						components.dialog.resize.apply($this, [next]);
 		    	});
 				}
-		    
+
 		    $showtime.queue('showtime.dialog.show', function(next) {
 		    	//$container.add($content).css('height', 'auto');
 		    	components.dialog.setStatus('open', function() {
@@ -638,48 +638,48 @@
 		    		if (callback) { callback.call(); }
 		    	});
 		    });
-		    
+
 		    $showtime.dequeue('showtime.dialog.show');
 			},
 			hide: function(callback) {
 				components.dialog.setStatus('hiding');
-				$showtime.fadeOut(settings.speed, function() {					
+				$showtime.fadeOut(settings.speed, function() {
 					components.dialog.events.remove();
-					
+
 					// Reset CSS
 					$content.css({width: 'auto', height: 'auto'}).empty();
 					$showtime.css({width: 'auto', height: 'auto', top: '', left: ''});
 					$container.css({width: settings.dialog.minWidth + 'px', height: settings.dialog.minHeight + 'px'});
-					
+
 					// Remove Elements
 					if ($indicator.closest('body').length) {
 						$indicator.detach();
 					}
-					
+
 					if ($buttons.closest('#showtime').length) {
 						$buttons.empty().detach();
-					};
-	    		
+					}
+
 					if (settings.dialog.title && $header.closest('#showtime').length) {
 						$header.detach();
 					}
-	    		
+
 	    		if ($footer.closest('#showtime').length) {
 	    			$footer.children().remove().end().detach();
 					}
-	    		
+
 	    		if (settings.dialog.draggable.enabled && settings.dialog.draggable.initialized) {
 	    			$showtime.draggable('destroy');
 					}
-	    		
+
 	    		if (settings.dialog.resizable.enabled && settings.dialog.resizable.initialized) {
 	    			$showtime.resizable('destroy');
 	    		}
-	    		
+
 	    		if (settings.fixed && !cssFixedSupport) {
 						$showtime.removeClass('fixed-pos-hack');
 					}
-						    		
+
 	    		var scrollTop = $showtime.data('currentScrollTop');
 	    		if (!settings.dialog.fixed && scrollTop) {
 	    			$showtime.queue('showtime.dialog.hide', function(next) {
@@ -693,7 +693,7 @@
 	    				});
 	    			});
 	    		}
-	    		
+
 	    		$showtime.queue('showtime.dialog.hide', function(next) {
 	    			components.dialog.setStatus('closed', function() {
 		    			cssFixedSupport ? $showtime.css('position', 'fixed') : $showtime.addClass('fixed-pos-hack');
@@ -701,10 +701,10 @@
 		    			if (callback) { callback.call(); }
 	    			});
 	    		});
-	    		
+
 	    		$showtime.dequeue('showtime.dialog.hide');
 				});
-				
+
 				$win.unbind('.showtimeDialog');
 			},
 			resize: function(callback) {
@@ -713,26 +713,26 @@
 				containerWidth,
 				containerHeight,
 				leftMargin;
-				
+
 				if (contentWidth > settings.dialog.maxWidth) {
 					contentWidth = settings.dialog.maxWidth;
 				} else if (contentWidth < settings.dialog.minWidth) {
 					contentWidth = settings.dialog.minWidth;
 				}
 				$content.css('width', contentWidth);
-				
+
 				containerWidth = $content.outerWidth(true);
 				containerHeight = $content.outerHeight(true) + $footer.outerHeight(true) + $header.outerHeight(true);
-				
+
 				leftMargin = (containerWidth + parseInt($showtime.css('borderLeftWidth'), 10) + parseInt($showtime.css('borderRightWidth'), 10)) / 2 * -1;
 				if (this[0].tagName.toLowerCase() !== 'body') {
 					leftMargin = this.outerWidth() / 2 - leftMargin * -1;
 				}
-		  	
+
 				$indicator.hide().detach();
 				$header.length > 0 ? $content.insertAfter($header) : $content.prependTo($container);
-				
-				$showtime.animate({marginLeft: leftMargin + 'px'}, settings.speed).fadeIn(settings.speed);  	
+
+				$showtime.animate({marginLeft: leftMargin + 'px'}, settings.speed).fadeIn(settings.speed);
 		  	$container.animate({width: containerWidth + 'px', height: containerHeight + 'px'}, {
 		  		duration: settings.speed,
 		  		complete: function() {
@@ -742,20 +742,20 @@
 			  				next();
 			  			});
 		  			}
-		  			
+
 		  			if ($footer.length > 0) {
 		  				$showtime.queue('showtime.dialog.resize', function(next) {
 		  					$footer.fadeIn(settings.speed);
 		  					next();
 		  				});
 						}
-		  			
+
 		  			$showtime.queue('showtime.dialog.resize', function(next) {
 		  				$content.fadeIn(settings.speed, function() {
 		  					next();
 		  				});
 		  			});
-		  			
+
 		  			$showtime.queue('showtime.dialog.resize', function(next) {
 		  				if (settings.dialog.resizable.enabled && settings.dialog.resizable.initialized && $.ui) {
 		  					$showtime.resizable('option', {minWidth: $showtime.width(), minHeight: $showtime.height()});
@@ -763,7 +763,7 @@
 		  				if (callback) { callback.call(); }
 		  				next();
 		  			});
-		  			
+
 		  			$showtime.dequeue('showtime.dialog.resize');
 		  		}
 		  	});
@@ -795,7 +795,7 @@
 				this.status = status;
 				console.log('dialog status: ' + status);
 				switch (status) {
-				case 'open':					
+				case 'open':
 					$showtime.trigger('onOpen.showtimeDialog');
 					break;
 				case 'closed':
@@ -830,24 +830,24 @@
 					this.onDestroy = $.noop();
 				},
 				onOpen: function(event) {
-					
+
 				},
 				onClose: function(event) {
 
 				},
 				onDestroy: function(event) {
-					
+
 				}
 			}
 		},
-		button: {		  
+		button: {
 		  create: function(buttonName, options) {
 		  	var btn = $.extend(true, {}, this, options),
 		  	$button = $('<div />', {
 			    id: buttonName + 'ShowtimeButton',
 			    'class': 'showtime-button default'
 			  });
-				
+
 				$button.html(btn.text).bind('click.showtime.' + buttonName, function(event) {
 					options.click ? options.click(event) : $.noop();
 			  });
@@ -856,7 +856,7 @@
 		  text: '',
 		  click: undefined,
 		  destroy: function() {
-		  	
+
 		  }
 		}
 	},

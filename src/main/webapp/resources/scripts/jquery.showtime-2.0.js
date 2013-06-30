@@ -1,12 +1,6 @@
 define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jquery.buildr'], function($, undefined) {
-	var open = false;
-	var imageCache = undefined;
-	var currentScrollTop = undefined;
-	var pluginErrorText = 'Showtime Error';
-	var bypassFixed = false;
-	var mode = 'dialog';
 	var elements = {
-		$st: undefined,
+		$elem: undefined,
 		$showtime: undefined,
 		$container: undefined,
 		$content: undefined,
@@ -16,20 +10,19 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 		$closeBtnImage: undefined
 	};
 	var defaults = {
-		showOverlay: true,
-		modalOverlay: false,
+		modal: true,
 		opacity: 0.75,
 		minWidth: 350,
 		minHeight: 32,
 		maxWidth: 550,
 		fixed: true,
-		autoSizeAfterOpen: false,
-		contextPath: '../../resources/',
+		autoResize: false,
+		imagesPath: '../../resources/images/',
+		imageTypes: ['jpg', 'jpeg', 'png', 'gif', 'bmp'],
 		speed: 200,
 		title: '',
 		fontFamilies: ['Ubuntu:400,500,700,400italic,500italic,700italic:latin'],
 		content: undefined,
-		helpAttribute: 'for',
 		draggable: {
 			cursor: 'move',
 			handle: '#showtimeHeader, #showtimeFooter',
@@ -40,37 +33,58 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 		resizable: {alsoResize: '#showtimeContent', autoHide: true, handles: 'e, se, s'},
 		buttons: {close: null},
 		loadingMessage: 'Loading, please wait...',
-		loadingImage: 'images/roller.gif',
+		loadingImage: 'roller.gif',
 		callback: $.noop,
-		ajaxOpts: {}
+		ajaxOpts: {
+			type: 'GET'
+		}
 	};
 
 	var Showtime = function(options, element) {
+		this.$obj = $(this);
+		this.open = false;
 		this.name = 'Showtime';
 		this.options = options;
 		this.element = element;
+		this.isDraggable = false;
+		this.isResizable = false;
 		this._init();
 	};
 
 	Showtime.prototype = {
 		_init: function() {
 			this.options = $.extend(true, {}, defaults, this.options);
-			this._buildHtml();
 
-			if (this.options.font) {
-				this._loadFont(this.options.font);
+			elements.$elem = $(this.element);
+			this._addEvents();
+
+			if (elements.$showtime === undefined) {
+				this._buildHtml();
+				$.preloadImages([
+					this.options.imagesPath + this.options.loadingImage,
+					this.options.imagesPath + 'close-button.png',
+					this.options.imagesPath + 'b.png'
+				]);
 			}
 
-			$(this.element).on('click', function(e) {
-				e.preventDefault();
-//				plugin.$showtime.trigger('showtime.open', [content, $.extend({}, options, {$elem: $(this)})]);
-			});
+			this.options.imageFilter = this._generateImageFilter(this.options.imageTypes);
+
+			if ($.isArray(this.options.fontFamilies)) {
+				var fontName = this.options.fontFamilies[0].substring(0, this.options.fontFamilies[0].indexOf(':'));
+				this._loadFont(this.options.fontFamilies);
+				this._addFont(elements.$showtime, fontName);
+			}
 		},
-		_create: function() {
-			console.log('Creating showtime plugin');
+		_generateImageFilter: function(imageTypes) {
+			if (!$.isArray(imageTypes)) { return new RegExp(); }
+
+			var regExp = '.(';
+			for (var i = 0, length = imageTypes.length; i < length; i++) {
+				regExp = regExp + imageTypes[i] + '|';
+			}
+			return new RegExp(regExp.substring(0, regExp.length - 1) + ')$', 'i');
 		},
 		option: function(key, value) {
-			// optional: get/change options post initialization ignore if you don't require them.
 			if ($.isPlainObject(key)) {
 				this.options = $.extend(true, this.options, key);
 			} else if (key && typeof value === 'undefined') {
@@ -83,8 +97,11 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 			 * option is called first and is then chained to the _init method. */
 			return this;
 		},
-		dialog: function() {
-			console.log('Dialog method');
+		loading: function() {
+			this.$obj.triggerHandler('showtime.open');
+		},
+		dialog: function(content, opts) {
+			this.$obj.triggerHandler('showtime.open', [content, opts]);
 		},
 		confirm: function() {
 
@@ -94,6 +111,246 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 		},
 		_destroy: function() {
 
+		},
+		_open: function(content, opts) {
+			try {
+				if (this.open) { return; }
+
+				opts = $.isPlainObject(opts) ? $.extend(true, {}, this.options, opts) : this.options;
+				content = opts.content || content;
+
+				var self = this;
+				if (opts.modal) {
+					this.$obj.queue('showtime.open', function(next) {
+						$.when(self._showOverlay()).then(next);
+					});
+				}
+
+				this.$obj.queue('showtime.open', function(next) {
+					$.when(self._showLoading()).then(next);
+				});
+
+				if (content) {
+					this.$obj.queue('showtime.open', function(next) {
+						$.when(self._getContent(content, opts)).then(function(cont) {
+							content = cont;
+							next();
+						});
+					});
+
+					this.$obj.queue('showtime.open', function(next) {
+						var contentWidth,	containerWidth,	containerHeight, leftMargin;
+
+						this._addButtons();
+
+						elements.$content.if$(!elements.$content.children().exists()).html(content).end().appendTo($body);
+						contentWidth = elements.$content.outerWidth(true);
+
+						if (opts.draggable && $.fn.draggable) {
+							elements.$showtime.draggable(opts.draggable);
+							self.isDraggable = true;
+						}
+
+						if (contentWidth > opts.maxWidth) {
+							elements.$content.css('width', opts.maxWidth);
+						} else if (contentWidth < opts.minWidth) {
+							elements.$content.css('width', opts.minWidth);
+						}
+
+						containerWidth = elements.$content.outerWidth(true);
+						containerHeight = elements.$content.outerHeight(true) + elements.$footer.outerHeight(true);
+
+						opts.overrideFixed = opts.fixed && containerHeight > $.clientHeight();
+
+						if (!opts.fixed || opts.overrideFixed) {
+							self.$obj.queue('showtime.openChild', function(nextChild) {
+								$.when(self._scrollToTop()).then(nextChild);
+							});
+						}
+
+						self.$obj.queue('showtime.openChild', function(nextChild) {
+							elements.$content.prependTo(elements.$container);
+							if (opts.title) {
+								elements.$header = $('<div />', {id: 'showtimeHeader'}).build(function (buildr) {
+									buildr.h1(opts.title, {id: 'showtimeTitle', 'class': 'content-separator'});
+									buildr.button({id: 'closeBtn'}).on('click', function () {
+										self.$obj.triggerHandler('showtime.close');
+									});
+								}).prependTo(elements.$container);
+
+								containerHeight += elements.$header.outerHeight(true);
+							}
+
+							if (opts.resizable && $.fn.resizable) {
+								opts.resizable = $.extend(true, opts.resizable, {minHeight: containerHeight, minWidth: containerWidth});
+								elements.$container.resizable(opts.resizable);
+								self.isResizable = true;
+							}
+
+							leftMargin = (containerWidth + parseInt(elements.$showtime.css('borderLeftWidth'), 10) + parseInt(elements.$showtime.css('borderRightWidth'), 10)) / 2 * -1;
+
+							elements.$loading.hide().remove();
+							elements.$showtime.animate({marginLeft: leftMargin + 'px'}, opts.speed).fadeIn(opts.speed);
+							elements.$container.animate({width: containerWidth + 'px', height: containerHeight + 'px'}, opts.speed)
+								.promise().then(function () {
+									elements.$container.children().fadeIn(opts.speed);
+									if (opts.autoResize) {
+										elements.$container.css('height', 'auto');
+									}
+								}).then(opts.callback).then(nextChild).then(next);
+						}).dequeue('showtime.openChild');
+					});
+				}
+
+				this.$obj.queue('showtime.open', function() {
+					self.open = true;
+				}).dequeue('showtime.open');
+			} catch (e) {
+				this.$obj.clearQueue('showtime');
+				$.error(e.name + '\n' + e.message);
+			}
+		},
+		_showOverlay: function() {
+			var $overlay;
+
+			if (!$('#overlay').exists()) {
+				if (Modernizr.compliantzindex) {
+					$overlay = $('<div />', {id: 'overlay'});
+				} else {
+					$overlay = $('<iframe />', {
+						id: 'overlay',
+						src: 'javascript: false;',
+						tabindex: '-1',
+						frameborder: '0',
+						style: 'top: expression(((parseInt(this.parentNode.currentStyle.borderTopWidth) || 0) * -1) + \'px\');' +
+							'left: expression(((parseInt(this.parentNode.currentStyle.borderLeftWidth) || 0) * -1) + \'px\');' +
+							'width: expression(this.parentNode.offsetWidth + \'px\');' +
+							'height: expression(this.parentNode.offsetHeight + \'px\')'
+					});
+				}
+				$body.append($overlay);
+			}
+
+			var self = this;
+			(Modernizr.compliantzindex ? $overlay : $overlay.contents()).on('click', function() {
+				self.$obj.triggerHandler('showtime.close');
+			});
+
+			return $overlay.hide().css({opacity: self.options.opacity}).fadeIn(100).promise();
+		},
+		_showLoading: function() {
+			var self = this;
+			if (!elements.$loading) {
+				elements.$loading = $('<div />', {id: 'showtimeLoading'}).build(function(buildr) {
+					buildr.img({
+						alt: 'Loading Image',
+						src: self.options.imagesPath + self.options.loadingImage
+					});
+					buildr.span(self.options.loadingMessage);
+				});
+			}
+
+			elements.$container.children().hide().end().append(elements.$loading.show());
+			return elements.$showtime.css({marginLeft: ((elements.$showtime.outerWidth() / 2) * -1)}).fadeIn(this.options.speed).promise();
+		},
+		_getContent: function(content, opts) {
+			var self = this;
+			return $.Deferred(function(dfd) {
+				var type = $.type(content);
+				if (type == 'string') {
+					if (content.indexOf(':') >= 0) {
+						var contentComponents = content.split(':');
+						switch (contentComponents[0]) {
+							case 'text':
+								dfd.resolve(contentComponents[1]);
+								break;
+							case 'image':
+								if (!content.match(opts.imageFilter)) {
+									$.error('Image type of ' + contentComponents[1] + ' is not allowed. Please check the imageTypes option.');
+								}
+								$.when($.preloadImages(opts.imagesPath + [contentComponents[1]])).then(function() {
+									dfd.resolve($('<img />', {src: opts.imagesPath + contentComponents[1]}));
+								});
+								break;
+							case 'href':
+								$.ajax(contentComponents[1], opts.ajaxOpts).done(function(data) {
+									dfd.resolve(data);
+								});
+								break;
+							default: break;
+						}
+					}
+				}
+			}).promise();
+		},
+		_scrollToTop: function() {
+			this.options.currentScrollTop = $body.scrollTop();
+			return $('body, html').animate({scrollTop: 0}, this.options.speed).promise();
+		},
+		_close: function() {
+			try {
+				if (!this.open) { return; }
+
+				var self = this;
+				$.when(elements.$showtime.fadeOut(this.options.speed, function() {
+					self._resetStyles();
+				}).promise()).then(function() {
+					self._hideOverlay();
+				}).then(function() {
+					self.open = false;
+				});
+			} catch (e) {
+				$.error('Error Closing Showtime Plugin\n' + e.message);
+			}
+		},
+		_hideOverlay: function() {
+			var options = this.options;
+			if (!options.modal) { return $.Deferred().promise(); }
+
+			return $('#overlay').fadeOut(100, function() { $(this).remove(); }).promise();
+		},
+		_resetStyles: function() {
+			var self = this;
+			return $.Deferred(function(dfd) {
+				elements.$loading.remove();
+				$('#showtimeButtons').empty();
+				elements.$content.css({width: 'auto', height: 'auto'}).empty();
+				elements.$showtime.css({width: 'auto', height: 'auto', top: '', left: ''});
+				elements.$container.css({width: self.options.minWidth + 'px', height: self.options.minHeight + 'px'});
+
+				if (elements.$header) {
+					elements.$header.remove();
+				}
+
+        if (self.isDraggable) {
+          elements.$showtime.draggable('destroy');
+				}
+
+				if (self.isResizable) {
+					elements.$container.resizable('destroy');
+				}
+				dfd.resolve();
+			}).promise();
+		},
+		_addEvents: function() {
+			var self = this;
+			$doc.off('keydown.showtime').on('keydown.showtime', function(event) {
+				if (event.keyCode === 27) {
+					self._close();
+				}
+			});
+
+			this.$obj.off('showtime').on({
+				'showtime.open': function(event, content, opts) {
+					self._open.apply(self, [content, opts]);
+				},
+				'showtime.button-click': function(event, key, value) {
+					self._buttonClick.apply(self, [key, value]);
+				},
+				'showtime.close': function() {
+					self._close.apply(self);
+				}
+			});
 		},
 		_buildHtml: function() {
 			elements.$showtime = $('<div />', {id: 'showtime'}).build(function(buildr) {
@@ -110,6 +367,16 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 			elements.$footer = $('#showtimeFooter');
 			elements.$closeBtnImage = $('#closeBtnImage');
 		},
+		_addButtons: function() {
+			var self = this;
+			$.each(this.options.buttons, function(key, value) {
+				$('#showtimeButtons').build(function(buildr) {
+					buildr.button(key.charAt(0).toUpperCase() + key.slice(1), {id: key + 'ShowtimeButton'}).on('click.showtime', function() {
+						self.$obj.trigger('showtime.button-click', [key, value]);
+					});
+				});
+			});
+		},
 		_loadFont: function(fontFamilies) {
 			window.WebFontConfig = {
 				google: {families: fontFamilies}
@@ -122,7 +389,37 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 
 			var script = document.getElementsByTagName('script')[0];
 			script.parentNode.insertBefore(wf, script);
+		},
+		_addFont: function($elem, fontName) {
+			var fontFamily = $elem.css('fontFamily');
+			if (fontFamily) {
+				var allFonts = fontFamily.split(',');
+				if (!$.array.isEmpty(allFonts)) {
+					allFonts[0] = fontName;
+				}
+
+				fontFamily = allFonts.join(',');
+				$elem.css('fontFamily', fontFamily);
+			}
+		},
+		_buttonClick: function(buttonName, callback) {
+			if (callback && $.isFunction(callback)) {
+				callback.call();
+				return;
+			}
+
+			switch (buttonName) {
+				case 'ok':
+					this.$obj.triggerHandler('showtime.close');
+					break;
+				case 'cancel': case 'close':
+					this.$obj.triggerHandler('showtime.close');
+					break;
+				default: break;
+			}
 		}
 	};
+
+	// Register plugin
 	$.widget.bridge('showtime', Showtime);
 });

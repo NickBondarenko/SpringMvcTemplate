@@ -1,6 +1,6 @@
 define('jquery.showtime', ['jquery', 'jquery.extensions', 'jquery.buildr'], function($, undefined) {
   var plugin = {
-	  $st: undefined,
+	  $elem: undefined,
 		$showtime: undefined,
 		$container: undefined,
 		$content: undefined,
@@ -479,7 +479,7 @@ define('jquery.showtime', ['jquery', 'jquery.extensions', 'jquery.buildr'], func
 				  plugin.$content.prependTo(plugin.$container);
 				  if (plugin.settings.title) {
 					  var $header = $('<div />', {id: 'showtimeHeader'}).build(function(buildr) {
-						  buildr.h1(plugin.settings.title, {id: 'showtimeTitle', 'class': 'content-seperator'});
+						  buildr.h1(plugin.settings.title, {id: 'showtimeTitle', 'class': 'content-separator'});
 						  buildr.button({id: 'closeBtn'}).on('click', function() {
 							  plugin.$showtime.trigger('showtime.close');
 						  });

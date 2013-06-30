@@ -7,7 +7,7 @@ html,	body {
 
 body, button {
 	font-size: 16px;
-	font-family: 'Lato', "Trebuchet MS", Helvitica, sans-serif !important;
+	font-family: 'Lato', "Trebuchet MS", Helvitica, sans-serif;
 	-webkit-font-smoothing: antialiased !important;
 }
 

@@ -376,6 +376,18 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 			}
 			return this;
 	  },
+		/**
+		 * iff - v0.2 - 6/3/2009
+		 * http://benalman.com/projects/jquery-iff-plugin/
+		 *
+		 * Copyright (c) 2009 "Cowboy" Ben Alman
+		 * Licensed under the MIT license
+		 * http://benalman.com/about/license/
+		 */
+		if$: function(test) {
+			var elements = !test || $.isFunction(test)	&& !test.apply(this, Array.prototype.slice.call(arguments, 1)) ? []	: this;
+			return this.pushStack(elements, 'if$', test);
+	  },
 		exists: function() {
 			return this.length > 0;
 		},
@@ -546,8 +558,9 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 
 	$.extend({
 		preloadImages: function(imageArray) {
+			if ($.type(imageArray) == 'string') { imageArray = [imageArray]; }
 			return $.Deferred(function(dfd) {
-				if (!$.isArray(imageArray) || $.array.isEmpty(imageArray)) { dfd.resolve(); }
+				if (!$.isArray(imageArray) || $.array.isEmpty(imageArray)) { dfd.reject(); }
 				for (var i = 0, numberOfImages = imageArray.length, numberOfLoadedImages = 0; i < numberOfImages; i++) {
 					var $image = $(new Image()).on('load', function() {
 						if (++numberOfLoadedImages === numberOfImages) { dfd.resolve(); }
@@ -833,7 +846,12 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 	  },
 	  array: {
 		  isEmpty: function(array) {
-			  return array.length === 0;
+			  return !array || array.length == 0;
+		  },
+		  remove: function(array, from, to) {
+			  var remainingElements = array.slice((to || from) + 1 || array.length);
+			  array.length = from < 0 ? array.length + from : from;
+			  return array.push.apply(array, remainingElements);
 		  },
 			flatten: function(array, filter) {
 				var flatArray = [];

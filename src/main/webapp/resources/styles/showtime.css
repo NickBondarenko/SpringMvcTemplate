@@ -6,18 +6,17 @@
 }
 
 /* IE6 position fixed Top */
-#showtime.fixed-pos-hack {
-	position: absolute;
-	top: expression(ie = (document.compatMode == "CSS1Compat" ? document.documentElement.scrollTop + 50 : body.scrollTop + 50) + "px");
-}
+/*#showtime.fixed-pos-hack {*/
+	/*position: absolute;*/
+	/*top: expression(ie = (document.compatMode == "CSS1Compat" ? document.documentElement.scrollTop + 50 : body.scrollTop + 50) + "px");*/
+/*}*/
 
 #showtime {
 	display: none;
-	position: fixed;
 	top: 50px;
 	left: 50%;
   color: #525252;
-  font-family: Ubuntu, "Trebuchet MS", Helvitica, sans-serif !important;
+  font-family: Ubuntu, "Trebuchet MS", Helvitica, sans-serif;
 	-webkit-font-smoothing: antialiased !important;
   border: 8px solid transparent;
 	-moz-border-radius: 3px;
@@ -30,6 +29,15 @@
 	z-index: 9998;
 	text-align: center;
 	*border-color: #525252;
+}
+
+.positionfixed #showtime {
+	position: fixed;
+}
+
+.no-positionfixed #showtime {
+	position: absolute;
+	top: expression(ie = (document.compatMode == "CSS1Compat" ? document.documentElement.scrollTop + 50 : body.scrollTop + 50) + "px");
 }
 
 #showtimeContainer {
@@ -47,7 +55,7 @@
 	text-align: justify;
 }
 
-#showtime .content-seperator {
+#showtime .content-separator {
 	border-bottom: 2px solid #525252;
 	*font-size: 1px;
 }
@@ -95,7 +103,7 @@
 
 #showtimeButtons button {
 	color: #525252;
-	font-family: Ubuntu, "Trebuchet MS", Helvitica, sans-serif !important;
+	font-family: Ubuntu, "Trebuchet MS", Helvitica, sans-serif;
 	width: 60px;
 	cursor: default;
 	background: #f1f1f1; /* Old browsers */
@@ -128,12 +136,19 @@
 
 #overlay {
 	background-color: #eaeaea;
-  position: fixed;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
   z-index: 9997;
+}
+
+.positionfixed #overlay {
+	position: fixed;
+}
+
+.no-positionfixed #overlay {
+	position: absolute;
 }
 
 #showtimeLoading {
