@@ -70,9 +70,7 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 			this.options.imageFilter = this._generateImageFilter(this.options.imageTypes);
 
 			if ($.isArray(this.options.fontFamilies)) {
-				var fontName = this.options.fontFamilies[0].substring(0, this.options.fontFamilies[0].indexOf(':'));
 				this._loadFont(this.options.fontFamilies);
-				this._addFont(elements.$showtime, fontName);
 			}
 		},
 		_generateImageFilter: function(imageTypes) {
@@ -101,7 +99,9 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 			this.$obj.triggerHandler('showtime.open');
 		},
 		dialog: function(content, opts) {
-			this.$obj.triggerHandler('showtime.open', [content, opts]);
+			if (content) {
+				this.$obj.triggerHandler('showtime.open', [content, opts]);
+			}
 		},
 		confirm: function() {
 
@@ -109,8 +109,21 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 		lightbox: function() {
 
 		},
-		_destroy: function() {
+		remove: function() {
+			var self = this;
+			var $destroyQueue = $({});
+			if (this.open) {
+				$destroyQueue.queue('showtime.destroy', function(next) {
+					$.when(self._close()).then(next);
+				});
+			}
 
+			$destroyQueue.queue('showtime.destroy', function(next) {
+				self._removeEvents();
+				elements.$showtime.remove();
+			});
+
+			$destroyQueue.dequeue('showtime.destroy');
 		},
 		_open: function(content, opts) {
 			try {
@@ -352,6 +365,10 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 				}
 			});
 		},
+		_removeEvents: function() {
+			$doc.off('keydown.showtime');
+			this.$obj.off('showtime');
+		},
 		_buildHtml: function() {
 			elements.$showtime = $('<div />', {id: 'showtime'}).build(function(buildr) {
 				buildr.div({id: 'showtimeContainer'}, function() {
@@ -389,18 +406,6 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 
 			var script = document.getElementsByTagName('script')[0];
 			script.parentNode.insertBefore(wf, script);
-		},
-		_addFont: function($elem, fontName) {
-			var fontFamily = $elem.css('fontFamily');
-			if (fontFamily) {
-				var allFonts = fontFamily.split(',');
-				if (!$.array.isEmpty(allFonts)) {
-					allFonts[0] = fontName;
-				}
-
-				fontFamily = allFonts.join(',');
-				$elem.css('fontFamily', fontFamily);
-			}
 		},
 		_buttonClick: function(buttonName, callback) {
 			if (callback && $.isFunction(callback)) {
