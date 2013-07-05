@@ -96,4 +96,10 @@
 
 		return ret;
 	});
+
+	Modernizr.addTest('cssfilters', function() {
+		var el = document.createElement('div');
+		el.style.cssText = Modernizr._prefixes.join('filter' + ':blur(2px); ');
+		return !!el.style.length && ((document.documentMode === undefined || document.documentMode > 9));
+	});
 })(Modernizr, window);

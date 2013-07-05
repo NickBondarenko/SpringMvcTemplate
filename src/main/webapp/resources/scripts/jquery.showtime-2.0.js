@@ -7,6 +7,7 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 		$header: undefined,
 		$footer: undefined,
 		$loading: undefined,
+		$overlay: undefined,
 		$closeBtnImage: undefined
 	};
 	var defaults = {
@@ -224,32 +225,38 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 			}
 		},
 		_showOverlay: function() {
-			var $overlay;
-
-			if (!$('#overlay').exists()) {
-				if (Modernizr.compliantzindex) {
-					$overlay = $('<div />', {id: 'overlay'});
-				} else {
-					$overlay = $('<iframe />', {
-						id: 'overlay',
-						src: 'javascript: false;',
-						tabindex: '-1',
-						frameborder: '0',
-						style: 'top: expression(((parseInt(this.parentNode.currentStyle.borderTopWidth) || 0) * -1) + \'px\');' +
-							'left: expression(((parseInt(this.parentNode.currentStyle.borderLeftWidth) || 0) * -1) + \'px\');' +
-							'width: expression(this.parentNode.offsetWidth + \'px\');' +
-							'height: expression(this.parentNode.offsetHeight + \'px\')'
-					});
-				}
-				$body.append($overlay);
-			}
-
 			var self = this;
-			(Modernizr.compliantzindex ? $overlay : $overlay.contents()).on('click', function() {
-				self.$obj.triggerHandler('showtime.close');
-			});
+			return $.Deferred(function(dfd) {
+				if (!elements.$overlay) {
+					if (Modernizr.compliantzindex) {
+						elements.$overlay = $('<div />', {id: 'overlay'});
+					} else {
+						elements.$overlay = $('<iframe />', {
+							id: 'overlay',
+							src: 'javascript: false;',
+							tabindex: '-1',
+							frameborder: '0',
+							style: 'top: expression(((parseInt(this.parentNode.currentStyle.borderTopWidth) || 0) * -1) + \'px\');' +
+								'left: expression(((parseInt(this.parentNode.currentStyle.borderLeftWidth) || 0) * -1) + \'px\');' +
+								'width: expression(this.parentNode.offsetWidth + \'px\');' +
+								'height: expression(this.parentNode.offsetHeight + \'px\')'
+						});
+					}
 
-			return $overlay.hide().css({opacity: self.options.opacity}).fadeIn(100).promise();
+					$body.append(elements.$overlay);
+				} else {
+					elements.$overlay.appendTo($body);
+				}
+
+				(Modernizr.compliantzindex ? elements.$overlay : elements.$overlay.contents()).on('click', function() {
+					self.$obj.triggerHandler('showtime.close');
+				});
+
+				if (Modernizr.cssfilters) {
+					$body.children().not('#showtime, #overlay, #showtimeLoading').addClass('blur');
+				}
+				elements.$overlay.fadeIn(100, dfd.resolve);
+			}).promise();
 		},
 		_showLoading: function() {
 			var self = this;
@@ -320,7 +327,12 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 			var options = this.options;
 			if (!options.modal) { return $.Deferred().promise(); }
 
-			return $('#overlay').fadeOut(100, function() { $(this).remove(); }).promise();
+			return elements.$overlay.fadeOut(100, function() {
+				if (Modernizr.cssfilters) {
+					$body.children().not('#showtime, #overlay').removeClass('blur');
+				}
+				elements.$overlay.remove();
+			}).promise();
 		},
 		_resetStyles: function() {
 			var self = this;
@@ -388,7 +400,7 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 			var self = this;
 			$.each(this.options.buttons, function(key, value) {
 				$('#showtimeButtons').build(function(buildr) {
-					buildr.button(key.charAt(0).toUpperCase() + key.slice(1), {id: key + 'ShowtimeButton'}).on('click.showtime', function() {
+					buildr.a(key.charAt(0).toUpperCase() + key.slice(1), {id: key + 'ShowtimeButton'}).on('click.showtime', function() {
 						self.$obj.trigger('showtime.button-click', [key, value]);
 					});
 				});
