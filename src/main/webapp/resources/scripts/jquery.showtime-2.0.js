@@ -253,7 +253,7 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 				});
 
 				if (Modernizr.cssfilters) {
-					$body.children().not('#showtime, #overlay, #showtimeLoading').addClass('blur');
+					$body.children().not('#showtime, #overlay, #showtimeLoading').removeClass('no-blur').addClass('blur');
 				}
 				elements.$overlay.fadeIn(100, dfd.resolve);
 			}).promise();
@@ -327,10 +327,11 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 			var options = this.options;
 			if (!options.modal) { return $.Deferred().promise(); }
 
+			if (Modernizr.cssfilters) {
+				$body.children().not('#showtime, #overlay').toggleClass('blur no-blur');
+			}
+
 			return elements.$overlay.fadeOut(100, function() {
-				if (Modernizr.cssfilters) {
-					$body.children().not('#showtime, #overlay').removeClass('blur');
-				}
 				elements.$overlay.remove();
 			}).promise();
 		},

@@ -158,6 +158,13 @@
 .blur {
 	-webkit-filter: blur(3px) opacity(100%);
 	filter: blur(3px) opacity(100%);
+	-webkit-transition: -webkit-filter .50s;
+}
+
+.no-blur {
+	-webkit-filter: blur(0) opacity(100%);
+	filter: blur(0) opacity(100%);
+	-webkit-transition: -webkit-filter .50s;
 }
 
 .positionfixed #overlay {
