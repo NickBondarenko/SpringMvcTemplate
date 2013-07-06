@@ -187,8 +187,15 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 							if (opts.title) {
 								elements.$header = $('<div />', {id: 'showtimeHeader'}).build(function (buildr) {
 									buildr.h1(opts.title, {id: 'showtimeTitle', 'class': 'content-separator'});
-									buildr.button({id: 'closeBtn'}).on('click', function () {
-										self.$obj.triggerHandler('showtime.close');
+									buildr.div({id: 'buttonContainer'}, function() {
+										buildr.a({id: 'rollUpBtn', 'class': 'showtime-button'}, function() {
+											buildr.span({'class': 'icon-chevron-up'});
+										});
+										buildr.a({id: 'closeBtn', 'class': 'showtime-button'}, function() {
+											buildr.span({'class': 'icon-remove'});
+										}).on('click', function () {
+											self.$obj.triggerHandler('showtime.close');
+										});
 									});
 								}).prependTo(elements.$container);
 
