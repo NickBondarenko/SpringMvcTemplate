@@ -6,9 +6,11 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 		$content: undefined,
 		$header: undefined,
 		$footer: undefined,
+		$footerButtons: undefined,
 		$loading: undefined,
 		$overlay: undefined,
-		$closeBtnImage: undefined
+		$closeBtnImage: undefined,
+		$bodyContents: undefined
 	};
 	var defaults = {
 		modal: true,
@@ -62,9 +64,7 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 			if (elements.$showtime === undefined) {
 				this._buildHtml();
 				$.preloadImages([
-					this.options.imagesPath + this.options.loadingImage,
-					this.options.imagesPath + 'close-button.png',
-					this.options.imagesPath + 'b.png'
+					this.options.imagesPath + this.options.loadingImage
 				]);
 			}
 
@@ -134,12 +134,6 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 				content = opts.content || content;
 
 				var self = this;
-				if (opts.modal) {
-					this.$obj.queue('showtime.open', function(next) {
-						$.when(self._showOverlay()).then(next);
-					});
-				}
-
 				this.$obj.queue('showtime.open', function(next) {
 					$.when(self._showLoading()).then(next);
 				});
@@ -187,10 +181,14 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 							if (opts.title) {
 								elements.$header = $('<div />', {id: 'showtimeHeader'}).build(function (buildr) {
 									buildr.h1(opts.title, {id: 'showtimeTitle', 'class': 'content-separator'});
-									buildr.div({id: 'buttonContainer'}, function() {
-										buildr.a({id: 'rollUpBtn', 'class': 'showtime-button'}, function() {
-											buildr.span({'class': 'icon-chevron-up'});
-										});
+									buildr.div({id: 'titleButtons'}, function() {
+//										buildr.a({id: 'rollUpBtn', 'class': 'showtime-button'}, function() {
+//											buildr.span({'class': 'icon-chevron-up'});
+//										}).on('click', function() {
+//											elements.$content.slideUp(opts.speed).promise().done(function() {
+//												elements.$footer.slideUp(opts.speed);
+//											});
+//										});
 										buildr.a({id: 'closeBtn', 'class': 'showtime-button'}, function() {
 											buildr.span({'class': 'icon-remove'});
 										}).on('click', function () {
@@ -223,6 +221,10 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 					});
 				}
 
+				this.$obj.queue('showtime.open', function(next) {
+					$.when(self._showOverlay()).then(next);
+				});
+
 				this.$obj.queue('showtime.open', function() {
 					self.open = true;
 				}).dequeue('showtime.open');
@@ -233,50 +235,21 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 		},
 		_showOverlay: function() {
 			var self = this;
-			return $.Deferred(function(dfd) {
-				if (!elements.$overlay) {
-					if (Modernizr.compliantzindex) {
-						elements.$overlay = $('<div />', {id: 'overlay'});
-					} else {
-						elements.$overlay = $('<iframe />', {
-							id: 'overlay',
-							src: 'javascript: false;',
-							tabindex: '-1',
-							frameborder: '0',
-							style: 'top: expression(((parseInt(this.parentNode.currentStyle.borderTopWidth) || 0) * -1) + \'px\');' +
-								'left: expression(((parseInt(this.parentNode.currentStyle.borderLeftWidth) || 0) * -1) + \'px\');' +
-								'width: expression(this.parentNode.offsetWidth + \'px\');' +
-								'height: expression(this.parentNode.offsetHeight + \'px\')'
-						});
-					}
+			elements.$overlay.appendTo($body);
 
-					$body.append(elements.$overlay);
-				} else {
-					elements.$overlay.appendTo($body);
-				}
-
+			if (this.options.modal) {
 				(Modernizr.compliantzindex ? elements.$overlay : elements.$overlay.contents()).on('click', function() {
 					self.$obj.triggerHandler('showtime.close');
 				});
-
-				if (Modernizr.cssfilters) {
-					$body.children().not('#showtime, #overlay, #showtimeLoading').removeClass('no-blur').addClass('blur');
-				}
-				elements.$overlay.fadeIn(100, dfd.resolve);
-			}).promise();
-		},
-		_showLoading: function() {
-			var self = this;
-			if (!elements.$loading) {
-				elements.$loading = $('<div />', {id: 'showtimeLoading'}).build(function(buildr) {
-					buildr.img({
-						alt: 'Loading Image',
-						src: self.options.imagesPath + self.options.loadingImage
-					});
-					buildr.span(self.options.loadingMessage);
-				});
 			}
 
+			if (Modernizr.cssfilters) {
+				elements.$bodyContents.removeClass('no-blur').addClass('blur');
+			}
+
+			return elements.$overlay.fadeIn(100).promise();
+		},
+		_showLoading: function() {
 			elements.$container.children().hide().end().append(elements.$loading.show());
 			return elements.$showtime.css({marginLeft: ((elements.$showtime.outerWidth() / 2) * -1)}).fadeIn(this.options.speed).promise();
 		},
@@ -335,7 +308,7 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 			if (!options.modal) { return $.Deferred().promise(); }
 
 			if (Modernizr.cssfilters) {
-				$body.children().not('#showtime, #overlay').toggleClass('blur no-blur');
+				elements.$bodyContents.toggleClass('blur no-blur');
 			}
 
 			return elements.$overlay.fadeOut(100, function() {
@@ -346,7 +319,7 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 			var self = this;
 			return $.Deferred(function(dfd) {
 				elements.$loading.remove();
-				$('#showtimeButtons').empty();
+				elements.$footerButtons.empty();
 				elements.$content.css({width: 'auto', height: 'auto'}).empty();
 				elements.$showtime.css({width: 'auto', height: 'auto', top: '', left: ''});
 				elements.$container.css({width: self.options.minWidth + 'px', height: self.options.minHeight + 'px'});
@@ -357,10 +330,12 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 
         if (self.isDraggable) {
           elements.$showtime.draggable('destroy');
+	        self.isDraggable = false;
 				}
 
 				if (self.isResizable) {
 					elements.$container.resizable('destroy');
+					self.isResizable = false;
 				}
 				dfd.resolve();
 			}).promise();
@@ -390,24 +365,51 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 			this.$obj.off('showtime');
 		},
 		_buildHtml: function() {
+			var self = this;
+
+			if (Modernizr.compliantzindex) {
+				elements.$overlay = $('<div />', {id: 'overlay'});
+			} else {
+				elements.$overlay = $('<iframe />', {
+					id: 'overlay',
+					src: 'javascript:"";',
+					tabindex: '-1',
+					frameborder: '0',
+					style: 'top: expression(((parseInt(this.parentNode.currentStyle.borderTopWidth) || 0) * -1) + \'px\');' +
+						'left: expression(((parseInt(this.parentNode.currentStyle.borderLeftWidth) || 0) * -1) + \'px\');' +
+						'width: expression(this.parentNode.offsetWidth + \'px\');' +
+						'height: expression(this.parentNode.offsetHeight + \'px\')'
+				});
+			}
+
+			elements.$loading = $('<div />', {id: 'showtimeLoading'}).build(function(buildr) {
+				buildr.img({
+					alt: 'Loading Image',
+					src: self.options.imagesPath + self.options.loadingImage
+				});
+				buildr.span(self.options.loadingMessage);
+			});
+
+			elements.$bodyContents = $body.children();
 			elements.$showtime = $('<div />', {id: 'showtime'}).build(function(buildr) {
 				buildr.div({id: 'showtimeContainer'}, function() {
 					buildr.div({id: 'showtimeContent'});
 					buildr.div({id: 'showtimeFooter'}, function() {
-						buildr.div({id: 'showtimeButtons'});
+						buildr.div({id: 'footerButtons'});
 					})
 				});
-			}).appendTo($body);
+			}).appendTo($body.append(elements.$overlay));
 
 			elements.$container = $('#showtimeContainer');
 			elements.$content = $('#showtimeContent');
 			elements.$footer = $('#showtimeFooter');
+			elements.$footerButtons = $('#footerButtons');
 			elements.$closeBtnImage = $('#closeBtnImage');
 		},
 		_addButtons: function() {
 			var self = this;
 			$.each(this.options.buttons, function(key, value) {
-				$('#showtimeButtons').build(function(buildr) {
+				elements.$footerButtons.build(function(buildr) {
 					buildr.a(key.charAt(0).toUpperCase() + key.slice(1), {id: key + 'ShowtimeButton'}).on('click.showtime', function() {
 						self.$obj.trigger('showtime.button-click', [key, value]);
 					});

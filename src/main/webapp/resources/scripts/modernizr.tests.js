@@ -102,4 +102,8 @@
 		el.style.cssText = Modernizr._prefixes.join('filter' + ':blur(2px); ');
 		return !!el.style.length && ((document.documentMode === undefined || document.documentMode > 9));
 	});
+
+	Modernizr.addTest("boxsizing", function() {
+		return Modernizr.testAllProps("boxSizing") && (document.documentMode === undefined || document.documentMode > 7);
+	});
 })(Modernizr, window);

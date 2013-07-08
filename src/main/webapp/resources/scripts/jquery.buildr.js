@@ -4,33 +4,33 @@
     this.elements = [];
     this.tags = Buildr.prototype.tags.concat();
   };
-  
+
   function _instanceOf(obj, type) {
   	return !!obj && obj.hasOwnProperty && obj instanceof type;
   }
-  
+
   function _to$(arr) {
     var nodes = _toNodes(arr);
     return nodes && nodes.length > 0 ? $(nodes) : null;
   }
-  
+
   function _toNodes(arr) {
     var flattened = $.map(arr, function(obj) {
       return obj;
     });
-    
+
     return $.map(flattened, function(obj) {
       return _instanceOf(obj, jQuery) ? obj.get() : obj;
     });
   }
-  
+
   function _extractNodes() {
     var args = $.makeArray(arguments);
     return $.map(args, function(arg) {
       return _instanceOf(arg, Buildr) ? arg.root() : arg;
     });
   }
-  
+
   function NestingProhibitedError(tag) {
     this.name = "NestingProhibitedError";
     this.tag = tag;
@@ -40,7 +40,7 @@
   //allow jQuery append/prepend methods to accept a Buildr object.
   var original = {},
   	overwrite = ['append', 'prepend'];
-  
+
   $.each(overwrite, function(idx, method) {
     original[method] = $.fn[method];
     $.fn[method] = function() {
@@ -81,7 +81,7 @@
       return this;
     },
     isSelfClosing: function(tag) {
-      return this.tags.indexOf(tag + '/') > -1;
+	    return $.inArray(tag + '/', this.tags) > -1;
     },
     tag: function() {
       var args = $.makeArray(arguments),
@@ -184,7 +184,7 @@
     var bldr = new Buildr(),
     	args = $.isArray(arguments) ? arguments : $.makeArray(arguments),
     	built = [];
-    
+
     for (var i = 0, len = args.length, arg = undefined; i < len; i++) {
 			switch ($.type(arg = args[i])) {
 				case 'function':
