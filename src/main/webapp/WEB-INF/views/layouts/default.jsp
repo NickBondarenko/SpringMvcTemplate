@@ -11,7 +11,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link type="text/css" rel="stylesheet" href="../../../resources/styles/bootstrap.css" />
 		<link type="text/css" rel="stylesheet" href="../../../resources/styles/base.css" />
-		<link type="text/css" rel="stylesheet" href="../../../resources/styles/bootstrap-responsive.css" />
+		<link type="text/css" rel="stylesheet" href="../../../resources/styles/bootstrap-responsive.min.css" />
 		<link type="text/css" rel="stylesheet" href="../../../resources/scripts/jquery-ui/css/ui-darkness/jquery-ui-1.10.3.min.css" />
 		<link type="text/css" rel="stylesheet" href="../../../resources/styles/showtime.css" />
 		<link type="text/css" rel="stylesheet" href="../../../resources/<spring:theme code="styles" />/theme.css" />
@@ -27,36 +27,6 @@
 		<%--<!--[if lt IE 9]>--%>
 		<%--<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>--%>
 		<%--<![endif]-->--%>
-		<script type="text/javascript">
-//			Modernizr.load([{
-//				load: ['//code.jquery.com/jquery-1.10.1.min.js', '//code.jquery.com/ui/1.10.3/jquery-ui.min.js'],
-//				complete: function() {
-//					if (!window.jQuery) {
-//						Modernizr.load('../../../resources/scripts/jquery-1.10.1.min.js');
-//					}
-//					if (!window.jQuery.ui) {
-//						Modernizr.load('../../../resources/scripts/jquery-ui/js/jquery-ui-1.10.3.min.js');
-//					}
-//				}
-			<%--}, {--%>
-				<%--load: [--%>
-					<%--'../../../resources/scripts/bootstrap.js',--%>
-					<%--'../../../resources/scripts/jquery.buildr.js',--%>
-					<%--'../../../resources/scripts/jquery.extensions.js',--%>
-					<%--'../../../resources/scripts/jquery.showtime.js',--%>
-					<%--'../../../resources/<spring:theme code="scripts" />/theme.js'--%>
-				<%--],--%>
-				<%--complete: function() {--%>
-					<%--console.log('loaded and ready');--%>
-					<%--$(document).ready(function() {--%>
-						<%--$('#anotherAction').showtime('Hello', {title: 'My Dialog'});--%>
-						<%--if (window.ready) {--%>
-							<%--ready();--%>
-						<%--}--%>
-					<%--});--%>
-				<%--}--%>
-//			}]);
-		</script>
 	</head>
 	<body>
 	  <div id="wrap">

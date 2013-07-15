@@ -1,4 +1,4 @@
-define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jquery.buildr'], function($, undefined) {
+define('jquery.showtime', ['jquery', 'jquery-ui', 'jquery.extensions', 'jquery.buildr'], function($, undefined) {
 	var elements = {
 		$elem: undefined,
 		$showtime: undefined,
