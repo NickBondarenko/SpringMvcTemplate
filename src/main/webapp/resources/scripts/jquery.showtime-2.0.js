@@ -12,12 +12,13 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 		$closeBtnImage: undefined,
 		$bodyContents: undefined
 	};
+
 	var defaults = {
 		modal: true,
 		opacity: 0.75,
 		minWidth: 350,
 		minHeight: 32,
-		maxWidth: 550,
+		maxWidth: 450,
 		fixed: true,
 		autoResize: false,
 		imagesPath: '../../resources/images/',
@@ -29,17 +30,43 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 		draggable: {
 			cursor: 'move',
 			handle: '#showtimeHeader, #showtimeFooter',
-			opacity: 0.40,
+			opacity: 0.50,
 			cancel: '#showtimeContent, .Showtime-button, #closeBtn',
 			initialized: false
 		},
 		resizable: {alsoResize: '#showtimeContent', autoHide: true, handles: 'e, se, s'},
-		buttons: {close: null},
+		buttons: undefined,
 		loadingMessage: 'Loading, please wait...',
 		loadingImage: 'roller.gif',
 		callback: $.noop,
 		ajaxOpts: {
 			type: 'GET'
+		}
+	};
+
+	var Mode = {
+		LOADING: {
+			name: 'loading',
+			options: {buttons: undefined}
+		},
+		INFO: {
+			name: 'info',
+			options: {title: 'Info', buttons: undefined}
+		},
+		DIALOG: {
+			name: 'dialog',
+			options: {buttons: {ok: null}}
+		},
+		CONFIRM: {
+			name: 'confirm',
+			options: {title: 'Confirm Action', modal: true, buttons: {ok: null, cancel: null}}
+		},
+		LIGHTBOX: {
+			name: 'lightbox',
+			options: {
+				modal: true,
+				buttons: undefined
+			}
 		}
 	};
 
@@ -51,6 +78,7 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 		this.element = element;
 		this.isDraggable = false;
 		this.isResizable = false;
+		this.mode = undefined;
 		this._init();
 	};
 
@@ -97,18 +125,25 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 			return this;
 		},
 		loading: function() {
-			this.$obj.triggerHandler('showtime.open');
+			this._launch(null, null, Mode.LOADING);
+		},
+		info: function(content, opts) {
+			this._launch(content, opts, Mode.INFO);
 		},
 		dialog: function(content, opts) {
+			this._launch(content, opts, Mode.DIALOG);
+		},
+		confirm: function(content, opts) {
+			this._launch(content, opts, Mode.CONFIRM);
+		},
+		lightbox: function(content, opts) {
+			this._launch(content, opts, Mode.LIGHTBOX);
+		},
+		_launch: function(content, opts, mode) {
 			if (content) {
-				this.$obj.triggerHandler('showtime.open', [content, opts]);
+				this.mode = mode;
+				this.$obj.triggerHandler('showtime.open', [content, $.extend(true, mode.options, opts || {})]);
 			}
-		},
-		confirm: function() {
-
-		},
-		lightbox: function() {
-
 		},
 		remove: function() {
 			var self = this;
@@ -149,8 +184,6 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 					this.$obj.queue('showtime.open', function(next) {
 						var contentWidth,	containerWidth,	containerHeight, leftMargin;
 
-						this._addButtons();
-
 						elements.$content.if$(!elements.$content.children().exists()).html(content).end().appendTo($body);
 						contentWidth = elements.$content.outerWidth(true);
 
@@ -166,7 +199,7 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 						}
 
 						containerWidth = elements.$content.outerWidth(true);
-						containerHeight = elements.$content.outerHeight(true) + elements.$footer.outerHeight(true);
+						containerHeight = elements.$content.outerHeight(true);
 
 						opts.overrideFixed = opts.fixed && containerHeight > $.clientHeight();
 
@@ -178,10 +211,12 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 
 						self.$obj.queue('showtime.openChild', function(nextChild) {
 							elements.$content.prependTo(elements.$container);
-							if (opts.title) {
-								elements.$header = $('<div />', {id: 'showtimeHeader'}).build(function (buildr) {
+							elements.$header = $('<div />', {id: 'showtimeHeader'}).build(function (buildr) {
+								if (opts.title) {
 									buildr.h1(opts.title, {id: 'showtimeTitle', 'class': 'content-separator'});
-									buildr.div({id: 'titleButtons'}, function() {
+								}
+
+								buildr.div({id: 'titleButtons'}, function() {
 //										buildr.a({id: 'rollUpBtn', 'class': 'showtime-button'}, function() {
 //											buildr.span({'class': 'icon-chevron-up'});
 //										}).on('click', function() {
@@ -189,15 +224,25 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 //												elements.$footer.slideUp(opts.speed);
 //											});
 //										});
-										buildr.a({id: 'closeBtn', 'class': 'showtime-button'}, function() {
-											buildr.span({'class': 'icon-remove'});
-										}).on('click', function () {
-											self.$obj.triggerHandler('showtime.close');
-										});
+									buildr.a({id: 'closeBtn', 'class': 'showtime-button'}, function() {
+										buildr.span({'class': 'icon-remove'});
+									}).on('click', function () {
+										self.$obj.triggerHandler('showtime.close');
 									});
-								}).prependTo(elements.$container);
+								});
+							}).prependTo(elements.$container);
 
-								containerHeight += elements.$header.outerHeight(true);
+							containerHeight += elements.$header.outerHeight(true);
+
+							if ($.isPlainObject(opts.buttons)) {
+								elements.$footer = $('<div />', {id: 'showtimeFooter'}).build(function(buildr) {
+									buildr.div({id: 'footerButtons'});
+								}).appendTo(elements.$container);
+
+								elements.$footerButtons = $('#footerButtons');
+								this._addButtons(opts.buttons);
+
+								containerHeight += elements.$footer.outerHeight(true);
 							}
 
 							if (opts.resizable && $.fn.resizable) {
@@ -319,13 +364,16 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 			var self = this;
 			return $.Deferred(function(dfd) {
 				elements.$loading.remove();
-				elements.$footerButtons.empty();
 				elements.$content.css({width: 'auto', height: 'auto'}).empty();
 				elements.$showtime.css({width: 'auto', height: 'auto', top: '', left: ''});
 				elements.$container.css({width: self.options.minWidth + 'px', height: self.options.minHeight + 'px'});
 
 				if (elements.$header) {
 					elements.$header.remove();
+				}
+
+				if (elements.$footer) {
+					elements.$footer.remove();
 				}
 
         if (self.isDraggable) {
@@ -394,27 +442,24 @@ define('jquery.showtime-2.0', ['jquery', 'jquery-ui', 'jquery.extensions', 'jque
 			elements.$showtime = $('<div />', {id: 'showtime'}).build(function(buildr) {
 				buildr.div({id: 'showtimeContainer'}, function() {
 					buildr.div({id: 'showtimeContent'});
-					buildr.div({id: 'showtimeFooter'}, function() {
-						buildr.div({id: 'footerButtons'});
-					})
 				});
 			}).appendTo($body.append(elements.$overlay));
 
 			elements.$container = $('#showtimeContainer');
 			elements.$content = $('#showtimeContent');
-			elements.$footer = $('#showtimeFooter');
-			elements.$footerButtons = $('#footerButtons');
 			elements.$closeBtnImage = $('#closeBtnImage');
 		},
-		_addButtons: function() {
+		_addButtons: function(buttons) {
 			var self = this;
-			$.each(this.options.buttons, function(key, value) {
-				elements.$footerButtons.build(function(buildr) {
-					buildr.a(key.charAt(0).toUpperCase() + key.slice(1), {id: key + 'ShowtimeButton'}).on('click.showtime', function() {
-						self.$obj.trigger('showtime.button-click', [key, value]);
+			if ($.isPlainObject(buttons)) {
+				$.each(buttons, function(key, value) {
+					elements.$footerButtons.build(function(buildr) {
+						buildr.a(key.charAt(0).toUpperCase() + key.slice(1), {id: key + 'ShowtimeButton'}).on('click.showtime', function() {
+							self.$obj.trigger('showtime.button-click', [key, value]);
+						});
 					});
 				});
-			});
+			}
 		},
 		_loadFont: function(fontFamilies) {
 			window.WebFontConfig = {

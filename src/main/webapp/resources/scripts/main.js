@@ -1,8 +1,9 @@
 define(['jquery', 'jquery-ui', 'bootstrap', 'jquery.showtime-2.0'], function($) {
 	console.log('loaded and ready');
 	$(document).ready(function() {
-		var instance = $('#anotherAction').showtime({title: 'My Dialog'}).on('click', function() {
-			instance.showtime('dialog', 'text:Content section...');
+		var message = 'Heavy is the head that wears the crown. From the manger to the morgue, strangers are born and reborn.';
+		var instance = $('#anotherAction').showtime().on('click', function() {
+			instance.showtime('confirm', 'text:' + message);
 		});
 		if (window.ready) {
 			ready();

@@ -357,7 +357,7 @@ define('jquery.showtime', ['jquery', 'jquery.extensions', 'jquery.buildr'], func
     	cssAttributes = {
     		position: 'absolute',
     		opacity: plugin.settings.opacity,
-    		height: $.documentHeight() + 'px',
+    		height: $doc.height() + 'px',
     		width: $.clientWidth() + 'px'
     	};
     }

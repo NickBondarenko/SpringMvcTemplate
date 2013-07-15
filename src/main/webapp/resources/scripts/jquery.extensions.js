@@ -52,14 +52,27 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
     '"': '\\"',
 	  /** @type {string} \\ - Matches a backspace character using a regex. Used internally in the stringify functions. */
     '\\': '\\\\'
-  },
+  };
   /** @type {function} */
-  _clone = $.fn.clone;
+//  _clone = $.fn.clone;
 
+	/**
+	 * Helper function to return result of Object.hasOwnProperty()
+	 * @param obj {Object}
+	 * @param key {String}
+	 * @returns {boolean}
+	 * @private
+	 */
 	function _hasOwnProperty(obj, key) {
 		return Object.prototype.hasOwnProperty.call(obj, key);
 	}
 
+	/**
+	 * Returns result of Object.keys if supported. Otherwise,
+	 * @param obj
+	 * @returns {Array}
+	 * @private
+	 */
 	function _keys(obj) {
 		if ($.isFunction(Object.keys)) {
 			return Object.keys(obj);
@@ -76,21 +89,6 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 		return !!obj && obj.hasOwnProperty && obj instanceof type;
 	}
 
-	// Returns true if it is a DOM node
-	function _isNode(elem) {
-	  return typeof Node === 'object' ? _instanceOf(elem, Node) : elem && typeof elem === 'object' && typeof elem.nodeType === 'number' && typeof elem.nodeName === 'string';
-	}
-
-	// Returns true if it is a DOM element
-	function _isElement(elem) {
-	  return typeof HTMLElement === 'object' ? _instanceOf(elem, HTMLElement) : elem && typeof elem === 'object' && elem.nodeType === 1 && typeof elem.nodeName === 'string';
-	}
-
-	// Returns true if obj is a jQuery object
-	function _is$(obj) {
-		return _instanceOf(obj, jQuery);
-	}
-
 	function _isCheckable(elem) {
 		return _isElement(elem) && (elem.type == 'radio' || elem.type == 'checkbox');
 	}
@@ -105,9 +103,11 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 
 	function _getInputValue(elem) {
 		if (elem === undefined) { return undefined; }
-		var returnValue, type = elem.type,
-			nodeName = elem.nodeName.toLowerCase(),
-			hooks = $.valHooks[type] || $.valHooks[nodeName];
+
+		var returnValue;
+		var type = elem.type;
+		var nodeName = elem.nodeName.toLowerCase();
+		var hooks = $.valHooks[type] || $.valHooks[nodeName];
 
 		if (hooks && 'get' in hooks && (returnValue = hooks.get(elem, 'value')) !== undefined) {
 			return returnValue;
@@ -172,7 +172,7 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 			if (!arrayFilter || arrayFilter.call(arrayEntry, i, arrayEntry)) {
 				if (entryType == 'object' || entryType == 'array') {
 					var subObj = entryType == 'array' ? _flattenArray(arrayEntry, arrayFilter) : $.object.flatten(arrayEntry, arrayFilter);
-					for (var x = 0, subKeys = $.object.keys(subObj), subKey = undefined, subLength = subKeys.length; x < subLength; x++) {
+					for (var x = 0, subKeys = subObj.keys(), subKey = undefined, subLength = subKeys.length; x < subLength; x++) {
 						subKey = subKeys[x];
 						flatObj[entryType == 'object' ? keyName + '.' + subKey : keyName + subKey] = subObj[subKey];
 					}
@@ -476,16 +476,13 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 	   * @returns {object} An Object representation of input fields.
 	   */
 		mapInputs: function(customFieldMap) {
-			var value = undefined, name = undefined, returnObj = {};
-			this.find(':input[name]').not(':button').each(function(index) {
+			var value, name;
+		  var returnObj = {};
+			this.find(':input[name]').not(':button').each(function() {
 				value = _getInputValue(this);
 				if (value !== undefined) {
 					name = this.name;
-					if (customFieldMap && customFieldMap[name]) {
-						returnObj[customFieldMap[name]] = value;
-					} else {
-						returnObj[name] = value;
-					}
+					returnObj[name in customFieldMap ? customFieldMap[name] : name] = value;
 				}
 			});
 			return returnObj;
@@ -499,10 +496,10 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 		 * @returns {jQuery} The jQuery object passed to the function.
 		 */
 		mapModel: function(dataModel, inputMap) {
-			var inputName = undefined;
-			this.find(':input[name]').not(':button').each(function(index, elem) {
-				inputName = inputMap ? inputMap[this.name] : this.name,
-					inputValue = $.object.getProperty(inputName, dataModel);
+			var inputName, inputValue;
+			this.find(':input[name]').not(':button').each(function() {
+				inputName = inputMap ? inputMap[this.name] : this.name;
+				inputValue = $.object.getProperty(inputName, dataModel);
 
 				if (inputValue) {
 					_setInputValue(this, inputValue);
@@ -511,32 +508,32 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 			});
 			return this;
 		},
-		clone: function(withDataAndEvents, deepWithDataAndEvents) {
-			var inputSelectors = 'input, select, textarea';
-			var $clonedElements = _clone.apply(this, arguments);
-			var $originalInputs = this.find(inputSelectors).add(this.filter(inputSelectors));
-			var $clonedInputs = $clonedElements.find(inputSelectors).add($clonedElements.filter(inputSelectors));
-			$clonedInputs.each$(function(index, $elem) {
-				switch (this.nodeName.toLowerCase()) {
-					case 'input': case 'textarea':
-						$elem.attr('value', $elem.val());
-						break;
-					case 'select':
-						$elem.prop('selectedIndex', $originalInputs[index].selectedIndex);
-						break;
-				}
-			});
-			return $clonedElements;
-		},
+//		clone: function(withDataAndEvents, deepWithDataAndEvents) {
+//			var inputSelectors = 'input, select, textarea';
+//			var $clonedElements = _clone.apply(this, arguments);
+//			var $originalInputs = this.find(inputSelectors).add(this.filter(inputSelectors));
+//			var $clonedInputs = $clonedElements.find(inputSelectors).add($clonedElements.filter(inputSelectors));
+//			$clonedInputs.each$(function(index, $elem) {
+//				switch (this.nodeName.toLowerCase()) {
+//					case 'input': case 'textarea':
+//						$elem.attr('value', $elem.val());
+//						break;
+//					case 'select':
+//						$elem.prop('selectedIndex', $originalInputs[index].selectedIndex);
+//						break;
+//				}
+//			});
+//			return $clonedElements;
+//		},
 		/**
 		 * function outerHTML. Retrieves the HTML of selected element. Uses the outerHTML property if it exists.
 		 * @returns {string} The HTML of the first element in the set of matched elements.
 		 */
 		outerHTML: function() {
-			if (!this.exists()) { return this; }
+			if (!this.exists()) { return ''; }
+
 			var elem = this[0];
-			if (elem.outerHTML) {	return elem.outerHTML; }
-			return $('<div />').append(this.clone()).html();
+			return elem.outerHTML ? elem.outerHTML : $('<div />').append(this.clone()).html();
 		},
 		scrollIntoView: function(options) {
 			if (this.exists()) {
@@ -544,13 +541,16 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 					options = {complete: options};
 				}
 
-				var $scrollableElement = this.closest(':scrollable'),
-				scrollableOffsets = _calculateScrollableOffsets(this, $scrollableElement);
+				var scrollTop;
+				var $scrollableElement = this.closest(':scrollable');
+				var scrollableOffsets = _calculateScrollableOffsets(this, $scrollableElement);
+
 				if (scrollableOffsets.elementTop < scrollableOffsets.containerTop) {
-					$scrollableElement.animate({scrollTop: scrollableOffsets.elementTop});
+					scrollTop = scrollableOffsets.elementTop;
 				} else if (scrollableOffsets.elementBottom > scrollableOffsets.containerBottom) {
-					$scrollableElement.animate({scrollTop: scrollableOffsets.elementBottom - $scrollableElement.height()}, $.extend({duration: 'slow', queue: false}, options));
+					scrollTop = scrollableOffsets.elementBottom - $scrollableElement.height();
 				}
+				$scrollableElement.animate({scrollTop: scrollTop}, $.extend(true, {duration: 'slow', queue: false}, options));
 			}
 			return this;
 		}
@@ -572,8 +572,22 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 				}
 			}).promise();
 		},
-	  isNode: _isNode,
-	  isElement: _isElement,
+		/**
+		 * Returns true if it is a DOM node
+		 * @param elem
+		 * @returns {*}
+		 */
+	  isNode: function(elem) {
+			return typeof Node === 'object' ? _instanceOf(elem, Node) : elem && typeof elem === 'object' && typeof elem.nodeType === 'number' && typeof elem.nodeName === 'string';
+		},
+		/**
+		 * Returns true if it is a DOM element
+		 * @param elem
+		 * @returns {*}
+		 */
+	  isElement: function(elem) {
+		  return typeof HTMLElement === 'object' ? _instanceOf(elem, HTMLElement) : elem && typeof elem === 'object' && elem.nodeType === 1 && typeof elem.nodeName === 'string';
+	  },
 		/**
 		 * Function is$ - Determines if an object is a jQuery object.
 		 * Since every jQuery object has a .jquery property, it's usually safe to test
@@ -595,27 +609,17 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 		 * @param {object} obj - The object to test
 		 * @returns {boolean} true if the object is a jQuery object
 		 */
-		is$: _is$,
+		is$: function(obj) {
+			return _instanceOf(obj, jQuery);
+		},
 	  checkedValue: function(name, value) {
 	  	return $('input:checkable[name="' + name + '"]').value(value);
 	  },
-	  documentHeight: function() {
-	  	if ($.support.boxModel) { return $doc.height(); }
-			var scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight),
-				offsetHeight = Math.max(document.documentElement.offsetHeight, document.body.offsetHeight);
-			return scrollHeight < offsetHeight ? $win.height() : scrollHeight;
-	  },
-	  documentWidth: function() {
-	  	if ($.support.boxModel) { return $doc.width(); }
-			var scrollWidth = Math.max(document.documentElement.scrollWidth, document.body.scrollWidth),
-				offsetWidth = Math.max(document.documentElement.offsetWidth, document.body.offsetWidth);
-			return scrollWidth < offsetWidth ? $win.width() : scrollWidth;
-	  },
 	  clientHeight: function() {
-	  	return $.support.boxModel ? document.documentElement.clientHeight : Math.max(document.documentElement.clientHeight, document.body.clientHeight);
+	  	return document.documentElement.clientHeight;
 	  },
 	  clientWidth: function() {
-	  	return $.support.boxModel ? document.documentElement.clientWidth : Math.max(document.documentElement.clientWidth, document.body.clientWidth);
+	  	return document.documentElement.clientWidth;
 	  },
 	  /**
 	   * Function scrollbarWidth. Calculates the scrollbar width dynamically.
@@ -630,22 +634,14 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 	   * @returns {int} The width of the scrollbar
 	   */
 		scrollbarWidth: function() {
-	    var parent = $('<div style="width:50px;height:50px;overflow:auto"><div /></div>').appendTo($body),
-		    child = parent.children(),
-		    width = child.innerWidth() - child.height(99).innerWidth();
-	    parent.remove();
+	    var $parent = $('<div style="width:50px;height:50px;overflow:auto"><div /></div>').appendTo($body);
+		  var $children = $parent.children();
+		  var width = $children.innerWidth() - $children.height(99).innerWidth();
+	    $parent.remove();
 
 		  return width;
 		},
 	  object: {
-	  	/**
-	  	 * Function keys. Retrieves the keys of an object.
-	  	 * Uses the browsers native keys() function if it exists.
-	  	 * @author jason.dimeo
-	  	 * @param {object} obj - The object to retrieve the keys from
-	  	 * @returns {array} An array contaning the keys from the object
-	  	 */
-			keys: _keys,
 			/** @see _instanceOf */
 			instanceOf: _instanceOf,
 			/** @see _hasOwnProperty */
@@ -658,7 +654,7 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 			 */
 			values: function(obj) {
 				var values = [];
-				for (var i = 0, keys = _keys(obj), length = keys.length; i < length; i++) {
+				for (var i = 0, keys = obj.keys(), length = keys.length; i < length; i++) {
 					values[values.length] = obj[keys[i]];
 				}
 				return values;
@@ -672,7 +668,7 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 			 */
 			filter: function(obj, filter) {
 				var newObj = {};
-				for (var i = 0, keys = _keys(obj), key = undefined, value = undefined, length = keys.length; i < length; i++) {
+				for (var i = 0, keys = obj.keys(), key = undefined, value = undefined, length = keys.length; i < length; i++) {
 					if (filter.call(value = obj[key = keys[i]], key, value)) {
 						newObj[key] = value;
 					}
@@ -690,7 +686,7 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 			flatten: function(obj, filter) {
 				var newObj = {};
 
-				for (var i = 0, keys = _keys(obj), key = undefined, entry = undefined, type = undefined, length = keys.length; i < length; i++) {
+				for (var i = 0, keys = obj.keys(), key = undefined, entry = undefined, type = undefined, length = keys.length; i < length; i++) {
 					type = $.type(entry = obj[key = keys[i]]);
 					if (!filter || filter.call(entry, key, entry)) {
 						switch (type) {
@@ -698,7 +694,7 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 								if (!$.isPlainObject(entry) || $.isEmptyObject(entry)) {
 									newObj[key] = entry;
 								} else {
-									for (var x = 0, subObj = $.object.flatten(entry, filter), subKeys = _keys(subObj), subKey = undefined, subLength = subKeys.length; x < subLength; x++) {
+									for (var x = 0, subObj = $.object.flatten(entry, filter), subKeys = subObj.keys(), subKey = undefined, subLength = subKeys.length; x < subLength; x++) {
 										newObj[key + '.' + (subKey = subKeys[x])] = subObj[subKey];
 									}
 								}
@@ -708,7 +704,7 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 									newObj[key] = entry;
 								} else {
 									for (var y = 0, arrayLength = entry.length; y < arrayLength; y++) {
-										for (var x = 0, subObj = _flattenArray(entry, filter), subKeys = _keys(subObj), subLength = subKeys.length; x < subLength; x++) {
+										for (var x = 0, subObj = _flattenArray(entry, filter), subKeys = subObj.keys(), subLength = subKeys.length; x < subLength; x++) {
 											newObj[key + (subKey = subKeys[x])] = subObj[subKey];
 										}
 									}
@@ -730,7 +726,7 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 			 */
 			expand: function(obj) {
 				var newObj = {};
-				for (var i = 0, keys = _keys(obj), key = undefined, len = keys.length; i < len; i++) {
+				for (var i = 0, keys = obj.keys(), key = undefined, len = keys.length; i < len; i++) {
 					$.object.setProperty(newObj, key = keys[i], obj[key]);
 				}
 				return newObj;
@@ -807,8 +803,9 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 			 */
 			serialize: function(obj, options) {
 				var params = [], opts = options || {};
-				for (var i = 0, keys = _keys($.object.flatten(obj, opts.filter)), key = undefined, value = undefined, length = keys.length; i < length; i++) {
-					key = keys[i], value = obj[key];
+				for (var i = 0, keys = $.object.flatten(obj, opts.filter).keys(), key = undefined, value = undefined, length = keys.length; i < length; i++) {
+					key = keys[i];
+					value = obj[key];
 					if (opts.fieldMap && key in opts.fieldMap) {
 						key = opts.fieldMap[key];
 					}
@@ -834,11 +831,11 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 			 * @returns {Number} The number of properties in the Object.
 			 */
 			size: function(object) {
-				return _keys(object).length;
+				return object.keys().length;
 			},
 			transform: function(obj, iterator) {
 				var newObj = {};
-				for (var i = 0, keys = $.object.keys(obj), key = undefined, value = undefined, len = keys.length; i < len; i++) {
+				for (var i = 0, keys = obj.keys(), key = undefined, value = undefined, len = keys.length; i < len; i++) {
 					$.extend(newObj, iterator.call(value = obj[key = keys[i]], key, value));
 				}
 				return newObj;
@@ -863,12 +860,12 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 				return flatArray.concat.apply([], flatArray);
 			}
 	  },
-//	  string: {
-//
-//	  },
-//	  date: {
-//
-//	  },
+	  string: {
+
+	  },
+	  date: {
+
+	  },
 	  /**
 	   * Namespace bool. Holds all the boolean extensions
 	   * @namespace
@@ -889,4 +886,10 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 			}
 	  }
 	});
+
+	$object = $.object;
+	$array = $.array;
+	$string = $.string;
+	$data = $.date;
+	$bool = $.bool;
 });
