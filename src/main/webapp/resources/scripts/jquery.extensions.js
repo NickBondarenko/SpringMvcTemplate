@@ -3,7 +3,7 @@
  * @param {jQuery} $ - The jQuery object
  * @param {undefined} undefined
  */
-define('jquery.extensions', ['jquery'], function($, undefined) {
+define(['jquery'], function($, undefined) {
 	window.$html = jQuery('html');
 	window.$win = jQuery(window);
 	window.$doc = jQuery(document).ready(function() {
@@ -166,13 +166,13 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 
 	function _flattenArray(array, arrayFilter) {
 		var flatObj = {};
-		for (var i = 0, keyName = undefined, arrayEntry = undefined, entryType = undefined, length = array.length; i < length; i++) {
+		for (var i = 0, keyName, arrayEntry, entryType, length = array.length; i < length; i++) {
 			keyName = '[' + i + ']';
 			entryType = $.type(arrayEntry = array[i]);
 			if (!arrayFilter || arrayFilter.call(arrayEntry, i, arrayEntry)) {
 				if (entryType == 'object' || entryType == 'array') {
 					var subObj = entryType == 'array' ? _flattenArray(arrayEntry, arrayFilter) : $.object.flatten(arrayEntry, arrayFilter);
-					for (var x = 0, subKeys = subObj.keys(), subKey = undefined, subLength = subKeys.length; x < subLength; x++) {
+					for (var x = 0, subKeys = Object.keys(subObj), subKey = undefined, subLength = subKeys.length; x < subLength; x++) {
 						subKey = subKeys[x];
 						flatObj[entryType == 'object' ? keyName + '.' + subKey : keyName + subKey] = subObj[subKey];
 					}
@@ -560,7 +560,7 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 		preloadImages: function(imageArray) {
 			if ($.type(imageArray) == 'string') { imageArray = [imageArray]; }
 			return $.Deferred(function(dfd) {
-				if (!$.isArray(imageArray) || $.array.isEmpty(imageArray)) { dfd.reject(); }
+				if (!Array.isArray(imageArray) || imageArray.isEmpty()) { dfd.reject(); }
 				for (var i = 0, numberOfImages = imageArray.length, numberOfLoadedImages = 0; i < numberOfImages; i++) {
 					var $image = $(new Image()).on('load', function() {
 						if (++numberOfLoadedImages === numberOfImages) { dfd.resolve(); }
@@ -642,23 +642,6 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 		  return width;
 		},
 	  object: {
-			/** @see _instanceOf */
-			instanceOf: _instanceOf,
-			/** @see _hasOwnProperty */
-			hasOwnProperty: _hasOwnProperty,
-			/**
-			 * Function values. Retrieves the values from an object.
-			 * @author jason.dimeo
-			 * @param {object} obj - The object to retrieve the values from
-			 * @returns {array} An array contaning the values from the object
-			 */
-			values: function(obj) {
-				var values = [];
-				for (var i = 0, keys = obj.keys(), length = keys.length; i < length; i++) {
-					values[values.length] = obj[keys[i]];
-				}
-				return values;
-			},
 			/**
 			 * Function filter. Creates and returns a new object with all the objects that satisfies the predicate filter.
 			 * @author jason.dimeo
@@ -668,7 +651,7 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 			 */
 			filter: function(obj, filter) {
 				var newObj = {};
-				for (var i = 0, keys = obj.keys(), key = undefined, value = undefined, length = keys.length; i < length; i++) {
+				for (var i = 0, keys = Object.keys(obj), key, value, length = keys.length; i < length; i++) {
 					if (filter.call(value = obj[key = keys[i]], key, value)) {
 						newObj[key] = value;
 					}
@@ -686,7 +669,7 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 			flatten: function(obj, filter) {
 				var newObj = {};
 
-				for (var i = 0, keys = obj.keys(), key = undefined, entry = undefined, type = undefined, length = keys.length; i < length; i++) {
+				for (var i = 0, keys = Object.keys(obj), key, entry, type, length = keys.length; i < length; i++) {
 					type = $.type(entry = obj[key = keys[i]]);
 					if (!filter || filter.call(entry, key, entry)) {
 						switch (type) {
@@ -694,7 +677,7 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 								if (!$.isPlainObject(entry) || $.isEmptyObject(entry)) {
 									newObj[key] = entry;
 								} else {
-									for (var x = 0, subObj = $.object.flatten(entry, filter), subKeys = subObj.keys(), subKey = undefined, subLength = subKeys.length; x < subLength; x++) {
+									for (var x = 0, subObj = $.object.flatten(entry, filter), subKeys = Object.keys(subObj), subKey, subLength = subKeys.length; x < subLength; x++) {
 										newObj[key + '.' + (subKey = subKeys[x])] = subObj[subKey];
 									}
 								}
@@ -704,7 +687,7 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 									newObj[key] = entry;
 								} else {
 									for (var y = 0, arrayLength = entry.length; y < arrayLength; y++) {
-										for (var x = 0, subObj = _flattenArray(entry, filter), subKeys = subObj.keys(), subLength = subKeys.length; x < subLength; x++) {
+										for (var x = 0, subObj = _flattenArray(entry, filter), subKeys = Object.keys(subObj), subLength = subKeys.length; x < subLength; x++) {
 											newObj[key + (subKey = subKeys[x])] = subObj[subKey];
 										}
 									}
@@ -726,7 +709,7 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 			 */
 			expand: function(obj) {
 				var newObj = {};
-				for (var i = 0, keys = obj.keys(), key = undefined, len = keys.length; i < len; i++) {
+				for (var i = 0, keys = Object.keys(obj), key = undefined, len = keys.length; i < len; i++) {
 					$.object.setProperty(newObj, key = keys[i], obj[key]);
 				}
 				return newObj;
@@ -803,7 +786,7 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 			 */
 			serialize: function(obj, options) {
 				var params = [], opts = options || {};
-				for (var i = 0, keys = $.object.flatten(obj, opts.filter).keys(), key = undefined, value = undefined, length = keys.length; i < length; i++) {
+				for (var i = 0, keys = Object.keys($.object.flatten(obj, opts.filter)), key, value, length = keys.length; i < length; i++) {
 					key = keys[i];
 					value = obj[key];
 					if (opts.fieldMap && key in opts.fieldMap) {
@@ -813,83 +796,15 @@ define('jquery.extensions', ['jquery'], function($, undefined) {
 				}
 				return params.join('&').replace(/%20/g, '+');
 			},
-			/**
-			 * Function toArray. Converts an Object to an Array of the Object's key/value pairs.
-			 * @param {object} obj - Object to convert.
-			 * @returns {Array} The converted Array.
-			 */
-			toArray: function(obj) {
-				var array = [];
-				for (var i = 0, keys = _keys(obj), key = undefined, length = keys.length; i < length; i++) {
-					array[array.length] = {}[key = keys[i]] = obj[key];
-				}
-				return array;
-			},
-			/**
-			 * Function size. Obtains the number of properties in the Object.
-			 * @param {object} object - The Object to inspect
-			 * @returns {Number} The number of properties in the Object.
-			 */
-			size: function(object) {
-				return object.keys().length;
-			},
 			transform: function(obj, iterator) {
 				var newObj = {};
-				for (var i = 0, keys = obj.keys(), key = undefined, value = undefined, len = keys.length; i < len; i++) {
+				for (var i = 0, keys = Object.keys(obj), key, value, len = keys.length; i < len; i++) {
 					$.extend(newObj, iterator.call(value = obj[key = keys[i]], key, value));
 				}
 				return newObj;
-			}
-	  },
-	  array: {
-		  isEmpty: function(array) {
-			  return !array || array.length == 0;
-		  },
-		  remove: function(array, from, to) {
-			  var remainingElements = array.slice((to || from) + 1 || array.length);
-			  array.length = from < 0 ? array.length + from : from;
-			  return array.push.apply(array, remainingElements);
-		  },
-			flatten: function(array, filter) {
-				var flatArray = [];
-				for (var i = 0, value = undefined, len = array.length; i < len; i++) {
-					if ((value = array[i]) != null && (!filter || filter.call(value, i, value))) {
-						flatArray.push($.isArray(value) ? $.array.flatten(value, filter) : value);
-					}
-				}
-				return flatArray.concat.apply([], flatArray);
-			}
-	  },
-	  string: {
-
-	  },
-	  date: {
-
-	  },
-	  /**
-	   * Namespace bool. Holds all the boolean extensions
-	   * @namespace
-	   */
-	  bool: {
-	  	/**
-	  	 * Function parse. Parses a string into boolean equivalent value.
-	  	 * @param {string} value - The value to be parsed
-	  	 * @returns {Boolean} The boolean equivalent.
-	  	 * @throws {TypeError} Unable to parse value.
-	  	 */
-			parse: function(value) {
-			  switch (value.toLowerCase()) {
-			    case 'true': return true;
-			    case 'false': return false;
-			    default: throw new TypeError('Cannot parse ' + value + ' to boolean.');
-			  }
 			}
 	  }
 	});
 
 	$object = $.object;
-	$array = $.array;
-	$string = $.string;
-	$data = $.date;
-	$bool = $.bool;
 });

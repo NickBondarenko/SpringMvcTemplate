@@ -1,4 +1,4 @@
-define(['jquery', 'jquery-ui', 'bootstrap', 'jquery.showtime'], function($) {
+define(['jquery', 'jquery-ui', 'bootstrap', 'jquery.showtime', 'utilities'], function($) {
 	console.log('loaded and ready');
 	$(document).ready(function() {
 		var message = 'Heavy is the head that wears the crown. From the manger to the morgue, strangers are born and reborn.';

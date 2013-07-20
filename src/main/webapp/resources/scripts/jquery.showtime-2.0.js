@@ -1,4 +1,4 @@
-define('jquery.showtime', ['jquery', 'jquery-ui', 'jquery.extensions', 'jquery.buildr'], function($, undefined) {
+define(['jquery', 'jquery-ui', 'jquery.extensions', 'jquery.buildr', 'utilities'], function($, $ui, $extensions, $builder, utilities, undefined) {
 	var elements = {
 		$elem: undefined,
 		$showtime: undefined,
@@ -47,19 +47,19 @@ define('jquery.showtime', ['jquery', 'jquery-ui', 'jquery.extensions', 'jquery.b
 	var Mode = {
 		LOADING: {
 			name: 'loading',
-			options: {buttons: undefined}
+			options: {modal: true, buttons: undefined}
 		},
 		INFO: {
 			name: 'info',
-			options: {title: 'Info', buttons: undefined}
+			options: {modal: false, title: 'Info', buttons: undefined}
 		},
 		DIALOG: {
 			name: 'dialog',
-			options: {buttons: {ok: null}}
+			options: {modal: false, buttons: {ok: null}}
 		},
 		CONFIRM: {
 			name: 'confirm',
-			options: {title: 'Confirm Action', modal: true, buttons: {ok: null, cancel: null}}
+			options: {modal: true, title: 'Confirm Action', buttons: {ok: null, cancel: null}}
 		},
 		LIGHTBOX: {
 			name: 'lightbox',
@@ -99,7 +99,7 @@ define('jquery.showtime', ['jquery', 'jquery-ui', 'jquery.extensions', 'jquery.b
 			this.options.imageFilter = this._generateImageFilter(this.options.imageTypes);
 
 			if ($.isArray(this.options.fontFamilies)) {
-				this._loadFont(this.options.fontFamilies);
+				utilities.loadWebFont(this.options.fontFamilies);
 			}
 		},
 		_generateImageFilter: function(imageTypes) {
@@ -140,7 +140,7 @@ define('jquery.showtime', ['jquery', 'jquery-ui', 'jquery.extensions', 'jquery.b
 			this._launch(content, opts, Mode.LIGHTBOX);
 		},
 		_launch: function(content, opts, mode) {
-			if (content) {
+			if (content || mode == Mode.LOADING) {
 				this.mode = mode;
 				this.$obj.triggerHandler('showtime.open', [content, $.extend(true, mode.options, opts || {})]);
 			}
@@ -154,7 +154,7 @@ define('jquery.showtime', ['jquery', 'jquery-ui', 'jquery.extensions', 'jquery.b
 				});
 			}
 
-			$destroyQueue.queue('showtime.destroy', function(next) {
+			$destroyQueue.queue('showtime.destroy', function() {
 				self._removeEvents();
 				elements.$showtime.remove();
 			});
@@ -167,6 +167,12 @@ define('jquery.showtime', ['jquery', 'jquery-ui', 'jquery.extensions', 'jquery.b
 
 				opts = $.isPlainObject(opts) ? $.extend(true, {}, this.options, opts) : this.options;
 				content = opts.content || content;
+
+				if (opts.modal) {
+					this.$obj.queue('showtime.open', function(next) {
+						$.when(self._showOverlay()).then(next);
+					});
+				}
 
 				var self = this;
 				this.$obj.queue('showtime.open', function(next) {
@@ -217,13 +223,6 @@ define('jquery.showtime', ['jquery', 'jquery-ui', 'jquery.extensions', 'jquery.b
 								}
 
 								buildr.div({id: 'titleButtons'}, function() {
-//										buildr.a({id: 'rollUpBtn', 'class': 'showtime-button'}, function() {
-//											buildr.span({'class': 'icon-chevron-up'});
-//										}).on('click', function() {
-//											elements.$content.slideUp(opts.speed).promise().done(function() {
-//												elements.$footer.slideUp(opts.speed);
-//											});
-//										});
 									buildr.a({id: 'closeBtn', 'class': 'showtime-button'}, function() {
 										buildr.span({'class': 'icon-remove'});
 									}).on('click', function () {
@@ -266,10 +265,6 @@ define('jquery.showtime', ['jquery', 'jquery-ui', 'jquery.extensions', 'jquery.b
 					});
 				}
 
-				this.$obj.queue('showtime.open', function(next) {
-					$.when(self._showOverlay()).then(next);
-				});
-
 				this.$obj.queue('showtime.open', function() {
 					self.open = true;
 				}).dequeue('showtime.open');
@@ -282,11 +277,9 @@ define('jquery.showtime', ['jquery', 'jquery-ui', 'jquery.extensions', 'jquery.b
 			var self = this;
 			elements.$overlay.appendTo($body);
 
-			if (this.options.modal) {
-				(Modernizr.compliantzindex ? elements.$overlay : elements.$overlay.contents()).on('click', function() {
-					self.$obj.triggerHandler('showtime.close');
-				});
-			}
+			(Modernizr.compliantzindex ? elements.$overlay : elements.$overlay.contents()).on('click', function() {
+				self.$obj.triggerHandler('showtime.close');
+			});
 
 			if (Modernizr.cssfilters) {
 				elements.$bodyContents.removeClass('no-blur').addClass('blur');
@@ -461,33 +454,11 @@ define('jquery.showtime', ['jquery', 'jquery-ui', 'jquery.extensions', 'jquery.b
 				});
 			}
 		},
-		_loadFont: function(fontFamilies) {
-			window.WebFontConfig = {
-				google: {families: fontFamilies}
-			};
-
-			var wf = document.createElement('script');
-			wf.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
-			wf.type = 'text/javascript';
-			wf.async = 'true';
-
-			var script = document.getElementsByTagName('script')[0];
-			script.parentNode.insertBefore(wf, script);
-		},
 		_buttonClick: function(buttonName, callback) {
-			if (callback && $.isFunction(callback)) {
+			if ($.isFunction(callback)) {
 				callback.call();
-				return;
-			}
-
-			switch (buttonName) {
-				case 'ok':
-					this.$obj.triggerHandler('showtime.close');
-					break;
-				case 'cancel': case 'close':
-					this.$obj.triggerHandler('showtime.close');
-					break;
-				default: break;
+			} else {
+				this.$obj.triggerHandler('showtime.close');
 			}
 		}
 	};

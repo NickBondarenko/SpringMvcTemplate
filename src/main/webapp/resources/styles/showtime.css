@@ -7,8 +7,8 @@
   color: #525252;
   font-family: Ubuntu, "Trebuchet MS", Helvitica, sans-serif;
 	-webkit-font-smoothing: antialiased !important;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
 	border-radius: 3px;
 	border: 1px solid rgba(0, 0, 0, 0.3);
 	-webkit-box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
@@ -57,7 +57,7 @@ html.no-positionfixed, * html.no-positionfixed body {
 	background-image: -webkit-linear-gradient(top, #e5e5e5, #d9d9d9);
 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #e5e5e5), color-stop(1, #d9d9d9));
 	background-image: linear-gradient(to bottom, #e5e5e5, #d9d9d9);
-	min-height: 22px;
+	min-height: 23px;
 }
 
 .no-rgba #showtimeHeader {
@@ -102,7 +102,6 @@ html.no-positionfixed, * html.no-positionfixed body {
 	cursor: pointer;
 }
 
-
 #showtimeContent {
 	width: auto;
 	height: auto;
@@ -111,7 +110,7 @@ html.no-positionfixed, * html.no-positionfixed body {
 	background-color: #fafafa;
 	text-align: justify;
 	border-top: 1px solid rgba(192, 192, 192, 0.4);
-	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+	border-bottom: 1px solid rgba(64, 64, 64, 0.2);
 }
 
 .no-rgba #showtimeContent {
@@ -132,13 +131,13 @@ a.showtime-button:hover span {
 	position: relative;
 	bottom: 0;
 	right: 0;
-	padding: 2px;
+	padding: 1px 2px 2px 2px;
 	display: none;
 	border-top: 1px solid rgba(255, 255, 255, 1.0);
-	background-image: -moz-linear-gradient(top, #efefef, #d9d9d9);
-	background-image: -o-linear-gradient(top, #efefef, #d9d9d9);
-	background-image: -webkit-linear-gradient(top, #efefef, #d9d9d9);
-	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #efefef), color-stop(1, #d9d9d9));
+	background-image: -moz-linear-gradient(top, #e5e5e5, #d9d9d9);
+	background-image: -o-linear-gradient(top, #e5e5e5, #d9d9d9);
+	background-image: -webkit-linear-gradient(top, #e5e5e5, #d9d9d9);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #e5e5e5), color-stop(1, #d9d9d9));
 	background-image: linear-gradient(to bottom, #e5e5e5, #d9d9d9);
 }
 
@@ -178,7 +177,7 @@ a.showtime-button:hover span {
 	border-radius: 3px;
 	padding: 2px 4px;
 	margin: 0;
-	margin-left: 3px;
+	margin-left: 4px;
 	text-align: center;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
