@@ -286,6 +286,36 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>com.github.mcheely</groupId>
+				<artifactId>requirejs-maven-plugin</artifactId>
+				<version>2.0.0</version>
+				<executions>
+					<execution>
+						<id>optimize-js</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>optimize</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<!-- optional path to a nodejs executable -->
+					<nodeExecutable>/usr/local/bin/node</nodeExecutable>
+					<!-- path to optimizer json config file -->
+					<configFile>${basedir}/node_modules/requirejs/bin/build.js</configFile>
+					<!-- optional path to optimizer executable -->
+					<optimizerFile>${basedir}/node_modules/requirejs/bin/r.js</optimizerFile>
+					<!--
+						Whether or not to process configFile with maven filters.
+						If you use this option, some options in your configFile
+						must resolve to absolute paths (see below)
+					-->
+					<filterConfig>false</filterConfig>
+					<!-- Skip requirejs optimization if true -->
+					<skip>false</skip>
+				</configuration>
+			</plugin>
 		</plugins>
 		<resources>
 			<resource>
