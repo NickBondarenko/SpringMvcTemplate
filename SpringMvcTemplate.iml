@@ -41,7 +41,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="html5" level="application" />
-    <orderEntry type="library" name="Node.js v0.10.13 Core Modules" level="application" />
     <orderEntry type="library" name="Maven: org.springframework:spring-core:3.2.3.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: commons-logging:commons-logging:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:3.2.3.RELEASE" level="project" />

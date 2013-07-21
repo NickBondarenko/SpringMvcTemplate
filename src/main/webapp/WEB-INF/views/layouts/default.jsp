@@ -20,7 +20,7 @@
 		<link type="text/css" rel="canonical" href="" />
 		<link type="image/x-icon" rel="icon" href="../../../resources/<spring:theme code="images" />/favicon.ico" />
 
-		<script src="../../../resources/scripts/require.min.js" data-main="../../../resources/scripts/application.js"></script>
+		<script src="../../../resources/scripts/main.min.js" data-main="../../../resources/scripts/main"></script>
 		<%--<!--[if lt IE 9]>--%>
 		<%--<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>--%>
 		<%--<![endif]-->--%>
