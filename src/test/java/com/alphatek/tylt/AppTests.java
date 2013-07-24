@@ -17,7 +17,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration("file:../../main/webapp/WEB-INF/spring/dispatcher-servlet.xml")
+@ContextConfiguration("file:../../../src/main/webapp/WEB-INF/spring/dispatcher-servlet.xml")
 public class AppTests {
     private MockMvc mockMvc;
 

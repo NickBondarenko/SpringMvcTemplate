@@ -9,9 +9,6 @@
       <item index="0" class="java.lang.String" itemvalue="org.springframework.web.bind.annotation.ExceptionHandler" />
     </list>
   </component>
-  <component name="FrameworkDetectionExcludesConfiguration">
-    <file type="web" url="file://$PROJECT_DIR$" />
-  </component>
   <component name="IvyIDEA.ProjectSettings">
     <option name="artifactTypeSettings">
       <ArtifactTypeSettings />
@@ -224,16 +221,6 @@
     <option name="OPEN_IN_BROWSER" value="true" />
     <option name="OPTION_INCLUDE_LIBS" value="false" />
   </component>
-  <component name="MavenCompilerTasksManager">
-    <option name="afterCompileTasks">
-      <set>
-        <MavenCompilerTask>
-          <option name="goal" value="compile" />
-          <option name="projectPath" value="$PROJECT_DIR$/pom.xml" />
-        </MavenCompilerTask>
-      </set>
-    </option>
-  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
@@ -242,7 +229,7 @@
     </option>
   </component>
   <component name="ProjectKey">
-    <option name="state" value="https://github.com/Naquaduh/SpringMvcTemplate.git" />
+    <option name="state" value="git@github.com:Naquaduh/SpringMvcTemplate.git" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" assert-keyword="true" jdk-15="true" project-jdk-name="1.7" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />

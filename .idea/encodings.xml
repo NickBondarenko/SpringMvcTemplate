@@ -19,7 +19,7 @@
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/header.jsp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/login.jsp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/registration.jsp" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/webapp/resources/scripts/jquery.buildr.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/resources/bin/scripts/jquery.buildr.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/resources/themes" charset="UTF-8" />
   </component>
 </project>

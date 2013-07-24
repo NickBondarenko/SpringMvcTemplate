@@ -265,27 +265,27 @@
 					</includes>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.zeroturnaround</groupId>
-				<artifactId>jrebel-maven-plugin</artifactId>
-				<version>${jrebel-maven-plugin.version}</version>
-				<configuration>
-					<rebelXmlDirectory>src/main/resources</rebelXmlDirectory>
-					<webappDirectory>src/main/webapp</webappDirectory>
-					<addResourcesDirToRebelXml>true</addResourcesDirToRebelXml>
-					<showGenerated>true</showGenerated>
-					<alwaysGenerate>true</alwaysGenerate>
-				</configuration>
-				<executions>
-					<execution>
-						<id>generate-rebel-xml</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+			<!--<plugin>-->
+				<!--<groupId>org.zeroturnaround</groupId>-->
+				<!--<artifactId>jrebel-maven-plugin</artifactId>-->
+				<!--<version>${jrebel-maven-plugin.version}</version>-->
+				<!--<configuration>-->
+					<!--<rebelXmlDirectory>src/main/resources</rebelXmlDirectory>-->
+					<!--<webappDirectory>src/main/webapp</webappDirectory>-->
+					<!--<addResourcesDirToRebelXml>true</addResourcesDirToRebelXml>-->
+					<!--<showGenerated>true</showGenerated>-->
+					<!--<alwaysGenerate>true</alwaysGenerate>-->
+				<!--</configuration>-->
+				<!--<executions>-->
+					<!--<execution>-->
+						<!--<id>generate-rebel-xml</id>-->
+						<!--<phase>process-resources</phase>-->
+						<!--<goals>-->
+							<!--<goal>generate</goal>-->
+						<!--</goals>-->
+					<!--</execution>-->
+				<!--</executions>-->
+			<!--</plugin>-->
 			<plugin>
 				<groupId>com.github.mcheely</groupId>
 				<artifactId>requirejs-maven-plugin</artifactId>
@@ -293,7 +293,7 @@
 				<executions>
 					<execution>
 						<id>optimize-js</id>
-						<phase>compile</phase>
+						<phase>generate-resources</phase>
 						<goals>
 							<goal>optimize</goal>
 						</goals>
@@ -303,7 +303,7 @@
 					<!-- optional path to a nodejs executable -->
 					<nodeExecutable>/usr/local/bin/node</nodeExecutable>
 					<!-- path to optimizer json config file -->
-					<configFile>node_modules/requirejs/bin/build.js</configFile>
+					<configFile>${basedir}/src/main/webapp/resources/bin/app.build.js</configFile>
 					<!-- optional path to optimizer executable -->
 					<optimizerFile>${basedir}/node_modules/requirejs/bin/r.js</optimizerFile>
 					<!--
