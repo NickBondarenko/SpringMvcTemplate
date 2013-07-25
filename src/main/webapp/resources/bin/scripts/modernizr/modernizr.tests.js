@@ -1,4 +1,4 @@
-(function(Modernizr, window) {
+define(['modernizr', 'domReady!'], function(Modernizr, document) {
 	Modernizr.addTest('positionfixed', function () {
 		var test  = document.createElement('div'),
 				control = test.cloneNode(false),
@@ -106,4 +106,4 @@
 	Modernizr.addTest("boxsizing", function() {
 		return Modernizr.testAllProps("boxSizing") && (document.documentMode === undefined || document.documentMode > 7);
 	});
-})(Modernizr, window);
+});

@@ -11,6 +11,7 @@
 	"optimize": "uglify2",
 	"optimizeCss": "standard",
 	"preserveLicenseComments": true,
+	"useSourceUrl": false,
 	"paths": {
 		"require.lib": "require",
 		"es5": "shims/es5-shim",
@@ -19,19 +20,20 @@
 		"modernizr": "modernizr/modernizr-latest",
 		"modernizr.tests": "modernizr/modernizr.tests",
 		"jquery": "jquery-1.10.2",
-		"jquery.buildr": "jquery.buildr",
 		"jquery-ui": "jquery-ui-1.10.3",
-		"jquery.extensions": "jquery.extensions",
-		"jquery.showtime": "jquery.showtime-2.0",
-		"bootstrap": "bootstrap"
-//		"theme": "../themes/default/scripts/theme"
+		"jquery.showtime": "jquery.showtime-2.0"
 	},
 	"shims": {
 		"modernizr": {
 			"exports": "Modernizr"
 		},
-		"modernizr.tests": ["modernizr"],
+		"modernizr.tests": {
+			"deps": ["modernizr"],
+			"exports": ""
+		},
+		'jquery-ui': ['jquery'],
+		bootstrap: ['jquery'],
 		"jquery.buildr": ["jquery"]
 	},
-	"fileExclusionRegExp": /^bin$|([\w.]+)?build.js$/
+	"fileExclusionRegExp": /^bin$|([\w.]+)?build.js$|application.js/
 })

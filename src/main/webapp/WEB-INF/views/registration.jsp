@@ -18,7 +18,7 @@
 		padding: 20px;
 	}
 
-	fieldset legend [class^="icon-"], .cell fieldset legend [class*=" icon-"] {
+	fieldset legend [class^="icon-"], .cell fieldset legend [class*="icon-"] {
 		vertical-align: baseline;
 	}
 
@@ -32,14 +32,15 @@
 	}
 </style>
 <script type="text/javascript">
-	function ready() {
+	require(['main', 'domReady!'], function(document) {
+		console.log('hi');
 		$('li.active').removeClass('active');
 		$('#registrationLink').addClass('active');
 		$('#firstName').focus();
 		if (${requestScope.hasBindingErrors eq true}) {
 			$('.alert-error').show();
 		}
-	}
+	});
 </script>
 <div id="registrationFragment" class="container">
 	<div class="page-header">
