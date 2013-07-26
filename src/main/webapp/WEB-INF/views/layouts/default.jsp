@@ -11,31 +11,14 @@
 		<meta name="robots" content="all" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-		<link type="text/css" rel="stylesheet" href="../../../resources/build/styles/main.css" />
+		<c:set var="themeName"><spring:theme code="name" /></c:set>
+		<c:set var="isProductionEnvironment" value="${pageContext.request.serverPort > 1000}" />
+		<c:set var="scriptEnvironment" value="${isProductionEnvironment ? 'build' : 'bin'}" />
+
+		<link type="text/css" rel="stylesheet" href="../../../resources/${scriptEnvironment}/styles/main.css" />
 		<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:300,400,700,900,300italic,400italic,700italic,900italic" />
-		<link type="text/css" rel="stylesheet" href="../../../resources/<spring:theme code="styles" />/theme.css" />
-		<link type="text/css" rel="canonical" href="" />
-		<link type="image/x-icon" rel="icon" href="../../../resources/<spring:theme code="images" />/favicon.ico" />
-
-		<c:set var="themeScriptPath"><spring:theme code="scripts" /></c:set>
-		<c:choose>
-			<c:when test="${pageContext.request.serverPort < 1000}">
-				<script src="../../../resources/build/scripts/main.js" data-main="../../../resources/bin/scripts/main"></script>
-			</c:when>
-			<c:otherwise>
-				<script src="../../../resources/bin/scripts/require.js" data-main="../../../resources/bin/scripts/application"></script>
-			</c:otherwise>
-		</c:choose>
-		<script>
-			require.config({
-				paths: {
-					theme: '../../${themeScriptPath}/theme'
-				}
-			});
-			require(['theme'], function(theme) {
-
-			});
-		</script>
+		<link type="text/css" rel="stylesheet" href="../../../resources/themes/${themeName}/styles/theme.css" />
+		<link type="image/x-icon" rel="icon" href="../../../resources/themes/${themeName}/images/favicon.ico" />
 	</head>
 	<body>
 	  <div id="wrap">
@@ -47,4 +30,13 @@
 	  </div>
 		<tiles:insertAttribute name="footer" />
 	</body>
+	<script src="../../../resources/${scriptEnvironment}/scripts/${isProductionEnvironment ? 'main.js' : 'require.js'}" data-main="../../../resources/${scriptEnvironment}/scripts/main"></script>
+	<script>
+		require.config({
+			paths: {
+				theme: '../../themes/${themeName}/scripts/theme'
+			}
+		});
+		require(['theme']);
+	</script>
 </html>

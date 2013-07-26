@@ -1,4 +1,4 @@
-define(function(undefined) {
+define(['es5', 'es6'], function(es5, es6, undefined) {
 	var arePropertyDescriptorsSupported = function () {
 		var attempt = function () {
 			Object.defineProperty({}, 'x', {});
