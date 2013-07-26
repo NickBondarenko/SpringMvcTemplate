@@ -32,7 +32,7 @@
 	}
 </style>
 <script type="text/javascript">
-	require(['main', 'domReady!'], function(document) {
+	require(['jquery', 'domReady!'], function($, document) {
 		console.log('hi');
 		$('li.active').removeClass('active');
 		$('#registrationLink').addClass('active');

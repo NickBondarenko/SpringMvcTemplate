@@ -51,8 +51,5 @@ requirejs(
 		var instance = $('#anotherAction').showtime().on('click', function() {
 			instance.showtime('confirm', 'text:' + message);
 		});
-		if (window.ready) {
-			ready();
-		}
 	}
 );

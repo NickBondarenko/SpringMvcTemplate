@@ -19,6 +19,16 @@
 		<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:300,400,700,900,300italic,400italic,700italic,900italic" />
 		<link type="text/css" rel="stylesheet" href="../../../resources/themes/${themeName}/styles/theme.css" />
 		<link type="image/x-icon" rel="icon" href="../../../resources/themes/${themeName}/images/favicon.ico" />
+
+		<script type="text/javascript" src="../../../resources/${scriptEnvironment}/scripts/${isProductionEnvironment ? 'main.js' : 'require.js'}" data-main="../../../resources/${scriptEnvironment}/scripts/main"></script>
+		<script type="text/javascript">
+			require.config({
+				paths: {
+					theme: '../../themes/${themeName}/scripts/theme'
+				}
+			});
+			require(['theme']);
+		</script>
 	</head>
 	<body>
 	  <div id="wrap">
@@ -30,13 +40,4 @@
 	  </div>
 		<tiles:insertAttribute name="footer" />
 	</body>
-	<script src="../../../resources/${scriptEnvironment}/scripts/${isProductionEnvironment ? 'main.js' : 'require.js'}" data-main="../../../resources/${scriptEnvironment}/scripts/main"></script>
-	<script>
-		require.config({
-			paths: {
-				theme: '../../themes/${themeName}/scripts/theme'
-			}
-		});
-		require(['theme']);
-	</script>
 </html>

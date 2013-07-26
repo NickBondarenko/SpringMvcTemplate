@@ -46,11 +46,11 @@
 	}
 </style>
 <script type="text/javascript">
-	function ready() {
+	require(['jquery', 'domReady!'], function($) {
 		$('li.active').removeClass('active');
 		$('#loginLink').addClass('active');
 		$('#username').focus();
-	}
+	});
 </script>
 <div id="loginContainer" class="container">
 	<div class="page-header">

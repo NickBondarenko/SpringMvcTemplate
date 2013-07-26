@@ -1,6 +1,6 @@
 <jsp:directive.page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" />
 <script type="text/javascript">
-	$(document).ready(function() {
+	require(['jquery', 'domReady!'], function($) {
 		$('li.active').removeClass('active');
 		$('li.dropdown').addClass('active');
 	});
