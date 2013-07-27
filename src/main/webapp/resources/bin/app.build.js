@@ -2,11 +2,23 @@
 	"appDir": ".",
 	"baseUrl": "scripts",
 	"dir": "../build",
-	"mainConfigFile": "scripts/main.js",
+	"mainConfigFile": "scripts/common.js",
 	"modules": [
 		{
-			"name": "main",
+			"name": "common",
 			"include": ["require.lib"]
+		},
+		{
+			"name": "app/main-registration",
+			"exclude": ["common"]
+		} ,
+		{
+			"name": "app/main-login",
+			"exclude": ["common"]
+		},
+		{
+			"name": "app/main-admin",
+			"exclude": ["common"]
 		}
 	],
 	"optimize": "uglify2",

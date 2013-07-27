@@ -1,10 +1,5 @@
 <jsp:directive.page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" />
-<script type="text/javascript">
-	require(['jquery', 'domReady!'], function($) {
-		$('li.active').removeClass('active');
-		$('li.dropdown').addClass('active');
-	});
-</script>
+
 <div id="loginContainer" class="container">
 	<div class="page-header">
 		<h1>Admin</h1>
@@ -13,3 +8,8 @@
 		This is the admin page...
 	</div>
 </div>
+<script type="text/javascript">
+	require(['common'], function() {
+		require(['app/main-admin']);
+	});
+</script>

@@ -4,44 +4,6 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
-<style type="text/css">
-	.form-table {
-		background-color: #fafafa;
-		border: 1px solid #e5e5e5;
-		-webkit-border-radius: 5px;
-		-moz-border-radius: 5px;
-		border-radius: 5px;
-		-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-		-moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-		box-shadow: 0 1px 2px rgba(0,0,0,.05);
-		box-sizing: border-box;
-		padding: 20px;
-	}
-
-	fieldset legend [class^="icon-"], .cell fieldset legend [class*="icon-"] {
-		vertical-align: baseline;
-	}
-
-	#buttonContainer {
-		clear: both;
-		padding: 10px 0;
-	}
-
-	.control-group .controls input, .control-group .controls select, .control-group .controls .input-prepend {
-		margin-bottom: 0;
-	}
-</style>
-<script type="text/javascript">
-	require(['jquery', 'domReady!'], function($, document) {
-		console.log('hi');
-		$('li.active').removeClass('active');
-		$('#registrationLink').addClass('active');
-		$('#firstName').focus();
-		if (${requestScope.hasBindingErrors eq true}) {
-			$('.alert-error').show();
-		}
-	});
-</script>
 <div id="registrationFragment" class="container">
 	<div class="page-header">
 		<h1>Register</h1>
@@ -89,3 +51,13 @@
 		</sf:form>
 	</div>
 </div>
+<script type="text/javascript">
+	requirejs.config({
+		config: {
+			'app/main-registration': {hasBindingErrors: '${requestScope.hasBindingErrors}'}
+		}
+	});
+	require(['common'], function() {
+		require(['app/main-registration']);
+	});
+</script>
