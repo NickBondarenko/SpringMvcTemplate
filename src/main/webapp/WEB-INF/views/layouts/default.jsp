@@ -13,7 +13,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<c:set var="themeName" scope="session"><spring:theme code="name" /></c:set>
-		<c:set var="isProductionEnvironment" value="${pageContext.request.serverPort > 1000}" scope="session" />
+		<c:set var="isProductionEnvironment" value="${pageContext.request.serverPort < 1000}" scope="session" />
 		<c:set var="scriptEnvironment" value="${isProductionEnvironment ? 'build' : 'bin'}" scope="session" />
 
 		<link type="text/css" rel="stylesheet" href="../../../resources/${scriptEnvironment}/styles/main.css" />
@@ -28,14 +28,11 @@
 			  <script type="text/javascript" src="../../../resources/${scriptEnvironment}/scripts/${isProductionEnvironment ? 'common.js' : 'require.js'}" data-main="../../../resources/${scriptEnvironment}/scripts/common"></script>
 			  <script type="text/javascript">
 				  requirejs.config({
-					  paths: {theme: '../../themes/${themeName}/scripts/theme'},
-					  common: {
-						  themeName: '${themeName}',
-						  isProductionEnvironment: '${isProductionEnvironment}',
-						  scriptEnvironment: '${scriptEnvironment}'
-					  }
+					  paths: {theme: '../../themes/${themeName}/scripts/theme'}
 				  });
-				  require(['theme']);
+				  require(['common'], function() {
+					  require(['theme']);
+				  });
 			  </script>
 			  <tiles:insertAttribute name="body" />
 		  </div>
