@@ -98,9 +98,13 @@ define(['jquery', 'jquery-ui', 'jquery.extensions', 'jquery.buildr', 'utilities'
 
 			this.options.imageFilter = this._generateImageFilter(this.options.imageTypes);
 
-			if ($.isArray(this.options.fontFamilies)) {
-				var fontString = 'font!google,families:[' + this.options.fontFamilies.toString() + ']';
-				require([fontString]);
+			var fontFamilies = this.options.fontFamilies;
+			if ($.isArray(fontFamilies)) {
+				var fonts = [];
+				fontFamilies.forEach(function(value, index) {
+					fonts.push('font!google,families:[' + value + ']');
+				});
+				require(fonts);
 			}
 		},
 		_generateImageFilter: function(imageTypes) {

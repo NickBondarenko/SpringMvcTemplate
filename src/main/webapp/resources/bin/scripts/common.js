@@ -46,6 +46,7 @@ requirejs([
 	'bootstrap',
 	'jquery.showtime',
 	'utilities',
+	'font',
 	'domReady!'
 ],
 function(Modernizr, modernizrTests, $, $ui, $extensions, bootstrap, $showtime, utilities, document) {

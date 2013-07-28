@@ -14,7 +14,7 @@
 
 		<c:set var="themeName" scope="session"><spring:theme code="name" /></c:set>
 		<c:set var="fontFamilies" scope="application"><spring:theme code="fontFamilies" /></c:set>
-		<c:set var="isProductionEnvironment" value="${pageContext.request.serverPort < 1000}" scope="session" />
+		<c:set var="isProductionEnvironment" value="${pageContext.request.serverPort > 1000}" scope="session" />
 		<c:set var="scriptEnvironment" value="${isProductionEnvironment ? 'build' : 'bin'}" scope="session" />
 
 		<c:if test="${not empty fontFamilies}">
