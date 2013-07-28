@@ -2,8 +2,9 @@ requirejs.config({
 	baseURL: 'resources/bin/scripts',
 	paths: {
 		'require.lib': 'require',
+		'font': 'requirejs/font',
+		'propertyParser': 'requirejs/propertyParser',
 		es5: 'shims/es5-shim',
-		es6: 'shims/es6-shim',
 		'js.extensions': 'shims/js.extensions-shim',
 		modernizr: 'modernizr/modernizr-latest',
 		'modernizr.tests': 'modernizr/modernizr.tests',
@@ -30,7 +31,7 @@ requirejs.config({
 			exports: 'jQuery.fn.buildr'
 		}
 	},
-	deps: ['es5', 'es6', 'js.extensions', 'jquery'],
+	deps: ['js.extensions', 'jquery'],
 	onError: function(error) {
 		console && console.log(error);
 	}
@@ -47,7 +48,7 @@ requirejs([
 	'utilities',
 	'domReady!'
 ],
-function(Modernizr, modernizrTests, $, $ui, $extensions, bootstrap, $showtime, utils, document) {
+function(Modernizr, modernizrTests, $, $ui, $extensions, bootstrap, $showtime, utilities, document) {
 	var message = 'Heavy is the head that wears the crown. From the manger to the morgue, strangers are born and reborn.';
 	var instance = $('#anotherAction').showtime().on('click', function() {
 		instance.showtime('confirm', 'text:' + message);

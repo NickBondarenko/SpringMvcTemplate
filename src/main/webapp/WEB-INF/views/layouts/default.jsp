@@ -13,11 +13,14 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<c:set var="themeName" scope="session"><spring:theme code="name" /></c:set>
+		<c:set var="fontFamilies" scope="application"><spring:theme code="fontFamilies" /></c:set>
 		<c:set var="isProductionEnvironment" value="${pageContext.request.serverPort < 1000}" scope="session" />
 		<c:set var="scriptEnvironment" value="${isProductionEnvironment ? 'build' : 'bin'}" scope="session" />
 
+		<c:if test="${not empty fontFamilies}">
+			<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=${fontFamilies}" />
+		</c:if>
 		<link type="text/css" rel="stylesheet" href="../../../resources/${scriptEnvironment}/styles/main.css" />
-		<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:300,400,700,900,300italic,400italic,700italic,900italic" />
 		<link type="text/css" rel="stylesheet" href="../../../resources/themes/${themeName}/styles/theme.css" />
 		<link type="image/x-icon" rel="icon" href="../../../resources/themes/${themeName}/images/favicon.ico" />
 	</head>
@@ -28,7 +31,9 @@
 			  <script type="text/javascript" src="../../../resources/${scriptEnvironment}/scripts/${isProductionEnvironment ? 'common.js' : 'require.js'}" data-main="../../../resources/${scriptEnvironment}/scripts/common"></script>
 			  <script type="text/javascript">
 				  requirejs.config({
-					  paths: {theme: '../../themes/${themeName}/scripts/theme'}
+					  paths: {
+						  theme: '../../themes/${themeName}/scripts/theme'
+					  }
 				  });
 				  require(['common'], function() {
 					  require(['theme']);

@@ -1,5 +1,10 @@
 @charset "UTF-8";
 
+body, button {
+	font-size: 16px;
+	font-family: "Lato", "Trebuchet MS", Helvitica, sans-serif;
+}
+
 #formContainer {
 	max-width: 350px;
 }

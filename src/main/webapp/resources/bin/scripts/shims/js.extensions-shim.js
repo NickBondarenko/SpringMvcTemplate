@@ -1,4 +1,4 @@
-define(['es5', 'es6'], function(es5, es6, undefined) {
+define(['es5'], function(es5, undefined) {
 	var arePropertyDescriptorsSupported = function () {
 		var attempt = function () {
 			Object.defineProperty({}, 'x', {});
@@ -73,26 +73,6 @@ define(['es5', 'es6'], function(es5, es6, undefined) {
 	defineProperties(Object, {
 		instanceOf: function(obj, type) {
 			return !!obj && obj.hasOwnProperty && obj instanceof type;
-		}
-	});
-
-	defineProperties(Object.prototype, {
-		/**
-		 * Function values. Retrieves the values from an object.
-		 * @author jason.dimeo
-		 * @returns {Array} An array containing the values from the object
-		 */
-		values: function() {
-			if (this == null) { throw new TypeError(); }
-
-			var values = [];
-			for (var i = 0, keys = Object.keys(this), length = keys.length; i < length; i++) {
-				values[values.length] = this[keys[i]];
-			}
-			return values;
-		},
-		size: function() {
-			return Object.keys(this).length;
 		}
 	});
 

@@ -99,7 +99,8 @@ define(['jquery', 'jquery-ui', 'jquery.extensions', 'jquery.buildr', 'utilities'
 			this.options.imageFilter = this._generateImageFilter(this.options.imageTypes);
 
 			if ($.isArray(this.options.fontFamilies)) {
-				utilities.loadWebFont(this.options.fontFamilies);
+				var fontString = 'font!google,families:[' + this.options.fontFamilies.toString() + ']';
+				require([fontString]);
 			}
 		},
 		_generateImageFilter: function(imageTypes) {

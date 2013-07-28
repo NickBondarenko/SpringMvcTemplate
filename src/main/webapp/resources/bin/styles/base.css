@@ -11,7 +11,7 @@ html,	body {
 
 body, button {
 	font-size: 16px;
-	font-family: 'Lato', "Trebuchet MS", Helvitica, sans-serif;
+	font-family: "Trebuchet MS", Helvitica, sans-serif;
 	-webkit-font-smoothing: antialiased !important;
 }
 
@@ -23,7 +23,7 @@ body, button {
 #wrap {
 	min-height: 100%;
 	height: auto !important;
-	/*height: 100%;*/
+	height: 100%;
 	margin: 0 auto -60px; /* Negative indent footer by it's height */
 	background-color: #ffffff;
 }
@@ -79,8 +79,8 @@ code {
 input:focus, input[type]:focus, .uneditable-input:focus, button:focus, .btn:focus, a:focus {
 	border-color: rgba(82, 168, 236, 0.8);
 	outline: 0;
-	outline: thin dotted \9;
-	/* IE6-9 */
+	*outline: thin dotted \9;
+	/*IE6-9*/
 
 	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
 	-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);

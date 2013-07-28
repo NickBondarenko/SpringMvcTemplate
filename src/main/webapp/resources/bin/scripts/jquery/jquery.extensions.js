@@ -67,24 +67,6 @@ define(['jquery'], function($, undefined) {
 		return Object.prototype.hasOwnProperty.call(obj, key);
 	}
 
-	/**
-	 * Returns result of Object.keys if supported. Otherwise,
-	 * @param obj
-	 * @returns {Array}
-	 * @private
-	 */
-	function _keys(obj) {
-		if ($.isFunction(Object.keys)) {
-			return Object.keys(obj);
-		}
-
-		var keys = [];
-		for (var key in obj) {
-			if (_hasOwnProperty(obj, key)) { keys[keys.length] = key; }
-		}
-		return keys;
-	}
-
 	function _instanceOf(obj, type) {
 		return !!obj && obj.hasOwnProperty && obj instanceof type;
 	}
