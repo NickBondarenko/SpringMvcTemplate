@@ -14,3 +14,8 @@
 	<li>RequireJS 2.1.8</li>
 	<li>Modernizr 2.6.2</li>
 </ul>
+<script type="text/javascript">
+	require(['common'], function() {
+		require(['app/main-home']);
+	});
+</script>

@@ -1,18 +1,21 @@
 requirejs.config({
 	baseURL: 'resources/bin/scripts',
 	paths: {
-		'require.lib': 'require',
-		'font': 'requirejs/font',
-		'propertyParser': 'requirejs/propertyParser',
+		'require.lib': 'require-js/require',
+		'domReady': 'require-js/domReady',
+		'font': 'require-js/font',
+		'propertyParser': 'require-js/propertyParser',
 		es5: 'shims/es5-shim',
 		'js.extensions': 'shims/js.extensions-shim',
+		bootstrap: 'shims/bootstrap',
 		modernizr: 'modernizr/modernizr-latest',
 		'modernizr.tests': 'modernizr/modernizr.tests',
 		jquery: 'jquery/jquery-1.10.2',
 		'jquery-ui': 'jquery/jquery-ui-1.10.3',
 		'jquery.extensions': 'jquery/jquery.extensions',
 		'jquery.buildr': 'jquery/jquery.buildr',
-		'jquery.showtime': 'jquery/jquery.showtime-2.0'
+		'jquery.showtime': 'jquery/jquery.showtime-2.0',
+		webFont: '//ajax.googleapis.com/ajax/libs/webfont/1/webfont'
 	},
 	shim: {
 		modernizr: {
@@ -29,6 +32,11 @@ requirejs.config({
 		'jquery.buildr': {
 			deps: ['jquery'],
 			exports: 'jQuery.fn.buildr'
+		},
+		webFont: {
+			init: function() {
+				return WebFont;
+			}
 		}
 	},
 	deps: ['js.extensions', 'jquery'],
@@ -38,10 +46,9 @@ requirejs.config({
 });
 
 requirejs([
-	'modernizr',
-	'modernizr.tests',
 	'jquery',
 	'jquery-ui',
+	'modernizr.tests',
 	'jquery.extensions',
 	'bootstrap',
 	'jquery.showtime',
@@ -49,7 +56,7 @@ requirejs([
 	'font',
 	'domReady!'
 ],
-function(Modernizr, modernizrTests, $, $ui, $extensions, bootstrap, $showtime, utilities, document) {
+function($) {
 	var message = 'Heavy is the head that wears the crown. From the manger to the morgue, strangers are born and reborn.';
 	var instance = $('#anotherAction').showtime().on('click', function() {
 		instance.showtime('confirm', 'text:' + message);

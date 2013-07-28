@@ -15,7 +15,7 @@
 			<a class="brand" href="#">Spring MVC Template</a>
 			<div class="nav-collapse collapse">
 				<ul id="navMenu" class="nav">
-					<li class="active"><a href="${contextPath}/home">Home</a></li>
+					<li id="homeLink"><a href="${contextPath}/home">Home</a></li>
 					<c:choose>
 						<c:when test="${authenticated}">
 							<li><a class="btn-header" href="${contextPath}/account">Account</a></li>

@@ -1,4 +1,4 @@
-define(['jquery', 'jquery-ui', 'jquery.extensions', 'jquery.buildr', 'utilities'], function($, $ui, $extensions, $builder, utilities, undefined) {
+define(['jquery', 'jquery-ui', 'modernizr', 'jquery.extensions', 'jquery.buildr', 'utilities'], function($, $ui, Modernizr, $extensions, $builder, utilities, undefined) {
 	var elements = {
 		$elem: undefined,
 		$showtime: undefined,
