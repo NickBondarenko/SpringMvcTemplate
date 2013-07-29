@@ -1,4 +1,3 @@
-define(['jquery'], function($) {
-	$('li.active').removeClass('active');
-	$('li.dropdown').addClass('active');
+define(['jquery', 'utilities'], function($, utils) {
+	utils.setActiveNav('li.dropdown');
 });

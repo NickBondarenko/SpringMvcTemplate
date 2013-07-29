@@ -1,6 +1,5 @@
-define(['module', 'jquery'], function(module, $) {
-	$('li.active').removeClass('active');
-	$('#registrationLink').addClass('active');
+define(['module', 'jquery', 'utilities'], function(module, $, utils) {
+	utils.setActiveNav('#registrationLink');
 	$('#firstName').focus();
 
 	var hasBindingErrors = module.config().hasBindingErrors;

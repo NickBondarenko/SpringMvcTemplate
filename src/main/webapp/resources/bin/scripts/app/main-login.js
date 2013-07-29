@@ -1,5 +1,4 @@
-define(['jquery'], function($) {
-	$('li.active').removeClass('active');
-	$('#loginLink').addClass('active');
+define(['jquery', 'utilities'], function($, utils) {
+	utils.setActiveNav('#loginLink');
 	$('#username').focus();
 });

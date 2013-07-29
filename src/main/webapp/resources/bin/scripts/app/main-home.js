@@ -1,5 +1,4 @@
-define(['jquery'], function($) {
-	$('li.active').removeClass('active');
-	$('#homeLink').addClass('active');
+define(['jquery', 'utilities'], function($, utils) {
+	utils.setActiveNav('#homeLink');
 	$('#username').focus();
 });
