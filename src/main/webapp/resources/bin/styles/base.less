@@ -1,0 +1,128 @@
+@charset "UTF-8";
+
+@white: #ffffff;
+@whiteSmoke: #f5f5f5;
+@black: #000000;
+
+.text-shadow (@string: 0 1px 3px rgba(0, 0, 0, 0.25)) {
+	text-shadow: @string;
+}
+
+.box-shadow (@string) {
+	-webkit-box-shadow: @string;
+	-moz-box-shadow: @string;
+	box-shadow: @string;
+}
+
+.drop-shadow (@x: 0, @y: 1px, @blur: 2px, @spread: 0, @alpha: 0.05) {
+	-webkit-box-shadow:	@x @y @blur @spread rgba(0, 0, 0, @alpha);
+	-moz-box-shadow: @x @y @blur @spread rgba(0, 0, 0, @alpha);
+	box-shadow: @x @y @blur @spread rgba(0, 0, 0, @alpha);
+}
+
+.inner-shadow (@x: 0, @y: 1px, @blur: 2px, @spread: 0, @alpha: 0.25) {
+	-webkit-box-shadow: inset @x @y @blur @spread rgba(0, 0, 0, @alpha);
+	-moz-box-shadow: inset @x @y @blur @spread rgba(0, 0, 0, @alpha);
+	box-shadow: inset @x @y @blur @spread rgba(0, 0, 0, @alpha);
+}
+
+.box-sizing (@type: border-box) {
+	-webkit-box-sizing: @type;
+	-moz-box-sizing: @type;
+	box-sizing: @type;
+}
+
+.rounded-corners(@radius: 3px) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  -ms-border-radius: @radius;
+  -o-border-radius: @radius;
+  border-radius: @radius;
+
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+}
+
+html {
+  background: #222222 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAGklEQVQIW2NkYGD4D8SMQAwGcAY2AbBKDBUAVuYCBQPd34sAAAAASUVORK5CYII=) repeat;
+}
+
+/* The html and body elements cannot have any padding or margin. */
+html,	body {
+  height: 100%;
+}
+
+body, button {
+  font-size: 16px;
+  font-family: "Trebuchet MS", Helvitica, sans-serif;
+  -webkit-font-smoothing: antialiased !important;
+}
+
+.btn {
+  font-size: 16px;
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -60px; /* Negative indent footer by it's height */
+  background-color: #ffffff;
+}
+
+/* Set the fixed height of the footer here */
+#push, #footer {
+  height: 60px;
+}
+
+#footer {
+  background-color: #f5f5f5;
+}
+
+/* Lastly, apply responsive CSS fixes as necessary */
+@media (max-width: 767px) {
+  #footer {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+#wrap > .container {
+  padding-top: 60px;
+}
+
+.container .credit {
+  margin: 20px 0;
+}
+
+code {
+  font-size: 80%;
+}
+
+#welcomeMessage {
+  padding: 10px 20px;
+}
+
+.form-table {
+  background-color: #fafafa;
+  border: 1px solid #e5e5e5;
+	padding: 20px;
+  .drop-shadow;
+	.box-sizing;
+	.rounded-corners(5px);
+}
+
+input:focus, input[type]:focus, .uneditable-input:focus, button:focus, .btn:focus, a:focus {
+  border-color: rgba(82, 168, 236, 0.8);
+  outline: 0;
+  *outline: thin dotted \9;
+  /*IE6-9*/
+
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+}

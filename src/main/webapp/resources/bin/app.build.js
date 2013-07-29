@@ -25,5 +25,5 @@
 	"optimizeCss": "standard",
 	"preserveLicenseComments": false,
 	"useSourceUrl": false,
-	"fileExclusionRegExp": /^bin$|([\w.]+)?build.js$/
+	"fileExclusionRegExp": /^bin$|([\w.]+)?build.js$|([\w.]+).less$/
 })

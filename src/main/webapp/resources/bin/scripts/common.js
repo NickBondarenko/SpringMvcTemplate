@@ -2,9 +2,9 @@ requirejs.config({
 	baseURL: 'resources/bin/scripts',
 	paths: {
 		'require.lib': 'require-js/require',
-		'domReady': 'require-js/domReady',
-		'font': 'require-js/font',
-		'propertyParser': 'require-js/propertyParser',
+		domReady: 'require-js/domReady',
+		font: 'require-js/font',
+		propertyParser: 'require-js/propertyParser',
 		es5: 'shims/es5-shim',
 		'js.extensions': 'shims/js.extensions-shim',
 		bootstrap: 'shims/bootstrap',
