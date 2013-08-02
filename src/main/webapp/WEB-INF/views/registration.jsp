@@ -8,7 +8,7 @@
 	<div class="page-header">
 		<h1>Register</h1>
 	</div>
-	<div>
+	<div class="section hero-unit">
 		<sf:form id="registrationForm" modelAttribute="user" action="/registration" method="post">
 			<spring:hasBindErrors name="user">
 				<div class="alert alert-block alert-error">

@@ -1,1 +1,0 @@
-define(["webFont","propertyParser"],function(t,e){function i(t){var i,s={},o=t.split("|");return o.forEach(function(t){i=n.exec(t),s[i[1]]=e.parseProperties(i[2])}),s}var n=/^([^,]+),([^\|]+)\|?/;return{load:function(e,n,s,o){if(o.isBuild)s(null);else{var r=i(e);r.active=s,r.inactive=function(){s(!1)},t.load(r)}}}});

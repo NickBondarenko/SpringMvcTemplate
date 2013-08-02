@@ -23,3 +23,4 @@ RequireJS 2.1.8
 
 Modernizr 2.6.2
 
+Build with Maven, LESS and Node.js

@@ -1,5 +1,29 @@
 @charset "UTF-8";
 
+.rounded-corners(@radius: 3px) {
+	-webkit-border-radius: @radius;
+	-moz-border-radius: @radius;
+	-ms-border-radius: @radius;
+	-o-border-radius: @radius;
+	border-radius: @radius;
+
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+}
+
+.drop-shadow (@x: 0, @y: 1px, @blur: 2px, @spread: 0, @alpha: 0.05) {
+	-webkit-box-shadow:	@x @y @blur @spread rgba(0, 0, 0, @alpha);
+	-moz-box-shadow: @x @y @blur @spread rgba(0, 0, 0, @alpha);
+	box-shadow: @x @y @blur @spread rgba(0, 0, 0, @alpha);
+}
+
+.box-sizing (@type: border-box) {
+	-webkit-box-sizing: @type;
+	-moz-box-sizing: @type;
+	box-sizing: @type;
+}
+
 body, button {
 	font-size: 16px;
 	font-family: "Lato", "Trebuchet MS", Helvitica, sans-serif;
@@ -9,18 +33,19 @@ body, button {
 	max-width: 350px;
 }
 
-.form-signin {
+.section {
+	background-color: #fafafa;
+	border: 1px solid #e5e5e5;
+	padding: 20px;
+	.drop-shadow;
+	.box-sizing;
+	.rounded-corners(5px);
+}
+
+.form-signin:extend(.section all) {
 	max-width: 500px;
 	padding: 19px 29px 29px;
 	margin: 0 auto 20px;
-	background-color: #fafafa;
-	border: 1px solid #e5e5e5;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
-	box-shadow: 0 1px 2px rgba(0,0,0,.05);
 }
 
 .form-signin input[type="text"],

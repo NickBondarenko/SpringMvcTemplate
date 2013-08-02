@@ -2,7 +2,7 @@
 <div class="page-header">
 	<h1>Spring MVC Template</h1>
 </div>
-<div class="hero-unit">
+<div class="section hero-unit">
 	<h2>Use this code to quickly setup a new Spring MVC webapp using the following frameworks;</h2>
 	<ul class="unstyled">
 		<li>Spring Framework 3.2.3</li>
