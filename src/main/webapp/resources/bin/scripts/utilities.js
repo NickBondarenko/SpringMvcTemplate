@@ -1,8 +1,1 @@
-define(['require', 'jquery'], function(require, $, undefined) {
-	return {
-		setActiveNav: function(selector) {
-			$('li.active').removeClass('active');
-			$(selector).addClass('active');
-		}
-	};
-});
+define(["require","jquery"],function(t,e){return{setActiveNav:function(t){e("li.active").removeClass("active"),e(t).addClass("active")}}});

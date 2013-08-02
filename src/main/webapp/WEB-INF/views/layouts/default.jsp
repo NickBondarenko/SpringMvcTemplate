@@ -9,13 +9,12 @@
 		<meta charset="UTF-8" />
 		<meta name="description" content="" />
 		<meta name="robots" content="all" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<c:set var="themeName" scope="session"><spring:theme code="name" /></c:set>
 		<c:set var="fontFamilies" scope="session"><spring:theme code="fontFamilies" /></c:set>
 		<c:set var="isProductionEnvironment" value="${pageContext.request.serverPort < 1000}" scope="session" />
-		<c:set var="scriptEnvironment" value="${isProductionEnvironment ? 'build' : 'bin'}" scope="session" />
+		<c:set var="scriptEnvironment" value="${isProductionEnvironment ? 'bin' : 'build'}" scope="session" />
 
 		<c:if test="${not empty fontFamilies}">
 			<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=${fontFamilies}" />

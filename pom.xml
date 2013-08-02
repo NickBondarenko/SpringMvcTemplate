@@ -303,7 +303,7 @@
 					<!-- optional path to a nodejs executable -->
 					<nodeExecutable>/usr/local/bin/node</nodeExecutable>
 					<!-- path to optimizer json config file -->
-					<configFile>${basedir}/src/main/webapp/resources/bin/app.build.js</configFile>
+					<configFile>${basedir}/src/main/webapp/resources/build/app.build.js</configFile>
 					<!-- optional path to optimizer executable -->
 					<optimizerFile>${basedir}/node_modules/requirejs/bin/r.js</optimizerFile>
 					<!--

@@ -1,3 +1,7 @@
+/**
+ * Showtime jQuery Plugin
+ * Version 2.0
+ */
 define(['jquery', 'jquery-ui', 'modernizr', 'jquery.extensions', 'jquery.buildr', 'utilities'], function($, $ui, Modernizr, $extensions, $builder, utilities, undefined) {
 	var elements = {
 		$elem: undefined,

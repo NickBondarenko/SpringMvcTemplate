@@ -48,6 +48,6 @@
 </div>
 <script type="text/javascript">
 	require(['common'], function() {
-		require(['app/main-login']);
+		require(['app/login']);
 	});
 </script>

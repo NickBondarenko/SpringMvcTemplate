@@ -1,7 +1,7 @@
 ({
 	"appDir": ".",
 	"baseUrl": "scripts",
-	"dir": "../build",
+	"dir": "../bin",
 	"mainConfigFile": "scripts/common.js",
 	"modules": [
 		{
@@ -9,15 +9,19 @@
 			"include": ["require.lib"]
 		},
 		{
-			"name": "app/main-registration",
-			"exclude": ["common"]
-		} ,
-		{
-			"name": "app/main-login",
+			"name": "app/home",
 			"exclude": ["common"]
 		},
 		{
-			"name": "app/main-admin",
+			"name": "app/registration",
+			"exclude": ["common"]
+		} ,
+		{
+			"name": "app/login",
+			"exclude": ["common"]
+		},
+		{
+			"name": "app/admin",
 			"exclude": ["common"]
 		}
 	],

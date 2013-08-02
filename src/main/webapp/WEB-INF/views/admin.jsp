@@ -10,6 +10,6 @@
 </div>
 <script type="text/javascript">
 	require(['common'], function() {
-		require(['app/main-admin']);
+		require(['app/admin']);
 	});
 </script>

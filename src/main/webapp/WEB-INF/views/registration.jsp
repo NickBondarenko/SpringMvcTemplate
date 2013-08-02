@@ -1,4 +1,4 @@
-<jsp:directive.page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java"/>
+<jsp:directive.page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
@@ -58,6 +58,6 @@
 		}
 	});
 	require(['common'], function() {
-		require(['app/main-registration']);
+		require(['app/registration']);
 	});
 </script>
