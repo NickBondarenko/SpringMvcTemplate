@@ -14,13 +14,14 @@
 		<org.springframework.security.version>3.1.4.RELEASE</org.springframework.security.version>
 		<org.apache.tiles.version>2.2.2</org.apache.tiles.version>
 		<javax.servlet.jstl.version>1.2</javax.servlet.jstl.version>
-		<com.fasterxml.jackson.version>2.2.1</com.fasterxml.jackson.version>
+		<com.fasterxml.jackson.version>2.2.2</com.fasterxml.jackson.version>
 		<jrebel-maven-plugin.version>1.1.2</jrebel-maven-plugin.version>
 		<jcl-over-slf4j.version>1.7.5</jcl-over-slf4j.version>
 		<guava.version>14.0.1</guava.version>
-		<maven.version>3.0.5</maven.version>
-		<logback-classic.version>1.0.12</logback-classic.version>
-		<ehcache.version>2.7.0</ehcache.version>
+		<maven.version>3.1.0</maven.version>
+		<logback-classic.version>1.0.13</logback-classic.version>
+		<ehcache.version>2.7.2</ehcache.version>
+		<junit.version>4.11</junit.version>
 	</properties>
 
 	<dependencies>
@@ -238,7 +239,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -254,6 +255,11 @@
 					<source>1.7</source>
 					<target>1.7</target>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-help-plugin</artifactId>
+				<version>2.0.2</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

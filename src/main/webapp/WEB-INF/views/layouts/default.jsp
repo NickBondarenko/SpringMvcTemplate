@@ -3,9 +3,9 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-us">
 	<head>
-		<title></title>
+		<title>Spring MVC Template</title>
 		<meta charset="UTF-8" />
 		<meta name="description" content="" />
 		<meta name="robots" content="all" />

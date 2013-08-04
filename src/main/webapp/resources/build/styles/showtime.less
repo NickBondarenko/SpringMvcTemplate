@@ -3,6 +3,17 @@
 @import "bootstrap/variables.less";
 @import "bootstrap/mixins.less";
 
+//.linear-gradient(@color1:#ccc, @color2:#fff, @stop1:0, @stop2:100%, @deg:0deg) {
+//	@old-deg: @deg + 90deg;
+//	background-color: @color2;
+//	background: -webkit-linear-gradient(@old-deg, @color1 @stop1, @color2 @stop2);
+//	background:    -moz-linear-gradient(@old-deg, @color1 @stop1, @color2 @stop2);
+//	background:     -ms-linear-gradient(@old-deg, @color1 @stop1, @color2 @stop2);
+//	background:      -o-linear-gradient(@old-deg, @color1 @stop1, @color2 @stop2);
+//	background:         linear-gradient(@deg, @color1 @stop1, @color2 @stop2);
+//	filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr='#cccccc', endColorstr='#000000')";
+//}
+
 @textColor: #525252;
 
 #showtime {
@@ -53,7 +64,7 @@ html.no-positionfixed, * html.no-positionfixed body {
 	text-align: left;
 	border-top: 1px solid rgba(255, 255, 255, 0.7);
 	border-bottom: 1px solid rgba(96, 96, 96, 0.5);
-//	.gradientBar()
+//	.linear-gradient(#e5e5e5, #d9d9d9, 0, 100%, top);
 	background-image: -moz-linear-gradient(top, #e5e5e5, #d9d9d9);
 	background-image: -o-linear-gradient(top, #e5e5e5, #d9d9d9);
 	background-image: -webkit-linear-gradient(top, #e5e5e5, #d9d9d9);
