@@ -13,8 +13,7 @@ define(['jquery', 'jquery-ui', 'modernizr', 'jquery.extensions', 'jquery.buildr'
 		$footerButtons: undefined,
 		$loading: undefined,
 		$overlay: undefined,
-		$closeBtnImage: undefined,
-		$bodyContents: undefined
+		$closeBtnImage: undefined
 	};
 
 	var defaults = {
@@ -105,7 +104,7 @@ define(['jquery', 'jquery-ui', 'modernizr', 'jquery.extensions', 'jquery.buildr'
 			var fontFamilies = this.options.fontFamilies;
 			if ($.isArray(fontFamilies)) {
 				var fonts = [];
-				fontFamilies.forEach(function(value, index) {
+				fontFamilies.forEach(function(value) {
 					fonts.push('font!google,families:[' + value + ']');
 				});
 				require(fonts);
@@ -233,7 +232,7 @@ define(['jquery', 'jquery-ui', 'modernizr', 'jquery.extensions', 'jquery.buildr'
 
 								buildr.div({id: 'titleButtons'}, function() {
 									buildr.a({id: 'closeBtn', 'class': 'showtime-button'}, function() {
-										buildr.span({'class': 'icon-remove'});
+										buildr.span({'class': 'icon-remove icon-white'});
 									}).on('click', function () {
 										self.$obj.triggerHandler('showtime.close');
 									});
@@ -289,10 +288,6 @@ define(['jquery', 'jquery-ui', 'modernizr', 'jquery.extensions', 'jquery.buildr'
 			(Modernizr.compliantzindex ? elements.$overlay : elements.$overlay.contents()).on('click', function() {
 				self.$obj.triggerHandler('showtime.close');
 			});
-
-			if (Modernizr.cssfilters) {
-				elements.$bodyContents.removeClass('no-blur').addClass('blur');
-			}
 
 			return elements.$overlay.fadeIn(100).promise();
 		},
@@ -353,10 +348,6 @@ define(['jquery', 'jquery-ui', 'modernizr', 'jquery.extensions', 'jquery.buildr'
 		_hideOverlay: function() {
 			var options = this.options;
 			if (!options.modal) { return $.Deferred().promise(); }
-
-			if (Modernizr.cssfilters) {
-				elements.$bodyContents.toggleClass('blur no-blur');
-			}
 
 			return elements.$overlay.fadeOut(100, function() {
 				elements.$overlay.remove();
@@ -440,7 +431,6 @@ define(['jquery', 'jquery-ui', 'modernizr', 'jquery.extensions', 'jquery.buildr'
 				buildr.span(self.options.loadingMessage);
 			});
 
-			elements.$bodyContents = $body.children();
 			elements.$showtime = $('<div />', {id: 'showtime'}).build(function(buildr) {
 				buildr.div({id: 'showtimeContainer'}, function() {
 					buildr.div({id: 'showtimeContent'});
@@ -456,7 +446,7 @@ define(['jquery', 'jquery-ui', 'modernizr', 'jquery.extensions', 'jquery.buildr'
 			if ($.isPlainObject(buttons)) {
 				$.each(buttons, function(key, value) {
 					elements.$footerButtons.build(function(buildr) {
-						buildr.a(key.charAt(0).toUpperCase() + key.slice(1), {id: key + 'ShowtimeButton'}).on('click.showtime', function() {
+						buildr.a(key.charAt(0).toUpperCase() + key.slice(1), {id: key + 'ShowtimeButton', 'class': 'showtime-button'}).on('click.showtime', function() {
 							self.$obj.trigger('showtime.button-click', [key, value]);
 						});
 					});

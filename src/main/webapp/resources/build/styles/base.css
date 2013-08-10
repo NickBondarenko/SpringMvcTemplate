@@ -1,1 +1,113 @@
-@charset "UTF-8";html{background:#222 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAGklEQVQIW2NkYGD4D8SMQAwGcAY2AbBKDBUAVuYCBQPd34sAAAAASUVORK5CYII=) repeat}html,body{height:100%}body,button{font-size:16px;font-family:"Trebuchet MS",Helvitica,sans-serif;-webkit-font-smoothing:antialiased!important}.btn{font-size:16px}#wrap{min-height:100%;height:auto!important;height:100%;margin:0 auto -50px;background-color:#fff}#push,#footer{height:50px}.navbar-fixed-top .navbar-inner,.navbar-static-top .navbar-inner{-webkit-box-shadow:0 1px 10px rgba(0,0,0,0.2);-moz-box-shadow:0 1px 10px rgba(0,0,0,0.2);box-shadow:0 1px 10px rgba(0,0,0,0.2)}#footer{position:fixed;bottom:0;width:100%;background:#fafafa linear-gradient(to bottom,#fafafa,#f2f2f2);-webkit-box-shadow:0 1px 15px 0 rgba(0,0,0,0.3);-moz-box-shadow:0 1px 15px 0 rgba(0,0,0,0.3);box-shadow:0 1px 15px 0 rgba(0,0,0,0.3);border:1px solid #fff;border-width:1px 0 0}@media(max-width:767px){#footer{margin-left:-20px;margin-right:-20px;padding-left:20px;padding-right:20px}}#wrap>.container{padding-top:50px}.container .credit{margin:15px 0}code{font-size:80%}#welcomeMessage{padding:10px 20px}input:focus,input[type]:focus,.uneditable-input:focus,button:focus,.btn:focus,a:focus{border-color:rgba(82,168,236,0.8);outline:0;*outline:thin dotted \9;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6);-moz-box-shadow:inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6);box-shadow:inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6)}
+@charset "UTF-8";
+.clearfix {
+  *zoom: 1;
+}
+.clearfix:before,
+.clearfix:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.clearfix:after {
+  clear: both;
+}
+.hide-text {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+.input-block-level {
+  display: block;
+  width: 100%;
+  min-height: 30px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+html {
+  background: #222222 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAGklEQVQIW2NkYGD4D8SMQAwGcAY2AbBKDBUAVuYCBQPd34sAAAAASUVORK5CYII=) repeat;
+}
+/* The html and body elements cannot have any padding or margin. */
+html,
+body {
+  height: 100%;
+}
+body,
+button {
+  font-size: 16px;
+  font-family: "Trebuchet MS", Helvitica, sans-serif;
+  -webkit-font-smoothing: antialiased !important;
+}
+.btn {
+  font-size: 16px;
+}
+/* Wrapper for page content to push down footer */
+#contentWrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -50px;
+  /* Negative indent footer by it's height */
+
+  background-color: #fff;
+}
+/* Set the fixed height of the footer here */
+#push,
+#footer {
+  height: 50px;
+}
+.navbar-fixed-top .navbar-inner,
+.navbar-static-top .navbar-inner {
+  -webkit-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2) 1px 2px 0 rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2) 1px 2px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2) 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+#footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #fafafa linear-gradient(to bottom, #fafafa, #f2f2f2);
+  -webkit-box-shadow: 0 1px 15px 0 rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 1px 15px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 1px 15px 0 rgba(0, 0, 0, 0.3);
+  border: 1px solid #fff;
+  border-width: 1px 0 0;
+}
+/* Lastly, apply responsive CSS fixes as necessary */
+@media (max-width: 767px) {
+  #footer {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+#contentWrapper > .container {
+  padding-top: 50px;
+}
+.container .credit {
+  margin: 15px 0;
+}
+code {
+  font-size: 80%;
+}
+#welcomeMessage {
+  padding: 10px 20px;
+}
+input:focus,
+input[type]:focus,
+.uneditable-input:focus,
+button:focus,
+.btn:focus,
+a:focus {
+  border-color: rgba(82, 168, 236, 0.8);
+  outline: 0;
+  *outline: thin dotted \9;
+  /*IE6-9*/
+
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+  -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
+}

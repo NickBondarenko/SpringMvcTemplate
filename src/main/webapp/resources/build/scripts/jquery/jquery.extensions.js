@@ -3,12 +3,11 @@
  * @param {jQuery} $ - The jQuery object
  * @param {undefined} undefined
  */
-define(['jquery'], function($, undefined) {
+define(['jquery', 'domReady!'], function($, document, undefined) {
 	window.$html = jQuery('html');
 	window.$win = jQuery(window);
-	window.$doc = jQuery(document).ready(function() {
-		window.$body = jQuery('body');
-	});
+	window.$doc = jQuery(document);
+	window.$body = jQuery('body');
 
 	/** @classDescription regex - Various regex objects. */
 	var regex = {

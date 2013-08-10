@@ -24,7 +24,7 @@
 		<link type="image/x-icon" rel="icon" href="../../../resources/themes/${themeName}/images/favicon.ico" />
 	</head>
 	<body>
-	  <div id="wrap">
+	  <div id="contentWrapper">
 		  <tiles:insertAttribute name="header" />
 		  <div id="content" class="container">
 			  <script type="text/javascript" src="../../../resources/${scriptEnvironment}/scripts/${isProductionEnvironment ? 'common.js' : 'require-js/require.js'}" data-main="../../../resources/${scriptEnvironment}/scripts/common"></script>
@@ -39,7 +39,7 @@
 			  <tiles:insertAttribute name="body" />
 		  </div>
 		  <div id="push"></div>
+		  <tiles:insertAttribute name="footer" />
 	  </div>
-		<tiles:insertAttribute name="footer" />
 	</body>
 </html>
