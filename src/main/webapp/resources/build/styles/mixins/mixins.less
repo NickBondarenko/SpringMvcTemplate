@@ -1,11 +1,11 @@
-@import "../bootstrap/variables";
-@import "../bootstrap/mixins";
+@import "preboot";
 @import "linear-gradient";
 @import "shadows";
 
 @defaultBorderRadius: 3px;
+@defaultHighlightColor: rgba(82, 168, 236, 0.8);
 
-.rounded-corners(@radius: @defaultBorderRadius) {
+.border-radius (@radius: @defaultBorderRadius) {
 	-webkit-border-radius: @radius;
 	-moz-border-radius: @radius;
 	-ms-border-radius: @radius;
@@ -17,6 +17,65 @@
 	background-clip: padding-box;
 }
 
-.grey(@rgb, @opacity) {
-
+.transparent(@rgba: 255, 255, 255, 0.2){
+	background-color: rgba(@rgba);
 }
+
+.rgba-color(@rgba) {
+	color: @rgba;
+}
+
+.rgba-color(@r, @g, @b, @a) {
+	color: rgba(@r, @g, @b, @a);
+}
+
+.rgb-color(@rgb) {
+	color: @rgb;
+}
+
+.rgb-color(@r, @g, @b) {
+	color: rgb(@r, @g, @b);
+}
+
+.alpha-text(@color, @alpha) {
+	@alphaColour: hsla(hue(@color), saturation(@color), lightness(@color), @alpha);
+	@ieAlphaColour: argb(@alphaColour);
+
+	color: @alphaColour;
+}
+
+// Use with colour name: .rgba(black, 0.5) or hex value: .rgba(#FF2400, 0.5)
+.alpha-background(@color, @alpha) {
+	@alphaColour: hsla(hue(@color), saturation(@color), lightness(@color), @alpha);
+	@ieAlphaColour: argb(@alphaColour);
+
+	background-color: @color; // Fallback for older browsers
+	background-color: @alphaColour;
+
+	// IE hacks
+	zoom: 1; // hasLayout
+	background-color: transparent\9;
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=@{ieAlphaColour}, endColorstr=@{ieAlphaColour})"; // IE 8+
+	filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr=@{ieAlphaColour}, endColorstr=@{ieAlphaColour})";  // IE 6 & 7
+}
+
+.highlight(@rgba: @defaultHighlightColor) {
+	border-color: @rgba;
+	outline: 0;
+	*outline: thin dotted \9; /*IE6-9*/
+	.box-shadow(~"inset 0 1px 2px 0 rgba(0, 0, 0, 0.075)", ~"0 0 8px 0 rgba(82, 168, 236, 0.6)");
+}
+
+/* Mixin */
+@base: #663333;
+@complement1: spin(@base, 180);
+@complement2: darken(spin(@base, 180), 5%);
+@lighten1: lighten(@base, 15%);
+@lighten2: lighten(@base, 30%);
+
+/* Implementation */
+.one   {color: @base;}
+.two   {color: @complement1;}
+.three {color: @complement2;}
+.four  {color: @lighten1;}
+.five  {color: @lighten2;}

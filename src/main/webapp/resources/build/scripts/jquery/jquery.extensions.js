@@ -372,6 +372,10 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 		exists: function() {
 			return this.length > 0;
 		},
+		isEmpty: function() {
+			// TODO: Add a check for value of <code>this</code>
+			return this.children().exists();
+		},
 	  /**
 	   * Function value. Gets or sets the value of an input.
 	   * @param {any} value - The value to set. (optional)

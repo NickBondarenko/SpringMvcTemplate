@@ -2,42 +2,48 @@
 @import "mixins/mixins";
 
 @textColor: #fff;
-@contentBackground: #4d5053;
-@bezelColor: #565b5d;
-@buttonColor: #808080;
+@contentBackground: lighten(@black-70, 4%);
+@bezelColor: lighten(@contentBackground, 10%);
+@buttonColor: darken(@bezelColor, 10%);
+@activeButtonColor: darken(@buttonColor, 10%);
+@defaultOverlayOpacity: 0.75;
+@overlayBackgroundColor: rgba(255, 255, 255, 0.60);
+@defaultButtonContentsOpacity: 0.75;
+@activeButtonContentsOpacity: 1.0;
+@defaultTextColor: rgba(255, 255, 255, @defaultButtonContentsOpacity);
+@activeTextColor: rgba(255, 255, 255, @activeButtonContentsOpacity);
 @fontFamily: Ubuntu, "Trebuchet MS", Helvitica, sans-serif;
 
 #showtime {
 	display: none;
-	top: 50px;
+	top: 150px;
 	left: 50%;
 	color: @textColor;
 	font-family: @fontFamily;
 	-webkit-font-smoothing: antialiased !important;
-	border: 1px solid rgba(0, 0, 0, 0.3);
+	border: 1px solid rgba(0, 0, 0, 0.5);
 	z-index: 9991;
 	text-align: center;
 	overflow: hidden;
 	.border-radius(3px);
-	.box-shadow(0 0 15px rgba(0, 0, 0, 0.5));
+	.box-shadow(0 0 15px rgba(0, 0, 0, 0.8));
 }
 
 #showtimeContainer {
 	width: 350px;
 	min-height: 32px;
-	border-radius: 3px;
-	background-clip: padding-box;
-	background-color: @contentBackground;
+	.border-radius(3px);
+	.linear-gradient(to-bottom, @contentBackground, lighten(@contentBackground, 10%));
 }
 
 #showtimeHeader {
 	display: none;
-	padding: 3px;
-	min-height: 22px;
+	padding: 2px;
+	min-height: 20px;
 	text-align: left;
 	border-top: 1px solid rgba(192, 192, 192, 0.6);
 	border-bottom: 1px solid rgba(0, 0, 0, 0.7);
-	.linear-gradient(to-bottom, lighten(@bezelColor, 4%), @bezelColor);
+	.linear-gradient(to-bottom, lighten(@bezelColor, 5%), @bezelColor);
 }
 
 #showtimeTitle {
@@ -46,13 +52,13 @@
 	font-size: 1em;
 	margin: 0 5px;
 	line-height: 1.4em;
-	.text-shadow(1px 1px 2px rgba(0, 0, 0, 0.2));
+	.text-shadow(1px 1px 2px rgba(0, 0, 0, 0.4));
 }
 
 #titleButtons {
 	position: absolute;
-	top: 4px;
-	right: 4px;
+	top: 3px;
+	right: 2px;
 	padding: 0;
 	margin: 0;
 	a.showtime-button {
@@ -70,11 +76,11 @@
 	height: auto;
 	min-height: 2.8em;
 	padding: 5px;
-	background-color: @contentBackground;
 	text-align: justify;
 	color: #fff;
-	border-top: 1px solid rgba(192, 192, 192, 0.6);
-	border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+	border-top: 1px solid rgba(192, 192, 192, 0.5);
+	border-bottom: 1px solid rgba(0, 0, 0, 1.0);
+	.linear-gradient(to-bottom, @contentBackground, lighten(@contentBackground, 5%));
 }
 
 #showtimeLoading {
@@ -93,7 +99,6 @@
 
 a.showtime-button {
 	display: inline-block;
-	color: #fff;
 	font-weight: bold;
 	font-size: 0.9em;
 	font-family: @fontFamily;
@@ -101,30 +106,33 @@ a.showtime-button {
 	cursor: default;
 	background-repeat: repeat-x;
 	border: 1px solid rgba(187, 187, 187, 0.7);
-//	border-bottom-color: rgba(255, 255, 255, 0.4);
 	padding: 2px 4px;
 	margin: 0;
-	margin-left: 6px;
+	margin-left: 4px;
 	text-align: center;
 	white-space: nowrap;
+
+	.rgba-color(@defaultTextColor);
 	.linear-gradient(to-top, darken(@buttonColor, 15%), @buttonColor);
 	.drop-shadow(0, 1px, 3px, 0, 0.1);
 	.text-shadow(0 1px 0 rgba(0, 0, 0, 0.2));
 	.border-radius(3px);
 	.box-sizing(border-box);
-	&:hover {
-		color: #f5f5f5;
+	& > :first-child {
+		opacity: @defaultButtonContentsOpacity;
+	}
+	span[class^="icon-"] {
+		margin: 0;
+	}
+	&:hover, &:focus {
 		text-decoration: none;
 		cursor: pointer;
-		.drop-shadow(0, 1px, 3px, 0, 0.6);
-		.linear-gradient(to-top, @buttonColor, lighten(@buttonColor, 15%));
+		.highlight();
+		.rgba-color(@activeTextColor);
+		.linear-gradient(to-top, @activeButtonColor, lighten(@activeButtonColor, 15%));
 		.text-shadow(1px 1px 2px rgba(0, 0, 0, 0.4));
-	}
-	span {
-		margin: 0;
-		opacity: 0.75;
-		&:hover {
-			opacity: 0.90;
+		& > :first-child {
+			opacity: @activeButtonContentsOpacity;
 		}
 	}
 }
@@ -133,20 +141,19 @@ a.showtime-button {
 	position: relative;
 	bottom: 0;
 	right: 0;
-	padding: 4px;
+	padding: 2px;
 	display: none;
-	border-top: 1px solid rgba(192, 192, 192, 0.6);
+	border-top: 1px solid rgba(224, 224, 224, 0.6);
 	border-bottom: 1px solid rgba(0, 0, 0, 0.5);
 	.linear-gradient(to-top, @bezelColor, lighten(@bezelColor, 5%));
-}
-
-#footerButtons {
-	text-align: right;
+	#footerButtons {
+		text-align: right;
+	}
 }
 
 #overlay {
 	display: none;
-	background-color: rgba(0, 0, 0, 0.65);
+	background-color: @overlayBackgroundColor;
 	top: 0;
 	left: 0;
 	height: 100%;
@@ -167,7 +174,7 @@ a.showtime-button {
 
 	#overlay {
 		background-color: #efefef;
-		.opacity(75);
+		.opacity(@defaultOverlayOpacity);
 	}
 
 	a.showtime-button:hover {
