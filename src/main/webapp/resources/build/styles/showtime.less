@@ -2,16 +2,17 @@
 @import "mixins/mixins";
 
 @textColor: #fff;
-@contentBackground: lighten(@black-70, 4%);
+@contentBackground: lighten(@black-70, 2%);
 @bezelColor: lighten(@contentBackground, 10%);
 @buttonColor: darken(@bezelColor, 10%);
 @activeButtonColor: darken(@buttonColor, 10%);
 @defaultOverlayOpacity: 0.75;
-@overlayBackgroundColor: rgba(255, 255, 255, 0.60);
+@overlayBackgroundColor: rgba(255, 255, 255, @defaultOverlayOpacity);
 @defaultButtonContentsOpacity: 0.75;
 @activeButtonContentsOpacity: 1.0;
 @defaultTextColor: rgba(255, 255, 255, @defaultButtonContentsOpacity);
 @activeTextColor: rgba(255, 255, 255, @activeButtonContentsOpacity);
+@defaultButtonTextShadow: rgba(0, 0, 0, 0.2);
 @fontFamily: Ubuntu, "Trebuchet MS", Helvitica, sans-serif;
 
 #showtime {
@@ -111,11 +112,11 @@ a.showtime-button {
 	margin-left: 4px;
 	text-align: center;
 	white-space: nowrap;
+	color: @defaultTextColor;
 
-	.rgba-color(@defaultTextColor);
 	.linear-gradient(to-top, darken(@buttonColor, 15%), @buttonColor);
 	.drop-shadow(0, 1px, 3px, 0, 0.1);
-	.text-shadow(0 1px 0 rgba(0, 0, 0, 0.2));
+	.text-shadow(0 1px 0 @defaultButtonTextShadow);
 	.border-radius(3px);
 	.box-sizing(border-box);
 	& > :first-child {
@@ -127,10 +128,11 @@ a.showtime-button {
 	&:hover, &:focus {
 		text-decoration: none;
 		cursor: pointer;
+		color: @activeTextColor;
+
 		.highlight();
-		.rgba-color(@activeTextColor);
 		.linear-gradient(to-top, @activeButtonColor, lighten(@activeButtonColor, 15%));
-		.text-shadow(1px 1px 2px rgba(0, 0, 0, 0.4));
+		.text-shadow(1px 1px 2px fadein(@defaultButtonTextShadow, 20%));
 		& > :first-child {
 			opacity: @activeButtonContentsOpacity;
 		}
