@@ -5,23 +5,13 @@
  * Open sourced under MIT license by @mdo.
  * Some variables and mixins from Bootstrap (Apache 2 license).
  */
+#_borderRadiusBackgroundClip {
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+}
 /* Mixin */
 /* Implementation */
-.one {
-  color: #663333;
-}
-.two {
-  color: #336666;
-}
-.three {
-  color: #2b5555;
-}
-.four {
-  color: #994d4d;
-}
-.five {
-  color: #bb7777;
-}
 html {
   background: #222222 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAGklEQVQIW2NkYGD4D8SMQAwGcAY2AbBKDBUAVuYCBQPd34sAAAAASUVORK5CYII=) repeat;
 }

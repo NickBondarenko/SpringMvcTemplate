@@ -2,27 +2,27 @@
 @import "mixins/mixins";
 
 @textColor: #fff;
-@contentBackground: lighten(@black-70, 2%);
+@overlayColor: #fff;
+@contentBackground: #393939;
 @bezelColor: lighten(@contentBackground, 10%);
 @buttonColor: darken(@bezelColor, 10%);
 @activeButtonColor: darken(@buttonColor, 10%);
 @defaultOverlayOpacity: 0.75;
-@overlayBackgroundColor: rgba(255, 255, 255, @defaultOverlayOpacity);
 @defaultButtonContentsOpacity: 0.75;
 @activeButtonContentsOpacity: 1.0;
-@defaultTextColor: rgba(255, 255, 255, @defaultButtonContentsOpacity);
-@activeTextColor: rgba(255, 255, 255, @activeButtonContentsOpacity);
+@overlayBackgroundColor: fade(@overlayColor, percentage(@defaultOverlayOpacity));
+@defaultTextColor: fade(@textColor, percentage(@defaultButtonContentsOpacity));
+@activeTextColor: fadein(@defaultTextColor, @defaultButtonContentsOpacity + percentage(@activeButtonContentsOpacity - @defaultButtonContentsOpacity));
 @defaultButtonTextShadow: rgba(0, 0, 0, 0.2);
 @fontFamily: Ubuntu, "Trebuchet MS", Helvitica, sans-serif;
 
 #showtime {
 	display: none;
-	top: 150px;
+	top: 15%;
 	left: 50%;
 	color: @textColor;
 	font-family: @fontFamily;
 	-webkit-font-smoothing: antialiased !important;
-	border: 1px solid rgba(0, 0, 0, 0.5);
 	z-index: 9991;
 	text-align: center;
 	overflow: hidden;
@@ -34,17 +34,17 @@
 	width: 350px;
 	min-height: 32px;
 	.border-radius(3px);
-	.linear-gradient(to-bottom, @contentBackground, lighten(@contentBackground, 10%));
+	.linear-gradient(to-bottom, @contentBackground, lighten(@contentBackground, 4%));
 }
 
 #showtimeHeader {
 	display: none;
 	padding: 2px;
-	min-height: 20px;
+	min-height: 24px;
 	text-align: left;
-	border-top: 1px solid rgba(192, 192, 192, 0.6);
+	border-top: 1px solid rgba(255, 255, 255, 0.4);
 	border-bottom: 1px solid rgba(0, 0, 0, 0.7);
-	.linear-gradient(to-bottom, lighten(@bezelColor, 5%), @bezelColor);
+	.bezel;
 }
 
 #showtimeTitle {
@@ -58,8 +58,8 @@
 
 #titleButtons {
 	position: absolute;
-	top: 3px;
-	right: 2px;
+	top: 4px;
+	right: 4px;
 	padding: 0;
 	margin: 0;
 	a.showtime-button {
@@ -79,9 +79,9 @@
 	padding: 5px;
 	text-align: justify;
 	color: #fff;
-	border-top: 1px solid rgba(192, 192, 192, 0.5);
-	border-bottom: 1px solid rgba(0, 0, 0, 1.0);
-	.linear-gradient(to-bottom, @contentBackground, lighten(@contentBackground, 5%));
+//	border-top: 1px solid rgba(192, 192, 192, 0.5);
+//	border-bottom: 1px solid rgba(0, 0, 0, 1.0);
+	.linear-gradient(to-top, @contentBackground, lighten(@contentBackground, 4%));
 }
 
 #showtimeLoading {
@@ -106,7 +106,7 @@ a.showtime-button {
 	width: 60px;
 	cursor: default;
 	background-repeat: repeat-x;
-	border: 1px solid rgba(187, 187, 187, 0.7);
+	border: 1px solid rgba(187, 187, 187, 0.3);
 	padding: 2px 4px;
 	margin: 0;
 	margin-left: 4px;
@@ -114,8 +114,8 @@ a.showtime-button {
 	white-space: nowrap;
 	color: @defaultTextColor;
 
-	.linear-gradient(to-top, darken(@buttonColor, 15%), @buttonColor);
-	.drop-shadow(0, 1px, 3px, 0, 0.1);
+	.linear-gradient(to-top, @activeButtonColor, lighten(@activeButtonColor, 10%));
+	.drop-shadow(0, 0, 3px, 0, 0.2);
 	.text-shadow(0 1px 0 @defaultButtonTextShadow);
 	.border-radius(3px);
 	.box-sizing(border-box);
@@ -131,7 +131,7 @@ a.showtime-button {
 		color: @activeTextColor;
 
 		.highlight();
-		.linear-gradient(to-top, @activeButtonColor, lighten(@activeButtonColor, 15%));
+		.linear-gradient(to-top, darken(@buttonColor, 10%), @buttonColor);
 		.text-shadow(1px 1px 2px fadein(@defaultButtonTextShadow, 20%));
 		& > :first-child {
 			opacity: @activeButtonContentsOpacity;
@@ -139,15 +139,19 @@ a.showtime-button {
 	}
 }
 
+.bezel {
+	.linear-gradient(to-top, @bezelColor, lighten(@bezelColor, 4%));
+}
+
 #showtimeFooter {
 	position: relative;
 	bottom: 0;
 	right: 0;
-	padding: 2px;
+	padding: 4px;
 	display: none;
-	border-top: 1px solid rgba(224, 224, 224, 0.6);
-	border-bottom: 1px solid rgba(0, 0, 0, 0.5);
-	.linear-gradient(to-top, @bezelColor, lighten(@bezelColor, 5%));
+	border-top: 1px solid rgba(255, 255, 255, 0.3);
+	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+	.bezel;
 	#footerButtons {
 		text-align: right;
 	}

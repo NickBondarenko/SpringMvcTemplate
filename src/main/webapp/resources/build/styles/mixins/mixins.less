@@ -1,21 +1,7 @@
 @import "preboot";
 @import "linear-gradient";
+@import "border-radius";
 @import "shadows";
-
-@defaultBorderRadius: 3px;
-@defaultHighlightColor: rgba(82, 168, 236, 0.8);
-
-.border-radius (@radius: @defaultBorderRadius) {
-	-webkit-border-radius: @radius;
-	-moz-border-radius: @radius;
-	-ms-border-radius: @radius;
-	-o-border-radius: @radius;
-	border-radius: @radius;
-
-	-moz-background-clip: padding;
-	-webkit-background-clip: padding-box;
-	background-clip: padding-box;
-}
 
 .transparent(@rgba: 255, 255, 255, 0.2){
 	background-color: rgba(@rgba);
@@ -43,23 +29,16 @@
 	filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr=@{ieAlphaColour}, endColorstr=@{ieAlphaColour})";  // IE 6 & 7
 }
 
-.highlight(@rgba: @defaultHighlightColor) {
-	border-color: @rgba;
-	outline: 0;
-	*outline: thin dotted \9; /*IE6-9*/
-	.box-shadow(~"inset 0 1px 2px 0 rgba(0, 0, 0, 0.075)", ~"0 0 8px 0 rgba(82, 168, 236, 0.7)");
-}
-
 /* Mixin */
-@base: #663333;
-@complement1: spin(@base, 180);
-@complement2: darken(spin(@base, 180), 5%);
-@lighten1: lighten(@base, 15%);
-@lighten2: lighten(@base, 30%);
+//@base: #663333;
+//@complement1: spin(@base, 180);
+//@complement2: darken(spin(@base, 180), 5%);
+//@lighten1: lighten(@base, 15%);
+//@lighten2: lighten(@base, 30%);
 
 /* Implementation */
-.one   {color: @base;}
-.two   {color: @complement1;}
-.three {color: @complement2;}
-.four  {color: @lighten1;}
-.five  {color: @lighten2;}
+//.one   {color: @base;}
+//.two   {color: @complement1;}
+//.three {color: @complement2;}
+//.four  {color: @lighten1;}
+//.five  {color: @lighten2;}

@@ -1,0 +1,120 @@
+// Core
+@defaultBorderRadius: 3px;
+#_borderRadiusBackgroundClip {
+	-moz-background-clip: padding;
+	-webkit-background-clip: padding-box;
+	background-clip: padding-box;
+}
+
+.border-radius(@radius: @defaultBorderRadius) {
+	-webkit-border-radius:   @radius;
+	-moz-border-radius: @radius;
+	border-radius: @radius;
+	#_borderRadiusBackgroundClip;
+}
+
+.border-radius(top-left, @radius) {
+	-webkit-border-top-left-radius: @radius;
+	-moz-border-radius-topleft: @radius;
+	border-top-left-radius: @radius;
+	#_borderRadiusBackgroundClip;
+}
+.border-radius(top-right, @radius) {
+	-webkit-border-top-right-radius: @radius;
+	-moz-border-radius-topright: @radius;
+	border-top-right-radius: @radius;
+	#_borderRadiusBackgroundClip;
+}
+.border-radius(bottom-right, @radius) {
+	-webkit-border-bottom-right-radius: @radius;
+	-moz-border-radius-topright: @radius;
+	border-bottom-right-radius: @radius;
+	#_borderRadiusBackgroundClip;
+}
+.border-radius(bottom-left, @radius) {
+	-webkit-border-bottom-left-radius: @radius;
+	-moz-border-radius-bottomleft: @radius;
+	border-bottom-left-radius: @radius;
+	#_borderRadiusBackgroundClip;
+}
+
+.border-radius(top, @radius) {
+	.border-radius(top-right, @radius);
+	.border-radius(top-left, @radius);
+}
+.border-radius(bottom, @radius) {
+	.border-radius(bottom-right, @radius);
+	.border-radius(bottom-left, @radius);
+}
+.border-radius(left, @radius) {
+	.border-radius(top-left, @radius);
+	.border-radius(bottom-left, @radius);
+}
+.border-radius(right, @radius) {
+	.border-radius(top-right, @radius);
+	.border-radius(bottom-right, @radius);
+}
+
+.border-radius(@top-radius, @bottom-radius) when( isnumber(@top-radius) ) {
+	.border-radius(@top-radius);
+	.border-radius(bottom-right, @bottom-radius);
+	.border-radius(bottom-left, @bottom-radius);
+}
+.border-radius(vert, @left-radius, @right-radius) {
+	.border-radius(@left-radius, @right-radius);
+}
+.border-radius(horz, @left-radius, @right-radius) {
+	.border-radius(@left-radius);
+	.border-radius(top-right, @right-radius);
+	.border-radius(bottom-right, @right-radius);
+}
+
+.border-radius(@top-left-radius, @top-right-radius, @bottom-right-radius, @bottom-left-radius) {
+	.border-radius(top-left, @top-left-radius);
+	.border-radius(top-right, @top-right-radius);
+	.border-radius(bottom-right, @bottom-right-radius);
+	.border-radius(bottom-left, @bottom-left-radius);
+}
+
+// Examples
+//.box{
+//	width: 50px;
+//	height: 50px;
+//	display: inline-block;
+//
+//	@radius: 10px;
+//	@radius2: 25px;
+//
+//	&.rounded{
+//		background: red;
+//		.border-radius(@radius);
+//	}
+//	&.top{
+//		background: orange;
+//		.border-radius(top, @radius);
+//	}
+//	&.bottom{
+//		background: yellow;
+//		.border-radius(bottom, @radius);
+//	}
+//	&.left{
+//		background: green;
+//		.border-radius(left, @radius);
+//	}
+//	&.right{
+//		background: cyan;
+//		.border-radius(right, @radius);
+//	}
+//	&.top-and-bottom{
+//		background: blue;
+//		.border-radius(@radius, @radius2);
+//	}
+//	&.left-and-right{
+//		background: indigo;
+//		.border-radius(horz, @radius, @radius2);
+//	}
+//	&.all{
+//		background: purple;
+//		.border-radius(@radius - 5px, @radius, @radius + 5px, @radius2);
+//	}
+//}

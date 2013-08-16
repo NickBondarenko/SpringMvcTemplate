@@ -23,7 +23,6 @@ define(['jquery', 'jquery-ui', 'modernizr', 'jquery.extensions', 'jquery.buildr'
 		minHeight: 32,
 		maxWidth: 450,
 		fixed: true,
-		autoResize: false,
 		imagesPath: '../../resources/images/',
 		imageTypes: ['jpg', 'jpeg', 'png', 'gif', 'bmp'],
 		speed: 200,
@@ -261,9 +260,7 @@ define(['jquery', 'jquery-ui', 'modernizr', 'jquery.extensions', 'jquery.buildr'
 							elements.$container.animate({width: containerWidth + 'px', height: containerHeight + 'px'}, opts.speed)
 								.promise().then(function () {
 									elements.$container.children().fadeIn(opts.speed);
-									if (opts.autoResize) {
 										elements.$container.css('height', 'auto');
-									}
 								}).then(opts.callback).then(nextChild).then(next);
 						}).dequeue('showtime.openChild');
 					});
