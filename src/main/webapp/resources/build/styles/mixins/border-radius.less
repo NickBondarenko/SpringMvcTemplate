@@ -1,6 +1,6 @@
 // Core
 @defaultBorderRadius: 3px;
-#_borderRadiusBackgroundClip {
+._borderRadiusBackgroundClip() {
 	-moz-background-clip: padding;
 	-webkit-background-clip: padding-box;
 	background-clip: padding-box;
@@ -10,32 +10,32 @@
 	-webkit-border-radius:   @radius;
 	-moz-border-radius: @radius;
 	border-radius: @radius;
-	#_borderRadiusBackgroundClip;
+	._borderRadiusBackgroundClip();
 }
 
 .border-radius(top-left, @radius) {
 	-webkit-border-top-left-radius: @radius;
 	-moz-border-radius-topleft: @radius;
 	border-top-left-radius: @radius;
-	#_borderRadiusBackgroundClip;
+	._borderRadiusBackgroundClip();
 }
 .border-radius(top-right, @radius) {
 	-webkit-border-top-right-radius: @radius;
 	-moz-border-radius-topright: @radius;
 	border-top-right-radius: @radius;
-	#_borderRadiusBackgroundClip;
+	._borderRadiusBackgroundClip();
 }
 .border-radius(bottom-right, @radius) {
 	-webkit-border-bottom-right-radius: @radius;
 	-moz-border-radius-topright: @radius;
 	border-bottom-right-radius: @radius;
-	#_borderRadiusBackgroundClip;
+	._borderRadiusBackgroundClip();
 }
 .border-radius(bottom-left, @radius) {
 	-webkit-border-bottom-left-radius: @radius;
 	-moz-border-radius-bottomleft: @radius;
 	border-bottom-left-radius: @radius;
-	#_borderRadiusBackgroundClip;
+	._borderRadiusBackgroundClip();
 }
 
 .border-radius(top, @radius) {

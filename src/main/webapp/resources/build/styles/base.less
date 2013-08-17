@@ -82,6 +82,12 @@ code {
   padding: 10px 20px;
 }
 
-input:focus, input[type]:focus, .uneditable-input:focus, button:focus, .btn:focus, a:focus {
+input:focus, input[type]:focus, .uneditable-input:focus {
 	.input-highlight();
+}
+
+button, .btn, a {
+	&:focus {
+		.highlight();
+	}
 }

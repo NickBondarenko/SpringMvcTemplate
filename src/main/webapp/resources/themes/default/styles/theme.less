@@ -6,8 +6,35 @@ body, button {
 	font-family: "Lato", "Trebuchet MS", Helvitica, sans-serif;
 }
 
+fieldset legend [class^="icon-"] {
+	.cell & {
+		vertical-align: baseline;
+	}
+}
+
+#rememberMe {
+	vertical-align: text-top;
+	margin-right: 5px;
+}
+
 #formContainer {
 	max-width: 350px;
+}
+
+#buttonContainer {
+	clear: both;
+	padding: 10px 0;
+}
+
+#loginContainer {
+	.page-header {
+		h1 {
+			margin-right: 15px;
+		}
+		.alert {
+			margin-bottom: 0;
+		}
+	}
 }
 
 .section {
@@ -23,38 +50,18 @@ body, button {
 	max-width: 500px;
 	padding: 19px 29px 29px;
 	margin: 0 auto 20px;
+	input[type="text"], input[type="password"] {
+		font-size: 16px;
+		height: auto;
+		margin-bottom: 15px;
+		padding: 7px 9px;
+	}
 }
 
-.form-signin input[type="text"],
-.form-signin input[type="password"] {
-	font-size: 16px;
-	height: auto;
-	margin-bottom: 15px;
-	padding: 7px 9px;
-}
-
-#loginContainer .page-header h1 {
-	margin-right: 15px;
-}
-
-#loginContainer .page-header .alert {
-	margin-bottom: 0;
-}
-
-#rememberMe {
-	vertical-align: text-top;
-	margin-right: 5px;
-}
-
-fieldset legend [class^="icon-"], .cell fieldset legend [class*="icon-"] {
-	vertical-align: baseline;
-}
-
-.control-group .controls input, .control-group .controls select, .control-group .controls .input-prepend {
-	margin-bottom: 0;
-}
-
-#buttonContainer {
-	clear: both;
-	padding: 10px 0;
+.control-group {
+	.controls {
+		input, select, .input-prepend {
+			margin-bottom: 0;
+		}
+	}
 }

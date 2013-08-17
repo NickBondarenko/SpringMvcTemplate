@@ -32,8 +32,9 @@
 					<input type="password" id="password" name="password" class="input-xlarge" />
 					<div class="remember">
 						<div class="left">
-							<input id="rememberMe" type="checkbox" class="inline" />
-							<label for="rememberMe" class="inline">Remember me</label>
+							<label for="rememberMe" class="checkbox">
+								<input id="rememberMe" type="checkbox" />Remember me
+							</label>
 						</div>
 					</div>
 					<button type="submit" class="btn btn-primary">Sign In</button>
