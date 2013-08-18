@@ -3,30 +3,33 @@
 
 @fontSize: 1em;
 @lineHeight: 1.3em;
-@textColor: #fff;
+@lightTextColor: #fff;
+@darkTextColor: @black-70;
 @overlayColor: #fff;
-@contentBackground: #393939;
+@mainColor: lighten(#000, 20%);
+@contentBackground: @mainColor;
 @bezelColor: lighten(@contentBackground, 10%);
 @buttonColor: lighten(@activeButtonColor, 5%);
-@activeButtonColor: @black-90;
+@activeButtonColor: darken(@mainColor, 20%);
 @defaultOverlayOpacity: 0.65;
 @defaultButtonContentsOpacity: 0.75;
 @activeButtonContentsOpacity: 1.0;
 @overlayBackgroundColor: fade(@overlayColor, percentage(@defaultOverlayOpacity));
-@defaultTextColor: fade(@textColor, percentage(@defaultButtonContentsOpacity));
+@defaultTextColor: fade(@lightTextColor, percentage(@defaultButtonContentsOpacity));
 @activeTextColor: fadein(@defaultTextColor, @defaultButtonContentsOpacity + percentage(@activeButtonContentsOpacity - @defaultButtonContentsOpacity));
 @defaultButtonTextShadow: rgba(0, 0, 0, 0.2);
 @fontFamily: Ubuntu, "Trebuchet MS", Helvitica, sans-serif;
 
 .bezel() {
-	.linear-gradient(to-top, @bezelColor, lighten(@bezelColor, 4%));
+	.linear-gradient(to-top, @bezelColor, lighten(@bezelColor, 5%));
+	border-top: 1px solid fadeout(lighten(@bezelColor, 25%), 10%);
 }
 
 #showtime {
 	display: none;
 	top: 15%;
 	left: 50%;
-	color: @textColor;
+	color: contrast(@mainColor, @darkTextColor, @lightTextColor, 55%);
 	font-family: @fontFamily;
 	font-size: @fontSize;
 	line-height: @lineHeight;
@@ -35,7 +38,7 @@
 	text-align: center;
 	overflow: hidden;
 	.border-radius(3px);
-	.box-shadow(0 0 15px rgba(0, 0, 0, 0.8));
+	.box-shadow(0 0 20px rgba(0, 0, 0, 0.7));
 	.ui-resizable {
 		.ui-resizable-se {
 			background-image: url("");
@@ -55,8 +58,7 @@
 	padding: 2px;
 	min-height: 24px;
 	text-align: left;
-	border-top: 1px solid rgba(255, 255, 255, 0.5);
-	border-bottom: 1px solid rgba(0, 0, 0, 0.7);
+	border-bottom: 1px solid fadeout(darken(@bezelColor, 25%), 20%);
 	.bezel();
 }
 
@@ -66,7 +68,7 @@
 	font-size: 1.1em;
 	margin: 0 5px;
 	line-height: 1.4em;
-	.text-shadow(1px 1px 2px rgba(0, 0, 0, 0.6));
+//	.text-shadow(1px 1px 2px rgba(0, 0, 0, 0.6));
 }
 
 #titleButtons {
@@ -91,7 +93,7 @@
 	min-height: 2.8em;
 	padding: 5px 10px;
 	text-align: justify;
-	color: #fff;
+//	color: #fff;
 	.linear-gradient(to-top, @contentBackground, lighten(@contentBackground, 4%));
 }
 
@@ -125,9 +127,9 @@ a.showtime-button {
 	white-space: nowrap;
 	color: @defaultTextColor;
 
-	.linear-gradient(to-top, @buttonColor, lighten(@buttonColor, 15%));
-	.drop-shadow(0, 0, 2px, 0, 0.2);
-	.text-shadow(0 1px 0 @defaultButtonTextShadow);
+	.linear-gradient(to-top, @buttonColor, lighten(@buttonColor, 18%));
+//	.drop-shadow(0, 0, 2px, 0, 0.2);
+//	.text-shadow(0 1px 0 @defaultButtonTextShadow);
 	.border-radius(3px);
 	.box-sizing(border-box);
 	& > :first-child {
@@ -142,7 +144,7 @@ a.showtime-button {
 		color: @activeTextColor;
 
 		.highlight();
-		.linear-gradient(to-top, @activeButtonColor, lighten(@activeButtonColor, 15%));
+		.linear-gradient(to-top, @activeButtonColor, lighten(@activeButtonColor, 18%));
 		.text-shadow(1px 1px 2px fadein(@defaultButtonTextShadow, 20%));
 		& > :first-child {
 			opacity: @activeButtonContentsOpacity;
@@ -156,8 +158,7 @@ a.showtime-button {
 	right: 0;
 	padding: 4px;
 	display: none;
-	border-top: 1px solid rgba(255, 255, 255, 0.3);
-	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+	border-bottom: 1px solid fadeout(darken(@bezelColor, 25%), 50%);
 	.bezel();
 	#footerButtons {
 		text-align: right;
