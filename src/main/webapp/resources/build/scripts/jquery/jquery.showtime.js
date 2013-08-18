@@ -27,7 +27,7 @@ define(['jquery', 'jquery-ui', 'modernizr', 'jquery.extensions', 'jquery.buildr'
 		imageTypes: ['jpg', 'jpeg', 'png', 'gif', 'bmp'],
 		speed: 200,
 		title: '',
-		fontFamilies: ['Ubuntu:400,500,700,400italic,500italic,700italic:latin'],
+		fontFamilies: ['Ubuntu:400,700,400italic,700italic:latin'],
 		content: undefined,
 		draggable: {
 			cursor: 'move',
@@ -36,7 +36,7 @@ define(['jquery', 'jquery-ui', 'modernizr', 'jquery.extensions', 'jquery.buildr'
 			cancel: '#showtimeContent, .Showtime-button, #closeBtn',
 			initialized: false
 		},
-		resizable: {alsoResize: '#showtimeContent', autoHide: true, handles: 'e, se, s'},
+		resizable: {alsoResize: '#showtimeContent', autoHide: true},
 		buttons: undefined,
 		loadingMessage: 'Loading, please wait...',
 		loadingImage: 'roller-light.gif',

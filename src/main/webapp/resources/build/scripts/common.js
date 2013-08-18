@@ -47,10 +47,10 @@ requirejs.config({
 
 requirejs([
 	'jquery',
-	'jquery-ui',
 	'modernizr.tests',
 	'jquery.extensions',
 	'bootstrap',
+	'jquery-ui',
 	'jquery.showtime',
 	'utilities',
 	'font',

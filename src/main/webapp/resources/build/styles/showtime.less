@@ -1,13 +1,15 @@
 @charset "UTF-8";
 @import "mixins/mixins";
 
+@fontSize: 1em;
+@lineHeight: 1.3em;
 @textColor: #fff;
 @overlayColor: #fff;
 @contentBackground: #393939;
 @bezelColor: lighten(@contentBackground, 10%);
 @buttonColor: lighten(@activeButtonColor, 5%);
 @activeButtonColor: @black-90;
-@defaultOverlayOpacity: 0.75;
+@defaultOverlayOpacity: 0.65;
 @defaultButtonContentsOpacity: 0.75;
 @activeButtonContentsOpacity: 1.0;
 @overlayBackgroundColor: fade(@overlayColor, percentage(@defaultOverlayOpacity));
@@ -26,12 +28,19 @@
 	left: 50%;
 	color: @textColor;
 	font-family: @fontFamily;
+	font-size: @fontSize;
+	line-height: @lineHeight;
 	-webkit-font-smoothing: antialiased !important;
 	z-index: 9991;
 	text-align: center;
 	overflow: hidden;
 	.border-radius(3px);
 	.box-shadow(0 0 15px rgba(0, 0, 0, 0.8));
+	.ui-resizable {
+		.ui-resizable-se {
+			background-image: url("");
+		}
+	}
 }
 
 #showtimeContainer {
@@ -46,7 +55,7 @@
 	padding: 2px;
 	min-height: 24px;
 	text-align: left;
-	border-top: 1px solid rgba(255, 255, 255, 0.4);
+	border-top: 1px solid rgba(255, 255, 255, 0.5);
 	border-bottom: 1px solid rgba(0, 0, 0, 0.7);
 	.bezel();
 }
@@ -80,7 +89,7 @@
 	width: auto;
 	height: auto;
 	min-height: 2.8em;
-	padding: 5px;
+	padding: 5px 10px;
 	text-align: justify;
 	color: #fff;
 	.linear-gradient(to-top, @contentBackground, lighten(@contentBackground, 4%));

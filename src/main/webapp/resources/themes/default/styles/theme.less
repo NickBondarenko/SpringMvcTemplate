@@ -3,12 +3,14 @@
 
 body, button {
 	font-size: 16px;
-	font-family: "Lato", "Trebuchet MS", Helvitica, sans-serif;
+	font-family: Lato, "Trebuchet MS", Helvitica, sans-serif;
 }
 
-fieldset legend [class^="icon-"] {
-	.cell & {
-		vertical-align: baseline;
+.cell {
+	fieldset {
+		legend[class^="icon-"] {
+			vertical-align: baseline;
+		}
 	}
 }
 

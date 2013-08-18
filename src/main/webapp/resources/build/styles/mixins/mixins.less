@@ -8,25 +8,25 @@
 }
 
 .alpha-text(@color, @alpha) {
-	@alphaColour: hsla(hue(@color), saturation(@color), lightness(@color), @alpha);
-	@ieAlphaColour: argb(@alphaColour);
+	@alphaColor: hsla(hue(@color), saturation(@color), lightness(@color), @alpha);
+	@ieAlphaColor: argb(@alphaColor);
 
-	color: @alphaColour;
+	color: @alphaColor;
 }
 
-// Use with colour name: .rgba(black, 0.5) or hex value: .rgba(#FF2400, 0.5)
+// Use with color name: .rgba(black, 0.5) or hex value: .rgba(#FF2400, 0.5)
 .alpha-background(@color, @alpha) {
-	@alphaColour: hsla(hue(@color), saturation(@color), lightness(@color), @alpha);
-	@ieAlphaColour: argb(@alphaColour);
+	@alphaColor: hsla(hue(@color), saturation(@color), lightness(@color), @alpha);
+	@ieAlphaColor: argb(@alphaColor);
 
 	background-color: @color; // Fallback for older browsers
-	background-color: @alphaColour;
+	background-color: @alphaColor;
 
 	// IE hacks
 	zoom: 1; // hasLayout
 	background-color: transparent\9;
-	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=@{ieAlphaColour}, endColorstr=@{ieAlphaColour})"; // IE 8+
-	filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr=@{ieAlphaColour}, endColorstr=@{ieAlphaColour})";  // IE 6 & 7
+	-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=@{ieAlphaColor}, endColorstr=@{ieAlphaColor})"; // IE 8+
+	filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr=@{ieAlphaColor}, endColorstr=@{ieAlphaColor})";  // IE 6 & 7
 }
 
 /* Mixin */
