@@ -11,6 +11,7 @@
 @bezelColor: lighten(@contentBackground, 10%);
 @buttonColor: lighten(@activeButtonColor, 5%);
 @activeButtonColor: darken(@mainColor, 20%);
+@defaultBorderRadius: 3px;
 @defaultOverlayOpacity: 0.65;
 @defaultButtonContentsOpacity: 0.75;
 @activeButtonContentsOpacity: 1.0;
@@ -25,6 +26,10 @@
 	border-top: 1px solid fadeout(lighten(@bezelColor, 25%), 10%);
 }
 
+.dark() {
+
+}
+
 #showtime {
 	display: none;
 	top: 15%;
@@ -37,19 +42,22 @@
 	z-index: 9991;
 	text-align: center;
 	overflow: hidden;
-	.border-radius(3px);
+	.border-radius(@defaultBorderRadius);
 	.box-shadow(0 0 20px rgba(0, 0, 0, 0.7));
 	.ui-resizable {
 		.ui-resizable-se {
 			background-image: url("");
 		}
 	}
+	&.dark {
+		@activeButtonColor: #fff;
+	}
 }
 
 #showtimeContainer {
 	width: 350px;
 	min-height: 32px;
-	.border-radius(3px);
+	.border-radius(@defaultBorderRadius);
 	.linear-gradient(to-bottom, @contentBackground, lighten(@contentBackground, 4%));
 }
 
@@ -93,7 +101,6 @@
 	min-height: 2.8em;
 	padding: 5px 10px;
 	text-align: justify;
-//	color: #fff;
 	.linear-gradient(to-top, @contentBackground, lighten(@contentBackground, 4%));
 }
 
@@ -101,7 +108,7 @@
 	font-weight: bold;
 	background-color: @contentBackground;
 	height: 32px;
-	.border-radius(2px);
+	.border-radius(@defaultBorderRadius);
 	img {
 		vertical-align: middle;
 		margin-right: 5px;
@@ -127,10 +134,10 @@ a.showtime-button {
 	white-space: nowrap;
 	color: @defaultTextColor;
 
-	.linear-gradient(to-top, @buttonColor, lighten(@buttonColor, 18%));
+	.linear-gradient(to-top, @buttonColor, lighten(@buttonColor, 20%));
 //	.drop-shadow(0, 0, 2px, 0, 0.2);
 //	.text-shadow(0 1px 0 @defaultButtonTextShadow);
-	.border-radius(3px);
+	.border-radius(@defaultBorderRadius);
 	.box-sizing(border-box);
 	& > :first-child {
 		opacity: @defaultButtonContentsOpacity;
@@ -144,8 +151,8 @@ a.showtime-button {
 		color: @activeTextColor;
 
 		.highlight();
-		.linear-gradient(to-top, @activeButtonColor, lighten(@activeButtonColor, 18%));
-		.text-shadow(1px 1px 2px fadein(@defaultButtonTextShadow, 20%));
+		.linear-gradient(to-top, @activeButtonColor, lighten(@activeButtonColor, 20%));
+//		.text-shadow(1px 1px 2px fadein(@defaultButtonTextShadow, 20%));
 		& > :first-child {
 			opacity: @activeButtonContentsOpacity;
 		}
