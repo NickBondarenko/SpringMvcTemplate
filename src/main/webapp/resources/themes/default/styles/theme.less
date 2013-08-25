@@ -1,9 +1,16 @@
 @charset "UTF-8";
 @import "../../../build/styles/mixins/mixins";
 
+@theme-font-family: Lato, "Trebuchet MS", Helvitica, sans-serif;
+
 body, button {
 	font-size: 16px;
-	font-family: Lato, "Trebuchet MS", Helvitica, sans-serif;
+	font-family: @theme-font-family;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+	font-family: @theme-font-family;
 }
 
 .cell {

@@ -25,6 +25,10 @@
 		<link type="text/css" rel="stylesheet" href="../../../resources/${scriptEnvironment}/styles/main.css" />
 		<link type="text/css" rel="stylesheet" href="../../../resources/themes/${themeName}/styles/theme.css" />
 		<link type="image/x-icon" rel="icon" href="../../../resources/themes/${themeName}/images/favicon.ico" />
+
+		<!--[if lt IE 9]>
+			<script type="text/javascript" src="../../../resources/${scriptEnvironment}/scripts/shims/respond.js"></script>
+		<![endif]-->
 	</head>
 	<body>
 	  <div id="contentWrapper">

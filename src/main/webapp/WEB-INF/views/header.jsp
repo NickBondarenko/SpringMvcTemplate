@@ -4,17 +4,23 @@
 <sec:authorize access="authenticated" var="authenticated" />
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!-- Fixed navbar -->
-<div class="navbar navbar-fixed-top">
-	<div class="navbar-inner">
-		<div class="container">
-			<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<a class="brand" href="#">Spring MVC Template</a>
-			<div class="nav-collapse collapse">
-				<ul id="navMenu" class="nav">
+<header class="navbar navbar-default navbar-fixed-top" role="banner">
+	<div class="container">
+		<nav class="collapse navbar-collapse" role="navigation">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Spring MVC Template</a>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse navbar-ex1-collapse">
+				<ul class="nav navbar-nav">
 					<li id="homeLink"><a href="${contextPath}/home">Home</a></li>
 					<c:choose>
 						<c:when test="${authenticated}">
@@ -27,22 +33,17 @@
 						</c:otherwise>
 					</c:choose>
 					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></a>
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li><a href="${contextPath}/admin">Admin</a></li>
 							<li><a id="anotherAction" href="#">Another action</a></li>
 							<li><a href="#">Something else here</a></li>
-							<li class="divider"></li>
-							<li class="nav-header">Nav header</li>
 							<li><a href="#">Separated link</a></li>
 							<li><a href="#">One more separated link</a></li>
 						</ul>
 					</li>
 				</ul>
-				<c:if test="${authenticated}">
-					<div id="welcomeMessage" class="pull-right">Welcome <sec:authentication property="principal.firstName" /> <sec:authentication property="principal.lastName" /></div>
-        </c:if>
 			</div>
-		</div>
+		</nav>
 	</div>
-</div>
+</header>
