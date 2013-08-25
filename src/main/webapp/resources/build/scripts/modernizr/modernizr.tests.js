@@ -1,5 +1,5 @@
 define(['modernizr', 'domReady!'], function(Modernizr, document) {
-	Modernizr.addTest('positionfixed', function () {
+	Modernizr.addTest('positionfixed', function() {
 		var test  = document.createElement('div'),
 				control = test.cloneNode(false),
 				fake = false,
@@ -27,7 +27,7 @@ define(['modernizr', 'domReady!'], function(Modernizr, document) {
 		return ret;
 	});
 
-	Modernizr.addTest('iospositionfixed', function () {
+	Modernizr.addTest('iospositionfixed', function() {
 		var test  = document.createElement('div'),
 				ret,
 				fake = false,
@@ -77,7 +77,7 @@ define(['modernizr', 'domReady!'], function(Modernizr, document) {
 		return ret;
 	});
 
-	Modernizr.addTest('compliantzindex', function(){
+	Modernizr.addTest('compliantzindex', function() {
 		var test  = document.createElement('div'),
 				fake = false,
 				root = document.body || (function () {
@@ -95,5 +95,14 @@ define(['modernizr', 'domReady!'], function(Modernizr, document) {
 		}
 
 		return ret;
+	});
+
+	Modernizr.addTest('cssremunit', function() {
+		var div = document.createElement('div');
+		try {
+			div.style.fontSize = '3rem';
+		}
+		catch( er ) {}
+		return (/rem/).test(div.style.fontSize);
 	});
 });
