@@ -20,7 +20,6 @@
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/login.jsp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/registration.jsp" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/webapp/resources/build/scripts/jquery/jquery.buildr.js" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/webapp/resources/themes" charset="UTF-8" />
   </component>
 </project>
 
