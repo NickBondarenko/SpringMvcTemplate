@@ -15,7 +15,7 @@
 		<li>RequireJS 2.1.8</li>
 		<li>Modernizr 2.6.2</li>
 	</ul>
-	<h3>Build with Maven, LESS and Node.js</h3>
+	<h3>Built with Maven, LESS and Node.js</h3>
 </div>
 <script type="text/javascript">
 	require(['common'], function() {

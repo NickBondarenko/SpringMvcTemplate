@@ -15,7 +15,8 @@ requirejs.config({
 		'jquery.extensions': 'jquery/jquery.extensions',
 		'jquery.buildr': 'jquery/jquery.buildr',
 		'jquery.showtime': 'jquery/jquery.showtime',
-		webFont: '//ajax.googleapis.com/ajax/libs/webfont/1/webfont'
+		webFont: '//ajax.googleapis.com/ajax/libs/webfont/1/webfont',
+		rem: 'shims/rem'
 	},
 	shim: {
 		modernizr: {
@@ -37,7 +38,8 @@ requirejs.config({
 			init: function() {
 				return WebFont;
 			}
-		}
+		},
+		rem: []
 	},
 	deps: ['js.extensions', 'jquery'],
 	onError: function(error) {
@@ -57,6 +59,9 @@ requirejs([
 	'domReady!'
 ],
 function($) {
+	if (!Modernizr.cssremunit) {
+		require(['rem']);
+	}
 	var message = 'Heavy is the head that wears the crown. From the manger to the morgue, strangers are born and reborn.';
 	var instance = $('#anotherAction').showtime().on('click', function() {
 		instance.showtime('confirm', 'text:' + message);
