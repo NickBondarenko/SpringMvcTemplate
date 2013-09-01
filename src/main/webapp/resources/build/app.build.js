@@ -26,7 +26,7 @@
 		}
 	],
 	"optimize": "uglify2",
-	"optimizeCss": "standard.keepLines",
+	"optimizeCss": "standard",
 	"preserveLicenseComments": false,
 	"useSourceUrl": false,
 	"fileExclusionRegExp": /^bin$|([\w.]+)?build.js$|([\w.]+).less$|^mixins$/

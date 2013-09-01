@@ -9,7 +9,7 @@
 		<li>Spring Security 3.1.4</li>
 		<li>Hibernate Validator (JSR-303) 4.3.1</li>
 		<li>Tiles 2.2</li>
-		<li>Twitter Bootstrap 2.3.2</li>
+		<li>Twitter Bootstrap 3.0</li>
 		<li>jQuery 1.10.2</li>
 		<li>jQuery UI 1.10.3</li>
 		<li>RequireJS 2.1.8</li>
