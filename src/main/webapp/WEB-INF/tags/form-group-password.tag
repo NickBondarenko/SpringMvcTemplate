@@ -15,23 +15,11 @@
 	<c:set var="label" value="${fn:toUpperCase(fn:substring(path, 0, 1))}${fn:toLowerCase(fn:substring(path, 1, fn:length(path)))}" />
 </c:if>
 <spring:bind path="${path}">
-	<div class="control-group ${status.error ? 'error' : ''}">
-		<label class="control-label" for="${path}">${label}<c:if test="${required}"><span class="required">*</span></c:if></label>
-		<div class="controls">
-			<c:choose>
-				<c:when test="${not empty icon}">
-					<div class="input-prepend">
-						<span class="add-on"><i class="icon-${icon}"></i></span>
-						<form:input path="${path}" cssClass="${empty cssClass ? '' : cssClass}" maxlength="${maxLength}" placeholder="${placeholder}" />
-					</div>
-				</c:when>
-				<c:otherwise>
-					<form:input path="${path}" cssClass="${empty cssClass ? '' : cssClass}" maxlength="${maxLength}" placeholder="${placeholder}" />
-				</c:otherwise>
-			</c:choose>
-			<c:if test="${status.error}">
-				<span class="help-block">${status.errorMessage}</span>
-			</c:if>
-		</div>
+	<div class="form-group ${status.error ? 'has-error' : ''}">
+		<label for="${path}">${label}<c:if test="${required}"><span class="required">*</span></c:if></label>
+		<form:password path="${path}" cssClass="form-control ${empty cssClass ? '' : cssClass}" maxlength="${maxLength}" placeholder="${placeholder}" />
+		<c:if test="${status.error}">
+			<span class="help-block">${status.errorMessage}</span>
+		</c:if>
 	</div>
 </spring:bind>

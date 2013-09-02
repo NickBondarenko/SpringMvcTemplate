@@ -3309,6 +3309,30 @@ textarea.input-lg {
     text-align: right;
   }
 }
+.form-control {
+  width: auto;
+}
+.form-control.input-mini {
+  width: 15%;
+}
+.form-control.input-small {
+  width: 30%;
+}
+.form-control.input-medium {
+  width: 45%;
+}
+.form-control.input-large {
+  width: 60%;
+}
+.form-control.input-xlarge {
+  width: 75%;
+}
+.form-control.input-xxlarge {
+  width: 90%;
+}
+.form-control.input-max {
+  width: 100%;
+}
 .btn {
   display: inline-block;
   padding: 6px 12px;
@@ -5848,7 +5872,7 @@ a.thumbnail:focus {
   padding: 15px;
   margin-bottom: 20px;
   border: 1px solid transparent;
-  border-radius: 4px;
+  border-radius: 0;
 }
 .alert h4 {
   margin-top: 0;
@@ -5916,6 +5940,22 @@ a.thumbnail:focus {
 }
 .alert-danger .alert-link {
   color: #953b39;
+}
+.alert {
+  border: none;
+  border-left: 5px solid #eee;
+}
+.alert-success {
+  border-left-color: #b2dba1;
+}
+.alert-info {
+  border-left-color: #9acfea;
+}
+.alert-warning {
+  border-left-color: #f5e79e;
+}
+.alert-danger {
+  border-left-color: #d89ca6;
 }
 @-webkit-keyframes progress-bar-stripes {
   from {
