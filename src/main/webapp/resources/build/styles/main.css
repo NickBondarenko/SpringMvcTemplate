@@ -3309,30 +3309,6 @@ textarea.input-lg {
     text-align: right;
   }
 }
-.form-control {
-  width: auto;
-}
-.form-control.input-mini {
-  width: 15%;
-}
-.form-control.input-small {
-  width: 30%;
-}
-.form-control.input-medium {
-  width: 45%;
-}
-.form-control.input-large {
-  width: 60%;
-}
-.form-control.input-xlarge {
-  width: 75%;
-}
-.form-control.input-xxlarge {
-  width: 90%;
-}
-.form-control.input-max {
-  width: 100%;
-}
 .btn {
   display: inline-block;
   padding: 6px 12px;
@@ -4796,6 +4772,30 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .input-group-btn > .btn:hover,
 .input-group-btn > .btn:active {
   z-index: 2;
+}
+.form-control {
+  width: auto;
+}
+.form-control.input-mini {
+  width: 15%;
+}
+.form-control.input-small {
+  width: 30%;
+}
+.form-control.input-medium {
+  width: 45%;
+}
+.form-control.input-large {
+  width: 60%;
+}
+.form-control.input-xlarge {
+  width: 75%;
+}
+.form-control.input-xxlarge {
+  width: 90%;
+}
+.form-control.input-max {
+  width: 100%;
 }
 .nav {
   margin-bottom: 0;
@@ -7470,76 +7470,6 @@ button {
   font-family: "Trebuchet MS", Helvitica, sans-serif;
   -webkit-font-smoothing: antialiased !important;
 }
-header.navbar-default {
-  border-color: rgba(0, 0, 0, 0.2);
-  -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-}
-.btn {
-  font-size: 16px;
-}
-/* Wrapper for page content to push down footer */
-#contentWrapper {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  margin: 0 auto -50px;
-  /* Negative indent footer by it's height */
-
-  background-color: #fff;
-}
-/* Set the fixed height of the footer here */
-#push,
-#footer {
-  height: 50px;
-}
-.navbar-fixed-top .navbar-inner,
-.navbar-static-top .navbar-inner {
-  -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-}
-#footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  border: 1px solid #fff;
-  border-width: 1px 0 0;
-  background-color: #f6f6f6;
-  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fafafa, endColorstr=#f2f2f2);
-  -ms-filter: 'progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#fafafa, endColorstr=#f2f2f2)';
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#fafafa), to(#f2f2f2));
-  background-image: -webkit-linear-gradient(top, #fafafa, #f2f2f2);
-  background-image: -moz-linear-gradient(top, #fafafa, #f2f2f2);
-  background-image: -o-linear-gradient(top, #fafafa, #f2f2f2);
-  background-image: -ms-linear-gradient(top, #fafafa, #f2f2f2);
-  background-image: linear-gradient(to bottom, #fafafa, #f2f2f2);
-  -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
-}
-/* Lastly, apply responsive CSS fixes as necessary */
-@media (max-width: 767px) {
-  #footer {
-    margin-left: -20px;
-    margin-right: -20px;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-}
-#contentWrapper > .container {
-  padding-top: 50px;
-}
-.container .credit {
-  margin: 15px 0;
-}
-code {
-  font-size: 80%;
-}
-#welcomeMessage {
-  padding: 10px 20px;
-}
 input:focus,
 input[type]:focus,
 .uneditable-input:focus {
@@ -7552,6 +7482,18 @@ input[type]:focus,
   -moz-box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.075), 0 0 8px 0 rgba(82, 168, 236, 0.7);
   box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.075), 0 0 8px 0 rgba(82, 168, 236, 0.7);
 }
+header.navbar-default {
+  border-color: rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+}
+fieldset legend i.glyphicon {
+  font-size: 0.7em;
+}
+.btn {
+  font-size: 16px;
+}
 button:focus,
 .btn:focus,
 a:focus {
@@ -7563,6 +7505,43 @@ a:focus {
   -webkit-box-shadow: 0 0 5px 0 rgba(82, 168, 236, 0.8);
   -moz-box-shadow: 0 0 5px 0 rgba(82, 168, 236, 0.8);
   box-shadow: 0 0 5px 0 rgba(82, 168, 236, 0.8);
+}
+/* Wrapper for page content to push down footer */
+#contentWrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by its height */
+
+  margin: 0 auto -60px;
+  background-color: #fff;
+}
+#contentWrapper > .container {
+  padding-top: 30px;
+}
+#welcomeMessage {
+  padding: 10px 20px;
+}
+.navbar-fixed-top .navbar-inner,
+.navbar-static-top .navbar-inner {
+  -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+}
+footer#pageFooter {
+  width: 100%;
+  height: 60px;
+  -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+}
+footer#pageFooter > .container {
+  line-height: 60px;
+}
+footer#pageFooter > .container .credit {
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-bottom: 0;
 }
 #showtime {
   display: none;

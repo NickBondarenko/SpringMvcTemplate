@@ -4,7 +4,7 @@
 @font-family-sans-serif: "Trebuchet MS", Helvitica, sans-serif;
 @baseFontSize: 16px;
 @baseFontFamily: @font-family-sans-serif;
-@footerHeight: 40px;
+@footerHeight: 60px;
 @backgroundColor: #222;
 
 html {
@@ -31,6 +31,14 @@ header.navbar-default {
 	.drop-shadow(0, 0, 10px, 0, 0.3);
 }
 
+fieldset {
+	legend {
+		i.glyphicon {
+			font-size: 0.7em;
+		}
+	}
+}
+
 .btn {
 	font-size: @baseFontSize;
 }
@@ -50,7 +58,7 @@ button, .btn, a {
 	margin: 0 auto -@footerHeight;
 	background-color: #fff;
 	& > .container {
-		padding-top: @footerHeight;
+		padding-top: (@footerHeight / 2);
 	}
 }
 
@@ -69,10 +77,11 @@ footer {
 		width: 100%;
 		height: @footerHeight;
 		.drop-shadow(0, 0, 10px, 0, 0.3);
-		.linear-gradient(to-bottom, #fafafa, #f2f2f2);
 		& > .container {
 			line-height: @footerHeight;
 			.credit {
+				padding-left: 15px;
+				padding-right: 15px;
 				margin-bottom: 0;
 			}
 		}

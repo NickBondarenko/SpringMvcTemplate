@@ -20,9 +20,6 @@ h6,
 .h6 {
   font-family: Lato, "Trebuchet MS", Helvitica, sans-serif;
 }
-.cell fieldset legend[class^="icon-"] {
-  vertical-align: baseline;
-}
 #rememberMe {
   vertical-align: text-top;
   margin-right: 5px;
@@ -42,7 +39,7 @@ h6,
 }
 .section,
 .form-signin {
-  background-color: #fafafa;
+  background-color: #f8f8f8;
   border: 1px solid #e5e5e5;
   padding: 20px;
   margin-bottom: 20px;
