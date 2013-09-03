@@ -1,8 +1,7 @@
 <jsp:directive.page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
 <!-- starts footer -->
-<div id="footer">
+<footer id="pageFooter" class="navbar-default">
 	<div class="container">
-		<%--<p class="muted credit">Example courtesy <a href="http://martinbean.co.uk">Martin Bean</a> and <a href="http://ryanfait.com/sticky-footer/">Ryan Fait</a>.</p>--%>
-		<p class="muted credit">Powered By <a href="#">Tylt</a></p>
+		<p class="text-muted credit">Powered By <a href="#">Tylt</a></p>
 	</div>
-</div>
+</footer>
