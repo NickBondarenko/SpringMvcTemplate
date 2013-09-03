@@ -4,5 +4,3 @@ target/
 node_modules/
 /src/main/webapp/resources/build/styles/mixins/*.css
 /src/main/webapp/resources/build/styles/bootstrap/*.css
-!/src/main/webapp/resources/build/styles/bootstrap/bootstrap.css
-!/src/main/webapp/resources/build/styles/bootstrap/responsive.css
