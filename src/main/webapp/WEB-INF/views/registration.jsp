@@ -10,7 +10,7 @@
 	</div>
 	<sf:form id="registrationForm" modelAttribute="user" action="/registration" method="post">
 		<spring:hasBindErrors name="user">
-			<div class="alert alert-warning alert-dismissable">
+			<div class="alert alert-danger alert-dismissable">
 				<button type="button" class="close" data-dismiss="alert">&times;</button>
 				<h4>We were unable to complete your registration request due to errors on the form.</h4>
 				Please fix the inputs in red before submitting your registration request.
@@ -19,7 +19,7 @@
 		<div class="section">
 			<div class="col-lg-6">
 				<fieldset>
-					<legend>User Info&nbsp;<i class="icon-user"></i></legend>
+					<legend>User Info&nbsp;<i class="glyphicon glyphicon-user"></i></legend>
 					<div>
 						<tags:form-group-input path="firstName" label="First Name" cssClass="input-large" />
 						<tags:form-group-input path="lastName" label="Last Name" cssClass="input-large" />
@@ -32,7 +32,7 @@
 			</div>
 			<div class="col-lg-6">
 				<fieldset>
-					<legend>Address Info&nbsp;<i class="icon-home"></i></legend>
+					<legend>Address Info&nbsp;<i class="glyphicon glyphicon-home"></i></legend>
 					<div>
 						<tags:form-group-select path="address.country" label="Country" items="${requestScope.countries}" itemValue="code" itemLabel="name" />
 						<tags:form-group-input path="address.street" label="Street" cssClass="input-large" />

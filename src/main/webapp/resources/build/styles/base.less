@@ -4,46 +4,66 @@
 @font-family-sans-serif: Lato, "Trebuchet MS", Helvitica, sans-serif;
 @baseFontSize: 16px;
 @baseFontFamily: @font-family-sans-serif;
-@footerHeight: 50px;
+@footerHeight: 60px;
 @backgroundColor: #222;
 
 html {
-  background: @backgroundColor url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAGklEQVQIW2NkYGD4D8SMQAwGcAY2AbBKDBUAVuYCBQPd34sAAAAASUVORK5CYII=) repeat;
+	background: @backgroundColor url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAGklEQVQIW2NkYGD4D8SMQAwGcAY2AbBKDBUAVuYCBQPd34sAAAAASUVORK5CYII=) repeat;
 }
 
 /* The html and body elements cannot have any padding or margin. */
 html,	body {
-  height: 100%;
+	height: 100%;
 }
 
 body, button {
-  font-size: @baseFontSize;
-  font-family: @baseFontFamily;
-  -webkit-font-smoothing: antialiased !important;
+	font-size: @baseFontSize;
+	font-family: @baseFontFamily;
+	-webkit-font-smoothing: antialiased !important;
+}
+
+input:focus, input[type]:focus, .uneditable-input:focus {
+	.input-highlight();
 }
 
 header.navbar-default {
 	border-color: rgba(0, 0, 0, 0.2);
-//	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 	.drop-shadow(0, 0, 10px, 0, 0.3);
 }
 
+fieldset {
+	legend {
+		i.glyphicon {
+			font-size: 0.7em;
+		}
+	}
+}
+
 .btn {
-  font-size: @baseFontSize;
+	font-size: @baseFontSize;
+}
+
+button, .btn, a {
+	&:focus {
+		.highlight();
+	}
 }
 
 /* Wrapper for page content to push down footer */
 #contentWrapper {
-  min-height: 100%;
-  height: auto !important;
-  height: 100%;
-  margin: 0 auto -@footerHeight; /* Negative indent footer by it's height */
-  background-color: #fff;
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	/* Negative indent footer by its height */
+	margin: 0 auto -@footerHeight;
+	background-color: #fff;
+	& > .container {
+		padding-top: (@footerHeight / 2);
+	}
 }
 
-/* Set the fixed height of the footer here */
-#push, #footer {
-  height: @footerHeight;
+#welcomeMessage {
+	padding: 10px 20px;
 }
 
 .navbar-fixed-top, .navbar-static-top {
@@ -52,49 +72,19 @@ header.navbar-default {
 	}
 }
 
-#footer {
-	position: fixed;
-	bottom: 0;
-	width: 100%;
-  border: 1px solid #fff;
-	border-width: 1px 0 0;
-	.linear-gradient(to-bottom, #fafafa, #f2f2f2);
-	.drop-shadow(0, 0, 10px, 0, 0.3);
-}
-
-/* Lastly, apply responsive CSS fixes as necessary */
-@media (max-width: 767px) {
-  #footer {
-    margin-left: -20px;
-    margin-right: -20px;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-}
-
-#contentWrapper > .container {
-  padding-top: @footerHeight;
-}
-
-.container .credit {
-  margin: 15px 0;
-}
-
-code {
-  font-size: 80%;
-}
-
-#welcomeMessage {
-  padding: 10px 20px;
-}
-
-input:focus, input[type]:focus, .uneditable-input:focus {
-	.input-highlight();
-}
-
-button, .btn, a {
-	&:focus {
-		.highlight();
+footer {
+	&#pageFooter {
+		width: 100%;
+		height: @footerHeight;
+		.drop-shadow(0, 0, 10px, 0, 0.3);
+		& > .container {
+			line-height: @footerHeight;
+			.credit {
+				padding-left: 15px;
+				padding-right: 15px;
+				margin-bottom: 0;
+			}
+		}
 	}
 }
 

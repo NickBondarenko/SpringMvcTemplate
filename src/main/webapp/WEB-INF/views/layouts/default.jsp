@@ -24,7 +24,6 @@
 			  <script type="text/javascript" src="../../../resources/${scriptEnvironment}/scripts/${isProductionEnvironment ? 'common.js' : 'require-js/require.js'}" data-main="../../../resources/${scriptEnvironment}/scripts/common"></script>
 			  <tiles:insertAttribute name="body" />
 		  </div>
-		  <div id="push"></div>
 		  <tiles:insertAttribute name="footer" />
 	  </div>
 	</body>
