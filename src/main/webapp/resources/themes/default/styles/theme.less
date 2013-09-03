@@ -8,8 +8,10 @@ body, button {
 
 .cell {
 	fieldset {
-		legend[class^="icon-"] {
-			vertical-align: baseline;
+		legend {
+			i[class^="icon-"] {
+				vertical-align: baseline;
+			}
 		}
 	}
 }
@@ -43,7 +45,7 @@ body, button {
 	background-color: #fafafa;
 	border: 1px solid #e5e5e5;
 	padding: 20px;
-	.drop-shadow;
+	.drop-shadow();
 	.box-sizing(border-box);
 	.border-radius(5px);
 }
