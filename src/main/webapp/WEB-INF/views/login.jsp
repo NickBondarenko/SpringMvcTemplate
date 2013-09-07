@@ -1,12 +1,15 @@
 <jsp:directive.page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 
 <div id="loginContainer" class="container">
 	<div class="page-header">
-		<h1 class="inline">Login</h1>
+		<h1>Login</h1>
+	</div>
+	<div>
 		<c:if test="${param.error ne null}">
-			<div class="alert alert-error inline">
+			<div id="errorAlert" class="alert alert-danger">
 				<button type="button" class="close" data-dismiss="alert">&times;</button>
 				Failed to login.
 				<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
@@ -21,21 +24,23 @@
 			</div>
 		</c:if>
 	</div>
-	<div id="formContainer">
-		<div class="form-signin pull-left">
+	<div id="formContainer" class="section col-lg-4">
+		<div>
 			<form id="signinForm" action="${contextPath}/login/authenticate" method="post">
 				<fieldset>
 					<legend>Enter your credentials</legend>
-					<label for="username">Username</label>
-					<input type="text" id="username" name="username" class="input-xlarge" />
-					<label for="password">Password</label>
-					<input type="password" id="password" name="password" class="input-xlarge" />
-					<div class="remember">
-						<div class="left">
-							<label for="rememberMe" class="checkbox">
-								<input id="rememberMe" type="checkbox" />Remember me
-							</label>
-						</div>
+					<div class="form-group">
+						<label for="username">Username</label>
+						<input type="text" id="username" name="username" class="form-control input-xxlarge" />
+					</div>
+					<div class="form-group">
+						<label for="password">Password</label>
+						<input type="password" id="password" name="password" class="form-control input-xxlarge" />
+					</div>
+					<div class="checkbox">
+						<label for="rememberMe">
+							<input id="rememberMe" type="checkbox" />Remember me
+						</label>
 					</div>
 					<button type="submit" class="btn btn-primary">Sign In</button>
 					<div class="right">

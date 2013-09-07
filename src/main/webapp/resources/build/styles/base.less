@@ -39,9 +39,7 @@ fieldset {
 	}
 }
 
-.btn {
-	font-size: @baseFontSize;
-}
+.btn { font-size: @baseFontSize; }
 
 button, .btn, a {
 	&:focus {
@@ -56,6 +54,8 @@ button, .btn, a {
 	height: 100%;
 	/* Negative indent footer by its height */
 	margin: 0 auto -@footerHeight;
+	/* Pad bottom by footer height */
+	padding: 0 0 60px;
 	background-color: #fff;
 	& > .container {
 		padding-top: (@footerHeight / 2);
