@@ -13,7 +13,7 @@ Hibernate Validator (JSR-303) 4.3.1
 
 Tiles 2.2
 
-Twitter Bootstrap 2.3.2
+Twitter Bootstrap 3.0
 
 jQuery 1.10.2
 
