@@ -48,7 +48,7 @@ button, .btn, a {
 	height: 100%;
 	/* Negative indent footer by its height */
 	margin: 0 auto -@footerHeight;
-	background-color: #fff;
+	background-color: #dcdcdc;
 	& > .container {
 		padding-top: @footerHeight;
 	}
@@ -64,7 +64,22 @@ button, .btn, a {
 	}
 }
 
+fieldset {
+	background-color: #fff;
+	.drop-shadow-rgba(0, 0, 5px, 0, rgba(0, 0, 0, 0.6));
+//	padding: 10px;
+	legend {
+		position: relative;
+		top: 0.8em;
+		text-align: center;
+		border: none;
+		margin-bottom: 0;
+		background-color: #f0f0f0;
+	}
+}
+
 footer {
+	margin-top: 20px;
 	&#pageFooter {
 		width: 100%;
 		height: @footerHeight;

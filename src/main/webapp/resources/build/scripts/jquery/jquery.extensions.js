@@ -538,6 +538,14 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 				$scrollableElement.animate({scrollTop: scrollTop}, $.extend(true, {duration: 'slow', queue: false}, options));
 			}
 			return this;
+		},
+		addSelectOptions: function(options) {
+			return this.each$(function(index, $elem) {
+				for (var i = 0, length = options.length, option; i < length; i++) {
+					option = options[i];
+					$elem.append($('<option />', {text: option.text, value: option.value}));
+				}
+			});
 		}
 	});
 
