@@ -22,31 +22,31 @@
 		</c:if>
 	</div>
 	<div id="formContainer">
-		<div class="form-signin pull-left">
 			<form id="signinForm" action="${contextPath}/login/authenticate" method="post">
 				<fieldset>
 					<legend>Enter your credentials</legend>
-					<label for="username">Username</label>
-					<input type="text" id="username" name="username" class="input-xlarge" />
-					<label for="password">Password</label>
-					<input type="password" id="password" name="password" class="input-xlarge" />
-					<div class="remember">
-						<div class="left">
-							<label for="rememberMe" class="checkbox">
-								<input id="rememberMe" type="checkbox" />Remember me
-							</label>
+					<div id="fieldsetContent" class="form-signin pull-left">
+						<label for="username">Username</label>
+						<input type="text" id="username" name="username" class="input-xlarge" />
+						<label for="password">Password</label>
+						<input type="password" id="password" name="password" class="input-xlarge" />
+						<div class="remember">
+							<div class="left">
+								<label for="rememberMe" class="checkbox">
+									<input id="rememberMe" type="checkbox" />Remember me
+								</label>
+							</div>
 						</div>
-					</div>
-					<button type="submit" class="btn btn-primary">Sign In</button>
-					<div class="right">
-						<a href="/reset">Forgot password?</a>
+						<button type="submit" class="btn btn-primary">Sign In</button>
+						<div class="right">
+							<a href="/reset">Forgot password?</a>
+						</div>
 					</div>
 				</fieldset>
 			</form>
 			<p class="already">Don't have an account? <a href="${contextPath}/registration">Register</a></p>
 		</div>
 	</div>
-</div>
 <script type="text/javascript">
 	require(['common'], function() {
 		require(['app/login']);

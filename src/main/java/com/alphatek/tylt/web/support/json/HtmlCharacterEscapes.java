@@ -3,6 +3,8 @@ package com.alphatek.tylt.web.support.json;
 import com.fasterxml.jackson.core.SerializableString;
 import com.fasterxml.jackson.core.io.CharacterEscapes;
 
+import java.util.Arrays;
+
 public final class HtmlCharacterEscapes extends CharacterEscapes {
   private final int[] asciiEscapes;
 
@@ -20,7 +22,7 @@ public final class HtmlCharacterEscapes extends CharacterEscapes {
   // this method gets called for character codes 0 - 127
   @Override
   public int[] getEscapeCodesForAscii() {
-    return asciiEscapes;
+    return Arrays.copyOf(asciiEscapes, asciiEscapes.length);
   }
 
   @Override
