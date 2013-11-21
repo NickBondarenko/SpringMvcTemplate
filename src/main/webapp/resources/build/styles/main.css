@@ -86,16 +86,12 @@ sub {
 }
 img {
   /* Responsive images (ensure images don't scale beyond their parents) */
-
   max-width: 100%;
   /* Part 1: Set a maxium relative to the parent */
-
   width: auto\9;
   /* IE7-8 need help adjusting responsive images */
-
   height: auto;
   /* Part 2: Scale the height according to the width, otherwise you get stretching */
-
   vertical-align: middle;
   border: 0;
   -ms-interpolation-mode: bicubic;
@@ -190,7 +186,7 @@ textarea {
   img {
     max-width: 100% !important;
   }
-  @page  {
+  @page {
     margin: 0.5cm;
   }
   p,
@@ -741,7 +737,6 @@ ol.inline > li {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   padding-left: 5px;
   padding-right: 5px;
@@ -1037,7 +1032,6 @@ input[type="color"]:focus,
   outline: 0;
   outline: thin dotted \9;
   /* IE6-9 */
-
   -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
@@ -1047,10 +1041,8 @@ input[type="checkbox"] {
   margin: 4px 0 0;
   *margin-top: 0;
   /* IE7 */
-
   margin-top: 1px \9;
   /* IE8-9 */
-
   line-height: normal;
 }
 input[type="file"],
@@ -1066,10 +1058,8 @@ select,
 input[type="file"] {
   height: 30px;
   /* In IE7, the height of the select element cannot be changed by height, only font-size */
-
   *margin-top: 4px;
   /* For IE7, add top margin to align select with labels */
-
   line-height: 30px;
 }
 select {
@@ -1499,7 +1489,6 @@ select:focus:invalid:focus {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   vertical-align: middle;
   padding-left: 5px;
@@ -1680,7 +1669,6 @@ input.search-query {
   padding-left: 14px;
   padding-left: 4px \9;
   /* IE7-8 doesn't have border-radius, so don't indent the padding */
-
   margin-bottom: 0;
   -webkit-border-radius: 15px;
   -moz-border-radius: 15px;
@@ -1755,7 +1743,6 @@ input.search-query {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   margin-bottom: 0;
   vertical-align: middle;
@@ -2097,7 +2084,7 @@ table th[class*="span"],
   *margin-right: .3em;
   line-height: 14px;
   vertical-align: text-top;
-  background-image: url("bootstrap/../../../images/glyphicons-halflings.png");
+  background-image: url("../../images/glyphicons-halflings.png");
   background-position: 14px 14px;
   background-repeat: no-repeat;
   margin-top: 1px;
@@ -2120,7 +2107,7 @@ table th[class*="span"],
 .dropdown-submenu:focus > a > [class^="icon-"],
 .dropdown-submenu:hover > a > [class*=" icon-"],
 .dropdown-submenu:focus > a > [class*=" icon-"] {
-  background-image: url("bootstrap/../../../images/glyphicons-halflings-white.png");
+  background-image: url("../../images/glyphicons-halflings-white.png");
 }
 .icon-glass {
   background-position: 0      0;
@@ -2857,7 +2844,6 @@ button.close {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   padding: 4px 12px;
   margin-bottom: 0;
@@ -2880,7 +2866,6 @@ button.close {
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   *background-color: #e6e6e6;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   border: 1px solid #cccccc;
   *border: 0;
@@ -3030,7 +3015,6 @@ input[type="button"].btn-block {
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   *background-color: #0044cc;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
 .btn-primary:hover,
@@ -3062,7 +3046,6 @@ input[type="button"].btn-block {
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   *background-color: #f89406;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
 .btn-warning:hover,
@@ -3094,7 +3077,6 @@ input[type="button"].btn-block {
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   *background-color: #bd362f;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
 .btn-danger:hover,
@@ -3126,7 +3108,6 @@ input[type="button"].btn-block {
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   *background-color: #51a351;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
 .btn-success:hover,
@@ -3158,7 +3139,6 @@ input[type="button"].btn-block {
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   *background-color: #2f96b4;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
 .btn-info:hover,
@@ -3190,7 +3170,6 @@ input[type="button"].btn-block {
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   *background-color: #222222;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
 .btn-inverse:hover,
@@ -3268,7 +3247,6 @@ input[type="submit"].btn.btn-mini {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   font-size: 0;
   vertical-align: middle;
@@ -3447,7 +3425,6 @@ input[type="submit"].btn.btn-mini {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
 }
 .btn-group-vertical > .btn {
@@ -4235,7 +4212,6 @@ input[type="submit"].btn.btn-mini {
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   *background-color: #e5e5e5;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
   -moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(255,255,255,.075);
   -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(255,255,255,.075);
@@ -4487,7 +4463,6 @@ input[type="submit"].btn.btn-mini {
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   *background-color: #040404;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
-
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
 .navbar-inverse .btn-navbar:hover,
@@ -4520,7 +4495,6 @@ input[type="submit"].btn.btn-mini {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   text-shadow: 0 1px 0 #ffffff;
 }
@@ -4538,7 +4512,6 @@ input[type="submit"].btn.btn-mini {
   display: inline-block;
   *display: inline;
   /* IE7 inline-block hack */
-
   *zoom: 1;
   margin-left: 0;
   margin-bottom: 0;
@@ -4755,7 +4728,6 @@ input[type="submit"].btn.btn-mini {
   border: 1px solid rgba(0, 0, 0, 0.3);
   *border: 1px solid #999;
   /* IE6-7 */
-
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
@@ -5641,7 +5613,6 @@ a.badge:focus {
  * Some variables and mixins from Bootstrap (Apache 2 license).
  */
 /* Mixin */
-/* Implementation */
 html {
   background: #222222 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAGklEQVQIW2NkYGD4D8SMQAwGcAY2AbBKDBUAVuYCBQPd34sAAAAASUVORK5CYII=) repeat;
 }
@@ -5663,7 +5634,6 @@ input[type]:focus,
   outline: 0;
   *outline: thin dotted \9;
   /*IE6-9*/
-
   -webkit-box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.075), 0 0 8px 0 rgba(82, 168, 236, 0.7);
   -moz-box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.075), 0 0 8px 0 rgba(82, 168, 236, 0.7);
   box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.075), 0 0 8px 0 rgba(82, 168, 236, 0.7);
@@ -5684,7 +5654,6 @@ a:focus {
   outline: 0;
   *outline: thin dotted \9;
   /*IE6-9*/
-
   -webkit-box-shadow: 0 0 5px 0 rgba(82, 168, 236, 0.8);
   -moz-box-shadow: 0 0 5px 0 rgba(82, 168, 236, 0.8);
   box-shadow: 0 0 5px 0 rgba(82, 168, 236, 0.8);
@@ -5695,7 +5664,6 @@ a:focus {
   height: auto !important;
   height: 100%;
   /* Negative indent footer by its height */
-
   margin: 0 auto -40px;
   background-color: #dcdcdc;
 }
@@ -6894,7 +6862,6 @@ footer#pageFooter > .container .credit {
 .ui-helper-clearfix {
   min-height: 0;
   /* support: IE7 */
-
 }
 .ui-helper-zfix {
   width: 100%;
@@ -7013,7 +6980,6 @@ footer#pageFooter > .container .credit {
   padding: .5em .5em .5em .7em;
   min-height: 0;
   /* support: IE7 */
-
 }
 .ui-accordion .ui-accordion-icons {
   padding-left: 2.2em;
@@ -7052,7 +7018,6 @@ footer#pageFooter > .container .credit {
   text-align: center;
   overflow: visible;
   /* removes extra width in IE */
-
 }
 .ui-button,
 .ui-button:link,
@@ -7384,7 +7349,6 @@ button.ui-button::-moz-focus-inner {
   padding: 0;
   width: 100%;
   /* support: IE10, see #8844 */
-
   list-style-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
 }
 .ui-menu .ui-menu-divider {
@@ -7401,7 +7365,6 @@ button.ui-button::-moz-focus-inner {
   line-height: 1.5;
   min-height: 0;
   /* support: IE7 */
-
   font-weight: normal;
 }
 .ui-menu .ui-menu-item a.ui-state-focus,
@@ -7446,7 +7409,7 @@ button.ui-button::-moz-focus-inner {
   height: 100%;
 }
 .ui-progressbar .ui-progressbar-overlay {
-  background: url("jquery-ui/ui-darkness/../../../../images/jquery-ui/animated-overlay.gif");
+  background: url("../../images/jquery-ui/animated-overlay.gif");
   height: 100%;
   filter: alpha(opacity=25);
   opacity: 0.25;
@@ -7566,13 +7529,11 @@ button.ui-button::-moz-focus-inner {
 /* TR overrides */
 .ui-spinner .ui-icon-triangle-1-s {
   /* need to fix icons sprite */
-
   background-position: -65px -16px;
 }
 .ui-tabs {
   position: relative;
   /* position: relative prevents IE scroll bug (element with position: relative inside container with overflow: auto appear as "fixed") */
-
   padding: .2em;
 }
 .ui-tabs .ui-tabs-nav {
@@ -7642,7 +7603,7 @@ body .ui-tooltip {
 }
 .ui-widget-content {
   border: 1px solid #666666;
-  background: #000000 url("jquery-ui/ui-darkness/../../../../images/jquery-ui/ui-bg_inset-soft_25_000000_1x100.png") 50% bottom repeat-x;
+  background: #000000 url("../../images/jquery-ui/ui-bg_inset-soft_25_000000_1x100.png") 50% bottom repeat-x;
   color: #ffffff;
 }
 .ui-widget-content a {
@@ -7650,7 +7611,7 @@ body .ui-tooltip {
 }
 .ui-widget-header {
   border: 1px solid #333333;
-  background: #333333 url("jquery-ui/ui-darkness/../../../../images/jquery-ui/ui-bg_gloss-wave_25_333333_500x100.png") 50% 50% repeat-x;
+  background: #333333 url("../../images/jquery-ui/ui-bg_gloss-wave_25_333333_500x100.png") 50% 50% repeat-x;
   color: #ffffff;
   font-weight: bold;
 }
@@ -7663,7 +7624,7 @@ body .ui-tooltip {
 .ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
   border: 1px solid #666666;
-  background: #555555 url("jquery-ui/ui-darkness/../../../../images/jquery-ui/ui-bg_glass_20_555555_1x400.png") 50% 50% repeat-x;
+  background: #555555 url("../../images/jquery-ui/ui-bg_glass_20_555555_1x400.png") 50% 50% repeat-x;
   font-weight: bold;
   color: #eeeeee;
 }
@@ -7680,7 +7641,7 @@ body .ui-tooltip {
 .ui-widget-content .ui-state-focus,
 .ui-widget-header .ui-state-focus {
   border: 1px solid #59b4d4;
-  background: #0078a3 url("jquery-ui/ui-darkness/../../../../images/jquery-ui/ui-bg_glass_40_0078a3_1x400.png") 50% 50% repeat-x;
+  background: #0078a3 url("../../images/jquery-ui/ui-bg_glass_40_0078a3_1x400.png") 50% 50% repeat-x;
   font-weight: bold;
   color: #ffffff;
 }
@@ -7695,7 +7656,7 @@ body .ui-tooltip {
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active {
   border: 1px solid #ffaf0f;
-  background: #f58400 url("jquery-ui/ui-darkness/../../../../images/jquery-ui/ui-bg_inset-soft_30_f58400_1x100.png") 50% 50% repeat-x;
+  background: #f58400 url("../../images/jquery-ui/ui-bg_inset-soft_30_f58400_1x100.png") 50% 50% repeat-x;
   font-weight: bold;
   color: #ffffff;
 }
@@ -7711,7 +7672,7 @@ body .ui-tooltip {
 .ui-widget-content .ui-state-highlight,
 .ui-widget-header .ui-state-highlight {
   border: 1px solid #cccccc;
-  background: #eeeeee url("jquery-ui/ui-darkness/../../../../images/jquery-ui/ui-bg_highlight-soft_80_eeeeee_1x100.png") 50% top repeat-x;
+  background: #eeeeee url("../../images/jquery-ui/ui-bg_highlight-soft_80_eeeeee_1x100.png") 50% top repeat-x;
   color: #2e7db2;
 }
 .ui-state-highlight a,
@@ -7723,7 +7684,7 @@ body .ui-tooltip {
 .ui-widget-content .ui-state-error,
 .ui-widget-header .ui-state-error {
   border: 1px solid #ffb73d;
-  background: #ffc73d url("jquery-ui/ui-darkness/../../../../images/jquery-ui/ui-bg_glass_40_ffc73d_1x400.png") 50% 50% repeat-x;
+  background: #ffc73d url("../../images/jquery-ui/ui-bg_glass_40_ffc73d_1x400.png") 50% 50% repeat-x;
   color: #111111;
 }
 .ui-state-error a,
@@ -7758,7 +7719,6 @@ body .ui-tooltip {
 .ui-state-disabled .ui-icon {
   filter: alpha(opacity=35);
   /* For IE8 - See #6059 */
-
 }
 /* Icons
 ----------------------------------*/
@@ -7769,27 +7729,27 @@ body .ui-tooltip {
 }
 .ui-icon,
 .ui-widget-content .ui-icon {
-  background-image: url("jquery-ui/ui-darkness/../../../../images/jquery-ui/ui-icons_cccccc_256x240.png");
+  background-image: url("../../images/jquery-ui/ui-icons_cccccc_256x240.png");
 }
 .ui-widget-header .ui-icon {
-  background-image: url("jquery-ui/ui-darkness/../../../../images/jquery-ui/ui-icons_ffffff_256x240.png");
+  background-image: url("../../images/jquery-ui/ui-icons_ffffff_256x240.png");
 }
 .ui-state-default .ui-icon {
-  background-image: url("jquery-ui/ui-darkness/../../../../images/jquery-ui/ui-icons_cccccc_256x240.png");
+  background-image: url("../../images/jquery-ui/ui-icons_cccccc_256x240.png");
 }
 .ui-state-hover .ui-icon,
 .ui-state-focus .ui-icon {
-  background-image: url("jquery-ui/ui-darkness/../../../../images/jquery-ui/ui-icons_ffffff_256x240.png");
+  background-image: url("../../images/jquery-ui/ui-icons_ffffff_256x240.png");
 }
 .ui-state-active .ui-icon {
-  background-image: url("jquery-ui/ui-darkness/../../../../images/jquery-ui/ui-icons_222222_256x240.png");
+  background-image: url("../../images/jquery-ui/ui-icons_222222_256x240.png");
 }
 .ui-state-highlight .ui-icon {
-  background-image: url("jquery-ui/ui-darkness/../../../../images/jquery-ui/ui-icons_4b8e0b_256x240.png");
+  background-image: url("../../images/jquery-ui/ui-icons_4b8e0b_256x240.png");
 }
 .ui-state-error .ui-icon,
 .ui-state-error-text .ui-icon {
-  background-image: url("jquery-ui/ui-darkness/../../../../images/jquery-ui/ui-icons_a83300_256x240.png");
+  background-image: url("../../images/jquery-ui/ui-icons_a83300_256x240.png");
 }
 /* positioning */
 .ui-icon-blank {
@@ -8347,14 +8307,14 @@ body .ui-tooltip {
 }
 /* Overlays */
 .ui-widget-overlay {
-  background: #5c5c5c url("jquery-ui/ui-darkness/../../../../images/jquery-ui/ui-bg_flat_50_5c5c5c_40x100.png") 50% 50% repeat-x;
+  background: #5c5c5c url("../../images/jquery-ui/ui-bg_flat_50_5c5c5c_40x100.png") 50% 50% repeat-x;
   opacity: .8;
   filter: alpha(opacity=80);
 }
 .ui-widget-shadow {
   margin: -7px 0 0 -7px;
   padding: 7px;
-  background: #cccccc url("jquery-ui/ui-darkness/../../../../images/jquery-ui/ui-bg_flat_30_cccccc_40x100.png") 50% 50% repeat-x;
+  background: #cccccc url("../../images/jquery-ui/ui-bg_flat_30_cccccc_40x100.png") 50% 50% repeat-x;
   opacity: .6;
   filter: alpha(opacity=60);
   border-radius: 8px;
@@ -8525,7 +8485,6 @@ a.showtime-button:focus {
   outline: 0;
   *outline: thin dotted \9;
   /*IE6-9*/
-
   -webkit-box-shadow: 0 0 5px 0 rgba(82, 168, 236, 0.8);
   -moz-box-shadow: 0 0 5px 0 rgba(82, 168, 236, 0.8);
   box-shadow: 0 0 5px 0 rgba(82, 168, 236, 0.8);
