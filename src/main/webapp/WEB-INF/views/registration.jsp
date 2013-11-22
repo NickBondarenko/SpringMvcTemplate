@@ -39,7 +39,7 @@
 						<tags:form-group-input path="address.additionalInfo" label="Additional Info" cssClass="input-large" />
 						<tags:form-group-input path="address.city" label="City" cssClass="input-large" />
 						<tags:form-group-select path="address.state" label="State" items="${requestScope.states}" itemValue="abbreviation" itemLabel="name" />
-						<tags:form-group-input path="address.zipCode" label="Zip Code" maxLength="10" placeholder="XXXXX-XXXX" cssClass="input-small" />
+						<tags:form-group-input path="address.zipCode" label="Zip Code" size="11" maxLength="10" placeholder="XXXXX-XXXX" />
 					</div>
 				</fieldset>
 			</div>

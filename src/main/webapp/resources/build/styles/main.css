@@ -7454,8 +7454,6 @@ td.visible-print {
     display: none !important;
   }
 }
-/* Mixin */
-/* Implementation */
 html {
   background: #222222 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAGklEQVQIW2NkYGD4D8SMQAwGcAY2AbBKDBUAVuYCBQPd34sAAAAASUVORK5CYII=) repeat;
 }
@@ -7514,6 +7512,9 @@ a:focus {
   /* Negative indent footer by its height */
 
   margin: 0 auto -60px;
+  /* Pad bottom by footer height */
+
+  padding: 0 0 60px;
   background-color: #fff;
 }
 #contentWrapper > .container {
@@ -7543,6 +7544,8 @@ footer#pageFooter > .container .credit {
   padding-right: 15px;
   margin-bottom: 0;
 }
+/* Mixin */
+/* Implementation */
 #showtime {
   display: none;
   top: 15%;
@@ -7621,6 +7624,9 @@ footer#pageFooter > .container .credit {
   width: 20px;
   height: 20px;
   padding: 0;
+}
+#titleButtons a.showtime-button .glyphicon {
+  vertical-align: top;
 }
 #titleButtons a.showtime-button:hover {
   cursor: pointer;

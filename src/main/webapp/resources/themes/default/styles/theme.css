@@ -24,9 +24,6 @@ h6,
   vertical-align: text-top;
   margin-right: 5px;
 }
-#formContainer {
-  max-width: 350px;
-}
 #buttonContainer {
   clear: both;
   padding: 10px 0;

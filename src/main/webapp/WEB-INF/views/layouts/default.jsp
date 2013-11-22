@@ -45,6 +45,8 @@
 			  </script>
 			  <tiles:insertAttribute name="body" />
 		  </div>
+	  </div>
+	  <div id="push">
 		  <tiles:insertAttribute name="footer" />
 	  </div>
 	</body>
