@@ -11,6 +11,7 @@ requirejs.config({
 		modernizr: 'modernizr/modernizr',
 		'modernizr.tests': 'modernizr/modernizr.tests',
 		jquery: 'jquery/jquery',
+		'jquery-migrate': 'jquery/jquery-migrate',
 		'jquery-ui': 'jquery/jquery-ui',
 		'jquery.extensions': 'jquery/jquery.extensions',
 		'jquery.buildr': 'jquery/jquery.buildr',
@@ -41,7 +42,7 @@ requirejs.config({
 		},
 		rem: []
 	},
-	deps: ['js.extensions', 'jquery'],
+	deps: ['js.extensions', 'jquery', 'jquery-migrate'],
 	onError: function(error) {
 		console && console.log(error);
 	}
@@ -59,8 +60,9 @@ requirejs([
 	'domReady!'
 ],
 function($) {
-	if (!Modernizr.cssremunit) {
-		require(['rem']);
+	'use strict';
+	if (!window.Modernizr.cssremunit) {
+		window.require(['rem']);
 	}
 	var message = 'Heavy is the head that wears the crown. From the manger to the morgue, strangers are born and reborn.';
 	var instance = $('#anotherAction').showtime().on('click', function() {

@@ -2,7 +2,7 @@
 <application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.zeroturnaround.com" xsi:schemaLocation="http://www.zeroturnaround.com http://www.zeroturnaround.com/alderaan/rebel-2_0.xsd">
 
 	<classpath>
-		<dir name="/Users/jason.dimeo/Documents/Development/Projects/SpringMvcTemplate/target/classes">
+		<dir name="/Users/naquaduh/Documents/Development/Projects/SpringMvcTemplate/target/classes">
 			<include name="database/h2/data.sql"/>
 			<include name="database/h2/schema.sql"/>
 			<include name="ehcache.xml"/>
@@ -19,7 +19,7 @@
 
 	<web>
 		<link target="/">
-			<dir name="/Users/jason.dimeo/Documents/Development/Projects/SpringMvcTemplate/src/main/webapp" />
+			<dir name="/Users/naquaduh/Documents/Development/Projects/SpringMvcTemplate/src/main/webapp" />
 		</link>
 	</web>
 
