@@ -467,7 +467,7 @@ define(['jquery', 'jquery-ui', 'modernizr', 'jquery.extensions', 'jquery.buildr'
 			elements.$header.build(function(buildr) {
 				buildr.div({id: 'titleButtons'}, function() {
 					buildr.a({id: 'closeBtn', 'class': 'showtime-button', tabindex: buttonIndex++}, function() {
-						buildr.span({'class': 'icon-remove icon-white'});
+						buildr.span({'class': 'glyphicon glyphicon-remove'});
 					}).on('click', function () {
 						self.$obj.triggerHandler('showtime.close');
 					}).on('keydown', function(event) {

@@ -3,11 +3,13 @@
  * @param {jQuery} $ - The jQuery object
  * @param {undefined} undefined
  */
+/* global define */
 define(['jquery', 'domReady!'], function($, document, undefined) {
-	window.$html = jQuery('html');
-	window.$win = jQuery(window);
-	window.$doc = jQuery(document);
-	window.$body = jQuery('body');
+	'use strict';
+	window.$html = $('html');
+	window.$win = $(window);
+	window.$doc = $(document);
+	window.$body = $('body');
 
 	/** @classDescription regex - Various regex objects. */
 	var regex = {
@@ -15,11 +17,11 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 		script: /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
 		/** @type {RegExp} brackets - Check for instance of []. */
 		brackets: /\[(\w+)\]/g,
-		/** @type {RegExp} nameBrackets - Matches instances of an array delimeter, '[]', in a input name attribute. */
+		/** @type {RegExp} nameBrackets - Matches instances of an array delimiter, '[]', in a input name attribute. */
 		nameBrackets: /\[(\D+)\]/g,
-		/** @type {RegExp} arrayBrackets - Matches instances of an array delimeter, '[]', in a flattened object. */
+		/** @type {RegExp} arrayBrackets - Matches instances of an array delimiter, '[]', in a flattened object. */
 		arrayBrackets: /\[(\d+)\]/g,
-		/** @type {RegExp} numberInBrackets - Matches instances of a number inside of an array delimeter '[]'. */
+		/** @type {RegExp} numberInBrackets - Matches instances of a number inside of an array delimiter '[]'. */
 		numberInBrackets: /((?!\[)\d+(?=\]))/g,
 		/** @type {RegExp} escapable - Check for instance of escapable characters. */
 		escapable: /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
@@ -27,16 +29,16 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 		html: /^(?:html)$/i
 	},
 	/** @type {string} gap - Used internally in the stringify functions. */
-  gap = undefined,
+  gap,
   /** @type {string} indent - Used internally in the stringify functions to determine the number of spaces to indent at each level. */
-  indent = undefined,
+  indent,
   /** @type {string} indent - Used internally in the stringify functions that determines how object values are stringified for objects. */
-  rep = undefined,
+  rep,
   /** @classDescription meta - Various meta characters. */
   meta = {
 	  /**
 	   * @type {string} \b - Matches at the position between a word character and a non-word character in a regex.
-	   * 		Used internally in the stringify functions.
+	   * Used internally in the stringify functions.
 	   */
     '\b': '\\b',
 	  /** @type {string} \t - Matches a tab character using a regex. Used internally in the stringify functions. */
@@ -70,16 +72,22 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 		return !!obj && obj.hasOwnProperty && obj instanceof type;
 	}
 
+	// Returns true if it is a DOM node
+	function _isNode(elem) {
+		return typeof window.Node === 'object' ? _instanceOf(elem, window.Node) : elem && typeof elem === 'object' && typeof elem.nodeType === 'number' && typeof elem.nodeName === 'string';
+	}
+
+	// Returns true if it is a DOM element
+	function _isElement(elem) {
+		return typeof window.HTMLElement === 'object' ? _instanceOf(elem, window.HTMLElement) : elem && typeof elem === 'object' && elem.nodeType === 1 && typeof elem.nodeName === 'string';
+	}
+
 	function _isCheckable(elem) {
 		return _isElement(elem) && (elem.type == 'radio' || elem.type == 'checkbox');
 	}
 
 	function _cleanValue(value) {
 		return typeof value === 'string' ? value.replace(/\r/g, '') : value === null || value === undefined ? '' : value;
-	}
-
-	function _valueChanged(elem, originalValue, newValue) {
-		if (elem.type == 'radio' || elem.type == 'checkbox') { !!elem.checked; }
 	}
 
 	function _getInputValue(elem) {
@@ -94,9 +102,8 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 			return returnValue;
 		}
 
-		//noinspection FallthroughInSwitchStatementJS
 		switch (nodeName) {
-			case 'select': case 'textarea': return _cleanValue(elem.value);
+			case 'select': case 'text': case 'textarea': return _cleanValue(elem.value);
 			case 'input': return type == 'radio' || type == 'checkbox' ? !!elem.checked ? _cleanValue(elem.value) : undefined : _cleanValue(elem.value);
 		}
 	}
@@ -117,6 +124,7 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 					} else {
 						elem.value = value;
 					}
+					break;
 			}
 		}
 	}
@@ -134,15 +142,15 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 
 	function _calculateScrollableOffsets($elem, $scrollableElem) {
 		var elem = $elem[0],
-  	offsets = {};
+		offsets = {};
 
-  	if ($scrollableElem.exists() && !$scrollableElem.equals($html)) {
-  		offsets.containerTop = $scrollableElem.scrollTop();
-  		offsets.containerBottom = offsets.containerTop + $scrollableElem.height();
-  		offsets.elementTop = elem.offsetTop;
-  		offsets.elementBottom = offsets.elementTop + $elem.height();
+		if ($scrollableElem.exists() && !$scrollableElem.equals(window.$html)) {
+			offsets.containerTop = $scrollableElem.scrollTop();
+			offsets.containerBottom = offsets.containerTop + $scrollableElem.height();
+			offsets.elementTop = elem.offsetTop;
+			offsets.elementBottom = offsets.elementTop + $elem.height();
 		}
-  	return offsets;
+		return offsets;
 	}
 
 	function _flattenArray(array, arrayFilter) {
@@ -153,7 +161,7 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 			if (!arrayFilter || arrayFilter.call(arrayEntry, i, arrayEntry)) {
 				if (entryType == 'object' || entryType == 'array') {
 					var subObj = entryType == 'array' ? _flattenArray(arrayEntry, arrayFilter) : $.object.flatten(arrayEntry, arrayFilter);
-					for (var x = 0, subKeys = Object.keys(subObj), subKey = undefined, subLength = subKeys.length; x < subLength; x++) {
+					for (var x = 0, subKeys = Object.keys(subObj), subKey, subLength = subKeys.length; x < subLength; x++) {
 						subKey = subKeys[x];
 						flatObj[entryType == 'object' ? keyName + '.' + subKey : keyName + subKey] = subObj[subKey];
 					}
@@ -173,7 +181,7 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 		 * Function attached. Selector used to determine if element is currently attached to the DOM.
 		 * @author "Cowboy" Ben Alman
 		 * @see http://benalman.com/projects/jquery-misc-plugins/
-		 * @param {DOMElement} elem - The DOMElement to check.
+		 * @param {Element} elem - The DOMElement to check.
 		 * @returns {boolean} true if the element exists in the DOM, false otherwise.
 		 */
 		attached: function(elem, index, meta, stack) {
@@ -183,7 +191,7 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 		 * Function detached. Selector used to determine if element is currently detached to the DOM.
 		 * @author "Cowboy" Ben Alman
 		 * @see http://benalman.com/projects/jquery-misc-plugins/
-		 * @param {DOMElement} elem - The DOMElement to check.
+		 * @param {Element} elem - The DOMElement to check.
 		 * @returns {boolean} true if the element does not exist in the DOM, false otherwise.
 		 */
 		detached: function(elem, index, meta, stack) {
@@ -192,16 +200,16 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 		/**
 		 * Function emptyInput. Selector used to determine if element is an empty input.
 		 * @author jason.dimeo
-		 * @param {DOMElement} elem - The DOMElement to check.
+		 * @param {Element} elem - The DOMElement to check.
 		 * @returns {boolean} true if the input is empty, false otherwise.
 		 */
 	  emptyInput: function(elem, index, meta, stack) {
-	  	return $(elem).isEmpty();
+			return $(elem).isEmpty();
 	  },
 	  /**
 	   * Function checkable. Selector used to determine if element is a checkable input i.e. radio, checkbox.
 	   * @author jason.dimeo
-	   * @param {DOMElement} elem - The DOMElement to check.
+	   * @param {Element} elem - The DOMElement to check.
 	   * @returns {boolean} true if the the element is checkable, false otherwise.
 	   */
 	  checkable: function(elem, index, meta, stack) {
@@ -210,62 +218,62 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 	  /**
 	   * Function active. Selector used to determine if element is enabled and visible.
 	   * @author jason.dimeo
-	   * @param {DOMElement} elem - The DOMElement to check.
+	   * @param {Element} elem - The DOMElement to check.
 	   * @returns {boolean} true if the element is active, false otherwise.
 	   */
 	  active: function(elem, index, meta, stack) {
-	  	return $(elem).is(':enabled:visible');
+			return $(elem).is(':enabled:visible');
 	  },
 	  /**
 	   * Function inactive. Selector used to determine if element is not enabled and visible.
 	   * @author jason.dimeo
-	   * @param {DOMElement} elem - The DOMElement to check.
+	   * @param {Element} elem - The DOMElement to check.
 	   * @returns {boolean} true if the element is inactive, false otherwise.
 	   */
 	  inactive: function(elem, index, meta, stack) {
-	  	return !$(elem).is(':active');
+			return !$(elem).is(':active');
 	  },
 	  /**
-	   * Fucntion activeInput. Selector used to determine if input element is enabled and visible.
+	   * Function activeInput. Selector used to determine if input element is enabled and visible.
 	   * @author jason.dimeo
-	   * @param {DOMElement} elem - The DOMElement to check.
+	   * @param {Element} elem - The DOMElement to check.
 	   * @returns {boolean} true if the input element is active, false otherwise.
 	   */
 	  activeInput: function(elem, index, meta, stack) {
-	  	return $(elem).is(':input:enabled:visible');
+			return $(elem).is(':input:enabled:visible');
 	  },
 	  /**
-	   * Fucntion activeTextInput. Selector used to determine if text input element is enabled and visible.
+	   * Function activeTextInput. Selector used to determine if text input element is enabled and visible.
 	   * @author jason.dimeo
-	   * @param {DOMElement} elem - The DOMElement to check.
+	   * @param {Element} elem - The DOMElement to check.
 	   * @returns {boolean} true if the text input element is enabled and visible, false otherwise.
 	   */
 	  activeTextInput: function(elem, index, meta, stack) {
-	  	return $(elem).is('input:text:enabled:visible');
+			return $(elem).is('input:text:enabled:visible');
 	  },
 	  /**
 	   * Function exists. Selector used to determine if element exists.
 	   * @author jason.dimeo
-	   * @param {DOMElement} elem - The DOMElement to check.
+	   * @param {Element} elem - The DOMElement to check.
 	   * @returns {boolean} true if the element exists, false otherwise.
 	   */
 	  exists: function(elem, index, meta, stack) {
-	  	return $(elem).exists();
+			return $(elem).exists();
 	  },
 	  /**
 	   * Function viewable. Selector used to determine if an element is in the viewport and visible to the user.
 	   * @author jason.dimeo
-	   * @param {DOMElement} elem - The DOMElement to check.
+	   * @param {Element} elem - The DOMElement to check.
 	   * @returns {boolean} true if the element is viewable, false otherwise.
 	   */
 	  viewable: function(elem, index, meta, stack) {
 	    var $elem = $(elem),
-    	scrollableOffsets = _calculateScrollableOffsets($elem, $elem.closest(':scrollable')),
-    	scrollTop = (document.documentElement.scrollTop || document.body.scrollTop),
-    	offsetTop = $elem.offset().top,
-    	viewable = offsetTop > scrollTop && ($elem.height() + offsetTop) < (scrollTop + $.clientHeight());
+				scrollableOffsets = _calculateScrollableOffsets($elem, $elem.closest(':scrollable')),
+				scrollTop = (document.documentElement.scrollTop || document.body.scrollTop),
+				offsetTop = $elem.offset().top,
+				viewable = offsetTop > scrollTop && ($elem.height() + offsetTop) < (scrollTop + $.clientHeight());
 
-	  	if (viewable && !$.isEmptyObject(scrollableOffsets)) {
+			if (viewable && !$.isEmptyObject(scrollableOffsets)) {
 				viewable = scrollableOffsets.elementTop >= scrollableOffsets.containerTop && scrollableOffsets.elementBottom <= scrollableOffsets.containerBottom;
 			}
 	    return viewable;
@@ -273,7 +281,7 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 	  /**
 	   * Function external. Selector used to determine if href attribute of an anchor tag is an external link.
 	   * @author ?
-	   * @param {DOMElement} elem - The DOMElement to check.
+	   * @param {Element} elem - The DOMElement to check.
 	   * @returns {boolean} true if the anchor element's href attribute is external, false otherwise.
 	   */
 	  external: function(elem, index, meta, stack) {
@@ -286,7 +294,7 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 	   * element as scrollable). This checking is therefore implemented as a <code>:scrollable</code> selector filter that anyone can use.
 	   * @author Robert Koritnik
 	   * @see https://github.com/litera/jquery-scrollintoview
-	   * @param {DOMElement} elem - The DOMElement to check.
+	   * @param {Element} element - The DOMElement to check.
 	   * @param {} index
 	   * @param {} meta
 	   * @param {} stack
@@ -384,7 +392,7 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 	  value: function(value) {
 			if (!arguments.length || value === undefined) {
 				var elemLength = this.length;
-				var elem = undefined,	returnValue = undefined;
+				var elem,	returnValue;
 				if (!elemLength) { return; }
 				for (var i = 0; i < elemLength; i++) {
 					if (_isCheckable(elem = this[i])) {
@@ -398,7 +406,7 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 				return _getInputValue(returnValue);
 			}
 
-			var val = undefined,
+			var val,
 				isFunction = $.isFunction(value);
 
 			return this.each(function(index, elem) {
@@ -406,13 +414,13 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 				val = isFunction ? value.call(this, index, _getInputValue(this)) : value;
 
 				// Treat null/undefined as ''; convert numbers to string
-				if (val == null) {
+				if (val === null) {
 					val = '';
 				} else if (typeof val === 'number') {
 					val += '';
 				} else if ($.isArray(val)) {
 					val = $.map(val, function(value) {
-						return value == null ? '' : value + '';
+						return value === null ? '' : value + '';
 					});
 				}
 				_setInputValue(this, val);
@@ -425,15 +433,15 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 //
 //	  },
 	  root: function() {
-	  	var $elem = undefined;
-	  	this.each$(function(index, $this) {
-	  		if ($this.parent().length === 0) {
-	  			$elem = $this;
-	  			return false;
-	  		}
-	  	});
+			var $elem = null;
+			this.each$(function(index, $this) {
+				if ($this.parent().length === 0) {
+					$elem = $this;
+					return false;
+				}
+			});
 
-	  	return $elem || this;
+			return $elem || this;
 	  },
 	  /**
 	   * Function changeValue. Sets the value of the input and triggers the change
@@ -443,16 +451,16 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 	   * @returns {jQuery} The jQuery object passed to the function.
 	   */
 	  changeValue: function(value, force) {
-	  	if (value === undefined) { return this; }
+			if (value === undefined) { return this; }
 
-	  	var originalValue;
-	  	return this.each$(function(index, $elem) {
-		  	originalValue = _getInputValue(this);
+			var originalValue;
+			return this.each$(function(index, $elem) {
+				originalValue = _getInputValue(this);
 
-		  	if (force || originalValue !== _getInputValue(this)) {
+				if (force || originalValue !== _getInputValue(this)) {
 					$elem.value(value).trigger('change');
 				}
-	  	});
+			});
 	  },
 	  /**
 	   * Function mapInputs. Creates an Object from input values.
@@ -493,26 +501,9 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 			});
 			return this;
 		},
-//		clone: function(withDataAndEvents, deepWithDataAndEvents) {
-//			var inputSelectors = 'input, select, textarea';
-//			var $clonedElements = _clone.apply(this, arguments);
-//			var $originalInputs = this.find(inputSelectors).add(this.filter(inputSelectors));
-//			var $clonedInputs = $clonedElements.find(inputSelectors).add($clonedElements.filter(inputSelectors));
-//			$clonedInputs.each$(function(index, $elem) {
-//				switch (this.nodeName.toLowerCase()) {
-//					case 'input': case 'textarea':
-//						$elem.attr('value', $elem.val());
-//						break;
-//					case 'select':
-//						$elem.prop('selectedIndex', $originalInputs[index].selectedIndex);
-//						break;
-//				}
-//			});
-//			return $clonedElements;
-//		},
 		/**
 		 * function outerHTML. Retrieves the HTML of selected element. Uses the outerHTML property if it exists.
-		 * @returns {string} The HTML of the first element in the set of matched elements.
+		 * @returns {String|Function|outerHTML} The HTML of the first element in the set of matched elements.
 		 */
 		outerHTML: function() {
 			if (!this.exists()) { return ''; }
@@ -556,7 +547,7 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 				if (!Array.isArray(imageArray) || imageArray.isEmpty()) { dfd.reject(); }
 				for (var i = 0, numberOfImages = imageArray.length, numberOfLoadedImages = 0; i < numberOfImages; i++) {
 					var $image = $(new Image()).on('load', function() {
-						if (++numberOfLoadedImages === numberOfImages) { dfd.resolve(); }
+						if (++numberOfLoadedImages == numberOfImages) { dfd.resolve(); }
 					}).attr('src', imageArray[i]);
 
 					if (dfd.state() == 'pending' && $image.prop('complete')) {
@@ -571,7 +562,7 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 		 * @returns {*}
 		 */
 	  isNode: function(elem) {
-			return typeof Node === 'object' ? _instanceOf(elem, Node) : elem && typeof elem === 'object' && typeof elem.nodeType === 'number' && typeof elem.nodeName === 'string';
+			return _isNode(elem);
 		},
 		/**
 		 * Returns true if it is a DOM element
@@ -579,7 +570,7 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 		 * @returns {*}
 		 */
 	  isElement: function(elem) {
-		  return typeof HTMLElement === 'object' ? _instanceOf(elem, HTMLElement) : elem && typeof elem === 'object' && elem.nodeType === 1 && typeof elem.nodeName === 'string';
+		  return _isElement(elem);
 	  },
 		/**
 		 * Function is$ - Determines if an object is a jQuery object.
@@ -603,16 +594,16 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 		 * @returns {boolean} true if the object is a jQuery object
 		 */
 		is$: function(obj) {
-			return _instanceOf(obj, jQuery);
+			return _instanceOf(obj, $);
 		},
 	  checkedValue: function(name, value) {
-	  	return $('input:checkable[name="' + name + '"]').value(value);
+			return $('input:checkable[name="' + name + '"]').value(value);
 	  },
 	  clientHeight: function() {
-	  	return document.documentElement.clientHeight;
+			return document.documentElement.clientHeight;
 	  },
 	  clientWidth: function() {
-	  	return document.documentElement.clientWidth;
+			return document.documentElement.clientWidth;
 	  },
 	  /**
 	   * Function scrollbarWidth. Calculates the scrollbar width dynamically.
@@ -627,7 +618,7 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 	   * @returns {int} The width of the scrollbar
 	   */
 		scrollbarWidth: function() {
-	    var $parent = $('<div style="width:50px;height:50px;overflow:auto"><div /></div>').appendTo($body);
+	    var $parent = $('<div style="width:50px;height:50px;overflow:auto"><div /></div>').appendTo(window.$body);
 		  var $children = $parent.children();
 		  var width = $children.innerWidth() - $children.height(99).innerWidth();
 	    $parent.remove();
@@ -676,7 +667,7 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 								}
 								break;
 							case 'array':
-								if (entry.length == 0) {
+								if (entry.length === 0) {
 									newObj[key] = entry;
 								} else {
 									for (var y = 0, arrayLength = entry.length; y < arrayLength; y++) {
@@ -702,7 +693,7 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 			 */
 			expand: function(obj) {
 				var newObj = {};
-				for (var i = 0, keys = Object.keys(obj), key = undefined, len = keys.length; i < len; i++) {
+				for (var i = 0, keys = Object.keys(obj), key, len = keys.length; i < len; i++) {
 					$.object.setProperty(newObj, key = keys[i], obj[key]);
 				}
 				return newObj;
@@ -710,18 +701,18 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 			/**
 			 * Function getProperty. Gets a property from an Object using a path String.
 			 * @param {string} path - A period delimiter is used for object key. i.e. (obj.key).
-			 * 	A bracket with an index number is used as a delimeter for an array. i.e. (obj[index])
+			 *  A bracket with an index number is used as a delimiter for an array. i.e. (obj[index])
 			 * @param {object} object - The source Object.
 			 * @returns {?} The property value.
 			 */
 			getProperty: function(path, object) {
 				if (!path) { return undefined; }
 
-				var property = undefined, arrayIndexes = undefined, arrayIndex = undefined;
-				for (var index = 0, entries = path.replace(regex.nameBrackets, '.$1').split('.'), length = entries.length, entry = undefined; index < length; index++) {
+				var property, arrayIndexes, arrayIndex;
+				for (var index = 0, entries = path.replace(regex.nameBrackets, '.$1').split('.'), length = entries.length, entry; index < length; index++) {
 					property = property || object;
 
-					if (arrayIndexes = (entry = entries[index]).match(regex.numberInBrackets)) {
+					if ((arrayIndexes = (entry = entries[index]).match(regex.numberInBrackets))) {
 						property = (entry = entry.substring(0, entry.indexOf('['))) in property ? property[entry] : property[entry] = [];
 						for (var i = 0, arrayLength = arrayIndexes.length, indexStop = arrayLength -1; i < arrayLength; i++) {
 							if (!((arrayIndex = arrayIndexes[i]) in property)) { return undefined; }
@@ -739,19 +730,19 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 			 * Function setProperty. Sets a property on an Object using a path String. If property does not exist, it will be added.
 			 * @param {object} object - The target Object.
 			 * @param {string} path - A period delimiter is used for object key. i.e. (obj.key).
-			 * 	A bracket with an index number is used as a delimeter for an array. i.e. (obj[index])
+			 *  A bracket with an index number is used as a delimiter for an array. i.e. (obj[index])
 			 * @param {any} value - The value to set in the target Object.
 			 * @returns {Boolean} true if the property was set, false otherwise.
 			 */
 			setProperty: function(object, path, value) {
 				if (!path) { return false; }
 
-				var property = undefined, arrayIndexes = undefined, arrayIndex = undefined;
-				for (var index = 0, entries = path.replace(regex.nameBrackets, '.$1').split('.'), length = entries.length, entry = undefined; index < length; index++) {
+				var property, arrayIndexes, arrayIndex;
+				for (var index = 0, entries = path.replace(regex.nameBrackets, '.$1').split('.'), length = entries.length, entry; index < length; index++) {
 					property = property || object;
 					entry = entries[index];
 
-					if (arrayIndexes = entry.match(regex.numberInBrackets)) {
+					if ((arrayIndexes = entry.match(regex.numberInBrackets))) {
 						property = (entry = entry.substring(0, entry.indexOf('['))) in property ? property[entry] : property[entry] = [];
 						for (var i = 0, arrayLength = arrayIndexes.length; i < arrayLength; i++) {
 							arrayIndex = arrayIndexes[i];
@@ -799,5 +790,5 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 	  }
 	});
 
-	$object = $.object;
+	window.$object = $.object;
 });
