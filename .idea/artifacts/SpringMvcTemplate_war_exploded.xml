@@ -64,7 +64,7 @@
           <element id="library" level="project" name="Maven: ognl:ognl:2.7.3" />
           <element id="library" level="project" name="Maven: jboss:javassist:3.7.ga" />
           <element id="library" level="project" name="Maven: org.apache.tiles:tiles-compat:2.2.2" />
-          <element id="library" level="project" name="Maven: com.google.guava:guava:14.0.1" />
+          <element id="library" level="project" name="Maven: com.google.guava:guava:15.0" />
         </element>
       </element>
     </root>
