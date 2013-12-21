@@ -64,6 +64,15 @@ public class DateUtils {
 		return calDate;
 	}
 
+	public static Date addDays(Date date, int daysToAdd) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeZone(TimeZone.getTimeZone("GMT"));
+		calendar.setTime(date);
+		calendar.add(Calendar.DATE, daysToAdd);
+
+		return calendar.getTime();
+	}
+
 	/**
 	 * Method getCalendarTime.
 	 * @param date long
@@ -141,6 +150,10 @@ public class DateUtils {
 		SimpleDateFormat sdf = new SimpleDateFormat(dateString);
 		sdf.setCalendar(Calendar.getInstance());
 		return sdf;
+	}
+
+	public static String format(Date date, DatePatternFormat datePatternFormat) {
+		return new SimpleDateFormat(datePatternFormat.getFormat()).format(date);
 	}
 
 	public static String format(Date date, DatePatternFormat datePatternFormat, Locale locale) {

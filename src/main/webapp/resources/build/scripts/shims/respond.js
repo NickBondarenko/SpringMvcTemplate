@@ -121,7 +121,7 @@ window.matchMedia = window.matchMedia || (function( doc, undefined ) {
 				var qs = styles.match(  /@media[^\{]+\{([^\{\}]*\{[^\}\{]*\})+/gi ),
 						ql = qs && qs.length || 0;
 
-				//try to get CSS path
+				//try to get CSS redirect
 				href = href.substring( 0, href.lastIndexOf( "/" ) );
 
 				var repUrls	= function( css ){
@@ -129,7 +129,7 @@ window.matchMedia = window.matchMedia || (function( doc, undefined ) {
 						},
 						useMedia = !ql && media;
 
-				//if path exists, tack on trailing slash
+				//if redirect exists, tack on trailing slash
 				if( href.length ){ href += "/"; }
 
 				//if no internal queries exist, but media attr does, use that

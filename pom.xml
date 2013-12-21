@@ -10,9 +10,9 @@
 	<properties>
 		<project.charset>UTF-8</project.charset>
 		<java.version>1.7</java.version>
-		<org.springframework.version>[3.2,3.3)</org.springframework.version>
+		<org.springframework.version>[4.0,4.1)</org.springframework.version>
 		<org.springframework.security.version>[3.1,3.2)</org.springframework.security.version>
-		<org.apache.tiles.version>[2.2,3.0)</org.apache.tiles.version>
+		<org.apache.tiles.version>[3.0,3.1)</org.apache.tiles.version>
 		<javax.servlet.jstl.version>1.2</javax.servlet.jstl.version>
 		<com.fasterxml.jackson.version>[2.2,3.0)</com.fasterxml.jackson.version>
 		<jrebel-maven-plugin.version>1.1.2</jrebel-maven-plugin.version>
@@ -22,6 +22,7 @@
 		<logback-classic.version>[1.0,1.1)</logback-classic.version>
 		<ehcache.version>[2.7,2.8)</ehcache.version>
 		<junit.version>[4.0,5.0)</junit.version>
+		<hibernate-validator.version>[5.0.0,5.1)</hibernate-validator.version>
 	</properties>
 
 	<dependencies>
@@ -130,7 +131,7 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>3.0.1</version>
+			<version>[3.0.1,3.1]</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -144,6 +145,11 @@
 			<artifactId>javax.el-api</artifactId>
 			<version>[2.2,2.3)</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>javax.el</artifactId>
+			<version>[2.2,2.4)</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -207,7 +213,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>[4.3,4.4)</version>
+			<version>${hibernate-validator.version}</version>
 		</dependency>
 		<!--
 			Apache Tiles
@@ -271,6 +277,11 @@
 					</includes>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+			</plugin>
 			<!--<plugin>-->
 				<!--<groupId>org.zeroturnaround</groupId>-->
 				<!--<artifactId>jrebel-maven-plugin</artifactId>-->
@@ -306,11 +317,11 @@
 					</execution>
 				</executions>
 				<configuration>
-					<!-- optional path to a nodejs executable -->
+					<!-- optional redirect to a nodejs executable -->
 					<nodeExecutable>/usr/local/bin/node</nodeExecutable>
-					<!-- path to optimizer json config file -->
+					<!-- redirect to optimizer json config file -->
 					<configFile>${basedir}/src/main/webapp/resources/build/app.build.js</configFile>
-					<!-- optional path to optimizer executable -->
+					<!-- optional redirect to optimizer executable -->
 					<optimizerFile>${basedir}/node_modules/requirejs/bin/r.js</optimizerFile>
 					<!--
 						Whether or not to process configFile with maven filters.

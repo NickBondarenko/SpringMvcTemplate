@@ -6,15 +6,14 @@ import java.util.Set;
 
 /**
  * @author jason.dimeo
- *         Date: 5/5/13
- *         Time: 12:29 PM
+ * Date: 2013-05-05 | 12:29 PM
  */
 public enum RequestAttribute {
 	RESPONSE_ENTITY("responseEntity"),
 	EXCEPTION_LOGGED("exceptionLogged");
 
 	private static final class Holder {
-		private static final Set<RequestAttribute> REQUEST_ATTRIBUTES = CollectionUtils.immutableEnumSet(RequestAttribute.class);
+		static final Set<RequestAttribute> REQUEST_ATTRIBUTES = CollectionUtils.immutableEnumSet(RequestAttribute.class);
 	}
 
 	private final String name;

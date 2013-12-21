@@ -20,11 +20,8 @@ public enum DatePatternFormat {
 	ISO_DATE_TIME(ISO_DATE.format + " " + ISO_TIME.format),
 	USA_DATE_TIME(USA_DATE.format + " " + ISO_TIME.format),
 	ISO_DATE_TIME_24(ISO_DATE.format + " " + ISO_TIME_24.format),
-	USA_DATE_TIME_24(USA_DATE.format + " " + ISO_TIME_24.format);
-
-	private static final class DatePatternFormatsHolder {
-		static final Set<DatePatternFormat> DATE_FORMATS = immutableEnumSet(EnumSet.allOf(DatePatternFormat.class));
-	}
+	USA_DATE_TIME_24(USA_DATE.format + " " + ISO_TIME_24.format),
+	CACHE_HEADER("EEE, dd MMM yyyy HH:mm:ss zzz");
 
 	private final String format;
 	private DatePatternFormat(String format) {
@@ -52,6 +49,10 @@ public enum DatePatternFormat {
 			@Override	public boolean apply(DatePatternFormat dateFormat) {
 				return dateFormat.format.equals(formatString);
 			}
-		}, USA_DATE);
+		}, ISO_DATE);
+	}
+
+	private static final class DatePatternFormatsHolder {
+		static final Set<DatePatternFormat> DATE_FORMATS = immutableEnumSet(EnumSet.allOf(DatePatternFormat.class));
 	}
 }

@@ -699,7 +699,7 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 				return newObj;
 			},
 			/**
-			 * Function getProperty. Gets a property from an Object using a path String.
+			 * Function getProperty. Gets a property from an Object using a redirect String.
 			 * @param {string} path - A period delimiter is used for object key. i.e. (obj.key).
 			 *  A bracket with an index number is used as a delimiter for an array. i.e. (obj[index])
 			 * @param {object} object - The source Object.
@@ -727,7 +727,7 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 				return property;
 			},
 			/**
-			 * Function setProperty. Sets a property on an Object using a path String. If property does not exist, it will be added.
+			 * Function setProperty. Sets a property on an Object using a redirect String. If property does not exist, it will be added.
 			 * @param {object} object - The target Object.
 			 * @param {string} path - A period delimiter is used for object key. i.e. (obj.key).
 			 *  A bracket with an index number is used as a delimiter for an array. i.e. (obj[index])

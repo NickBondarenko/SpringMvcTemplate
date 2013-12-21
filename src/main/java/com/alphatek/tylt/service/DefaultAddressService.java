@@ -2,8 +2,8 @@ package com.alphatek.tylt.service;
 
 import com.alphatek.tylt.repository.CountryDao;
 import com.alphatek.tylt.repository.StateDao;
-import com.alphatek.tylt.web.mvc.model.Country;
-import com.alphatek.tylt.web.mvc.model.State;
+import com.alphatek.tylt.web.servlet.mvc.model.Country;
+import com.alphatek.tylt.web.servlet.mvc.model.State;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

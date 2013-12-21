@@ -43,6 +43,9 @@
 						</ul>
 					</li>
 				</ul>
+				<c:if test="${authenticated}">
+					<div id="welcomeMessage" class="pull-right">Welcome <sec:authentication property="principal.firstName" /> <sec:authentication property="principal.lastName" /></div>
+				</c:if>
 			</div>
 		</nav>
 	</div>

@@ -4,8 +4,8 @@ import com.alphatek.tylt.authority.UserContext;
 import com.alphatek.tylt.repository.AddressDao;
 import com.alphatek.tylt.repository.CountryDao;
 import com.alphatek.tylt.repository.UserDetailsManagerDao;
-import com.alphatek.tylt.web.mvc.model.Address;
-import com.alphatek.tylt.web.mvc.model.User;
+import com.alphatek.tylt.web.servlet.mvc.model.Address;
+import com.alphatek.tylt.web.servlet.mvc.model.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +44,7 @@ public class DefaultRegistrationService implements RegistrationService {
 		long userId = userDetailsManagerDao.createUser(user);
 		user.setId(userId);
 		userDetailsManagerDao.addUserToGroup(user, 1L);
+		user.setAuthorities(userDetailsManagerDao.getCombinedAuthorities(user.getUsername()));
 
 		userContext.setCurrentUser(user);
 

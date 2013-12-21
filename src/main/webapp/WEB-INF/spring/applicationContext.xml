@@ -9,8 +9,8 @@
 		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:component-scan base-package="com.alphatek.tylt.web.mvc.model" />
-	<context:component-scan base-package="com.alphatek.tylt.web.mvc.view" />
+	<context:component-scan base-package="com.alphatek.tylt.web.servlet.mvc.model" />
+	<context:component-scan base-package="com.alphatek.tylt.web.servlet.mvc.view" />
 	<context:component-scan base-package="com.alphatek.tylt.authority" />
 	<context:component-scan base-package="com.alphatek.tylt.service" />
 	<context:component-scan base-package="com.alphatek.tylt.repository" />

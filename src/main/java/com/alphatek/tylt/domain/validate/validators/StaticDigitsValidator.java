@@ -26,12 +26,7 @@ public class StaticDigitsValidator implements ConstraintValidator<StaticDigits, 
 			return true;
 		}
 
-		BigDecimal bigNum;
-		if (number instanceof BigDecimal) {
-			bigNum = (BigDecimal) number;
-		}	else {
-			bigNum = new BigDecimal(number.toString()).stripTrailingZeros();
-		}
+		BigDecimal bigNum = number instanceof BigDecimal ? (BigDecimal) number : new BigDecimal(number.toString()).stripTrailingZeros();
 
 		int integerPartLength = bigNum.precision() - bigNum.scale();
 		int fractionPartLength = bigNum.scale() < 0 ? 0 : bigNum.scale();

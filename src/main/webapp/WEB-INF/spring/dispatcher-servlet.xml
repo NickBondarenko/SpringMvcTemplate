@@ -7,7 +7,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-	<context:component-scan base-package="com.alphatek.tylt.web.mvc.controller" />
+	<context:component-scan base-package="com.alphatek.tylt.web.servlet.mvc.controller" />
 
 	<!-- Jackson Configuration -->
 	<bean id="jacksonObjectMapper" class="com.alphatek.tylt.web.support.json.ExtendedJacksonObjectMapperFactoryBean">
@@ -21,7 +21,7 @@
 	</bean>
 
 	<!-- MVC Configuration -->
-	<mvc:annotation-driven content-negotiation-manager="contentNegotiationManager" conversion-service="conversionService" validator="validatorFactory" ignoreDefaultModelOnRedirect="true">
+	<mvc:annotation-driven content-negotiation-manager="contentNegotiationManager" conversion-service="conversionService" validator="validatorFactory" ignore-default-model-on-redirect="true">
 		<mvc:message-converters>
 			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" p:objectMapper-ref="jacksonObjectMapper" />
 			<bean class="org.springframework.http.converter.StringHttpMessageConverter" />
@@ -33,25 +33,37 @@
 
 	<!-- MVC Interceptors -->
 	<mvc:interceptors>
-		<bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
-			<property name="cacheSeconds" value="120" />
-			<property name="useExpiresHeader" value="true" />
-			<property name="useCacheControlHeader" value="true" />
-			<property name="requireSession" value="false" />
-			<property name="useCacheControlNoStore" value="true" />
-			<property name="cacheMappings">
-				<props>
-					<prop key="/**/*.jsp">2000</prop>
-					<prop key="/**/*.html">2000</prop>
-					<prop key="/**/*.css">500000</prop>
-					<prop key="/**/*.js">2592000</prop>
-				</props>
-			</property>
-		</bean>
+		<mvc:interceptor>
+			<mvc:mapping path="/**/*"/>
+			<mvc:exclude-mapping path="/resources/**" />
+			<bean id="defaultWebContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+				<property name="requireSession" value="false" />
+				<property name="cacheSeconds" value="0" />
+				<property name="useExpiresHeader" value="true" />
+				<property name="useCacheControlHeader" value="false" />
+				<!--<property name="lastModifiedSeconds" value="-2592000" />-->
+				<property name="useCacheControlNoStore" value="true" />
+				<property name="cacheMappings">
+					<props>
+						<prop key="/**/*">0</prop>
+					</props>
+				</property>
+			</bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/resources/**" />
+			<bean id="resourceWebContentInterceptor" class="com.alphatek.tylt.web.servlet.mvc.controller.interceptor.ExtendedWebContentInterceptor">
+				<property name="requireSession" value="false" />
+				<property name="cacheSeconds" value="31557600" />
+				<property name="useExpiresHeader" value="true" />
+				<property name="useCacheControlHeader" value="false" />
+				<property name="lastModifiedSeconds" value="-2592000" />
+			</bean>
+		</mvc:interceptor>
 		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="lang" />
 		<mvc:interceptor>
 			<mvc:mapping path="/resources/empty.html" />
-			<bean class="com.alphatek.tylt.web.mvc.controller.interceptor.CookieHandlerInterceptor" />
+			<bean class="com.alphatek.tylt.web.servlet.mvc.controller.interceptor.CookieHandlerInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/**"/>
@@ -61,8 +73,8 @@
 	</mvc:interceptors>
 
 	<!-- MVC Resources -->
-	<mvc:resources mapping="/resources/**" location="/resources/" cache-period="31556926" />
-	<mvc:resources mapping="/favicon.ico" location="/" cache-period="31556926" />
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<mvc:resources mapping="/favicon.ico" location="/" />
 
 	<!-- MVC View Controllers -->
 	<mvc:view-controller path="/" view-name="home.page" />
@@ -97,16 +109,16 @@
 	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
 		<property name="formatters">
 			<set>
-				<bean class="com.alphatek.tylt.web.mvc.model.format.DateFormatter" />
-				<bean class="com.alphatek.tylt.web.mvc.model.format.StateFormatter" />
-				<bean class="com.alphatek.tylt.web.mvc.model.format.ZipCodeFormatter" />
-				<bean class="com.alphatek.tylt.web.mvc.model.format.CountryCodeFormatter" />
-				<bean class="com.alphatek.tylt.web.mvc.model.format.CodeDescriptionFormatter" />
+				<bean class="com.alphatek.tylt.web.servlet.mvc.model.format.DateFormatter" />
+				<bean class="com.alphatek.tylt.web.servlet.mvc.model.format.StateFormatter" />
+				<bean class="com.alphatek.tylt.web.servlet.mvc.model.format.ZipCodeFormatter" />
+				<bean class="com.alphatek.tylt.web.servlet.mvc.model.format.CountryCodeFormatter" />
+				<bean class="com.alphatek.tylt.web.servlet.mvc.model.format.CodeDescriptionFormatter" />
 			</set>
 		</property>
 		<!--<property name="converters">-->
 			<!--<set>-->
-				<!--<bean class="com.alphatek.tylt.web.mvc.model.format.StateFormatter" />-->
+				<!--<bean class="com.alphatek.tylt.web.servlet.mvc.model.format.StateFormatter" />-->
 			<!--</set>-->
 		<!--</property>-->
 	</bean>
@@ -116,7 +128,7 @@
 	</bean>
 
 	<!-- Tiles Configuration -->
-	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles2.TilesConfigurer">
+	<bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
 		<property name="definitions">
 			<list>
 				<value>/WEB-INF/tiles-config.xml</value>
@@ -125,7 +137,7 @@
 	</bean>
 
 	<!-- View Resolvers -->
-	<bean id="tilesViewResolver" class="org.springframework.web.servlet.view.tiles2.TilesViewResolver" p:order="1" />
+	<bean id="tilesViewResolver" class="org.springframework.web.servlet.view.tiles3.TilesViewResolver" p:order="1" />
 
 	<bean id="contentNegotiatingViewResolver" class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver" p:order="2">
 		<property name="defaultViews">

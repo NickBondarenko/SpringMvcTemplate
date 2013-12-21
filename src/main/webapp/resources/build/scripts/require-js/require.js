@@ -218,13 +218,13 @@ var requirejs, require, define;
             unnormalizedCounter = 1;
 
         /**
-         * Trims the . and .. from an array of path segments.
-         * It will keep a leading path segment if a .. will become
-         * the first path segment, to help with module name lookups,
+         * Trims the . and .. from an array of redirect segments.
+         * It will keep a leading redirect segment if a .. will become
+         * the first redirect segment, to help with module name lookups,
          * which act like paths, but can be remapped. But the end result,
          * all paths that use this function should look normalized.
          * NOTE: this method MODIFIES the input array.
-         * @param {Array} ary the array of path segments.
+         * @param {Array} ary the array of redirect segments.
          */
         function trimDots(ary) {
             var i, part;
@@ -236,9 +236,9 @@ var requirejs, require, define;
                 } else if (part === '..') {
                     if (i === 1 && (ary[2] === '..' || ary[0] === '..')) {
                         //End of the line. Keep at least one non-dot
-                        //path segment at the front so it can be mapped
+                        //redirect segment at the front so it can be mapped
                         //correctly to disk. Otherwise, there is likely
-                        //no path mapping for a path starting with '..'.
+                        //no redirect mapping for a redirect starting with '..'.
                         //This can still fail, but catches the most reasonable
                         //uses of ..
                         break;
@@ -252,7 +252,7 @@ var requirejs, require, define;
 
         /**
          * Given a relative module name, like ./something, normalize it to
-         * a real name that can be mapped to a path.
+         * a real name that can be mapped to a redirect.
          * @param {String} name the relative name
          * @param {String} baseName a real name that the name arg is relative
          * to.
@@ -290,7 +290,7 @@ var requirejs, require, define;
                     name = normalizedBaseParts.concat(name.split('/'));
                     trimDots(name);
 
-                    //Some use of packages may use a . path to reference the
+                    //Some use of packages may use a . redirect to reference the
                     //'main' module name, so normalize for that.
                     pkgConfig = getOwn(config.pkgs, (pkgName = name[0]));
                     name = name.join('/');
@@ -397,7 +397,7 @@ var requirejs, require, define;
 
         /**
          * Creates a module mapping that includes plugin prefix, module
-         * name, and path. If parentModuleMap is provided it will
+         * name, and redirect. If parentModuleMap is provided it will
          * also normalize the name via require.normalize()
          *
          * @param {String} name the module name
@@ -1065,8 +1065,8 @@ var requirejs, require, define;
                     });
 
                     //Use parentName here since the plugin's name is not reliable,
-                    //could be some weird string with no path that actually wants to
-                    //reference the parentName's path.
+                    //could be some weird string with no redirect that actually wants to
+                    //reference the parentName's redirect.
                     plugin.load(map.name, localRequire, load, config);
                 }));
 
@@ -1422,7 +1422,7 @@ var requirejs, require, define;
                     isBrowser: isBrowser,
 
                     /**
-                     * Converts a module name + .extension into an URL path.
+                     * Converts a module name + .extension into an URL redirect.
                      * *Requires* the use of a module name. It does not support using
                      * plain URLs like nameToUrl.
                      */
@@ -1433,7 +1433,7 @@ var requirejs, require, define;
                             isRelative = segment === '.' || segment === '..';
 
                         //Have a file extension alias, and it is not the
-                        //dots from a relative path.
+                        //dots from a relative redirect.
                         if (index !== -1 && (!isRelative || index > 1)) {
                             ext = moduleNamePlusExt.substring(index, moduleNamePlusExt.length);
                             moduleNamePlusExt = moduleNamePlusExt.substring(0, index);
@@ -1555,7 +1555,7 @@ var requirejs, require, define;
             },
 
             /**
-             * Converts a module name to a file path. Supports cases where
+             * Converts a module name to a file redirect. Supports cases where
              * moduleName may actually be just an URL.
              * Note that it **does not** call normalize on the moduleName,
              * it is assumed to have already been normalized. This is an
@@ -1570,17 +1570,17 @@ var requirejs, require, define;
                 //or ends with .js, then assume the user meant to use an url and not a module id.
                 //The slash is important for protocol-less URLs as well as full paths.
                 if (req.jsExtRegExp.test(moduleName)) {
-                    //Just a plain path, not module name lookup, so just return it.
+                    //Just a plain redirect, not module name lookup, so just return it.
                     //Add extension if it is included. This is a bit wonky, only non-.js things pass
                     //an extension, this method probably needs to be reworked.
                     url = moduleName + (ext || '');
                 } else {
-                    //A module that needs to be converted to a path.
+                    //A module that needs to be converted to a redirect.
                     paths = config.paths;
                     pkgs = config.pkgs;
 
                     syms = moduleName.split('/');
-                    //For each module name segment, see if there is a path
+                    //For each module name segment, see if there is a redirect
                     //registered for it. Start with most specific name
                     //and work up from it.
                     for (i = syms.length; i > 0; i -= 1) {
@@ -1608,7 +1608,7 @@ var requirejs, require, define;
                         }
                     }
 
-                    //Join the path parts together, then figure out if baseUrl is needed.
+                    //Join the redirect parts together, then figure out if baseUrl is needed.
                     url = syms.join('/');
                     url += (ext || (/^data\:|\?/.test(url) || skipExt ? '' : '.js'));
                     url = (url.charAt(0) === '/' || url.match(/^[\w\+\.\-]+:/) ? '' : config.baseUrl) + url;
@@ -1929,11 +1929,11 @@ var requirejs, require, define;
             }
 
             //Look for a data-main attribute to set main script for the page
-            //to load. If it is there, the path to data main becomes the
+            //to load. If it is there, the redirect to data main becomes the
             //baseUrl, if it is not already set.
             dataMain = script.getAttribute('data-main');
             if (dataMain) {
-                //Preserve dataMain in case it is a path (i.e. contains '?')
+                //Preserve dataMain in case it is a redirect (i.e. contains '?')
                 mainScript = dataMain;
 
                 //Set final baseUrl if there is not already an explicit one.
@@ -1951,7 +1951,7 @@ var requirejs, require, define;
                 //like a module name.
                 mainScript = mainScript.replace(jsSuffixRegExp, '');
 
-                 //If mainScript is still a path, fall back to dataMain
+                 //If mainScript is still a redirect, fall back to dataMain
                 if (req.jsExtRegExp.test(mainScript)) {
                     mainScript = dataMain;
                 }

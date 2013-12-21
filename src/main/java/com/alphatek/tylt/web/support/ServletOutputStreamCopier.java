@@ -1,6 +1,7 @@
 package com.alphatek.tylt.web.support;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.WriteListener;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -29,5 +30,13 @@ public class ServletOutputStreamCopier extends ServletOutputStream {
 
 	public byte[] getCopy() {
 		return copy.toByteArray();
+	}
+
+	@Override public boolean isReady() {
+		return false;
+	}
+
+	@Override public void setWriteListener(WriteListener writeListener) {
+
 	}
 }

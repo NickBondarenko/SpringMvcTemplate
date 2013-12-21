@@ -1,6 +1,6 @@
 package com.alphatek.tylt.repository;
 
-import com.alphatek.tylt.web.mvc.model.State;
+import com.alphatek.tylt.web.servlet.mvc.model.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.RowMapper;

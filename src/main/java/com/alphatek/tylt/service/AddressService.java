@@ -1,7 +1,7 @@
 package com.alphatek.tylt.service;
 
-import com.alphatek.tylt.web.mvc.model.Country;
-import com.alphatek.tylt.web.mvc.model.State;
+import com.alphatek.tylt.web.servlet.mvc.model.Country;
+import com.alphatek.tylt.web.servlet.mvc.model.State;
 
 import java.util.List;
 

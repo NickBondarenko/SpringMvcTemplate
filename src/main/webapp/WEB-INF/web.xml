@@ -9,6 +9,26 @@
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
 	<filter>
+		<filter-name>cache</filter-name>
+		<filter-class>com.alphatek.tylt.web.servlet.filter.ResponseHeaderFilter</filter-class>
+		<init-param>
+			<param-name>header</param-name>
+			<param-value>Cache-Control</param-value>
+		</init-param>
+		<init-param>
+			<param-name>value</param-name>
+			<param-value>public</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>cache</filter-name>
+		<url-pattern>*.css</url-pattern>
+		<url-pattern>*.js</url-pattern>
+		<url-pattern>*.png</url-pattern>
+		<url-pattern>*.gif</url-pattern>
+		<url-pattern>*.jpg</url-pattern>
+	</filter-mapping>
+	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>

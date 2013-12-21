@@ -1,6 +1,6 @@
 package com.alphatek.tylt.repository;
 
-import com.alphatek.tylt.web.mvc.model.Country;
+import com.alphatek.tylt.web.servlet.mvc.model.Country;
 
 import java.util.List;
 

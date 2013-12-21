@@ -1,7 +1,8 @@
 package com.alphatek.tylt.repository;
 
-import com.alphatek.tylt.web.mvc.model.User;
+import com.alphatek.tylt.web.servlet.mvc.model.User;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -33,7 +34,7 @@ public class UserDetailsManagerJdbcDao extends JdbcUserDetailsManager implements
 	private static final String INSERT_GROUP_MEMBER_SQL = "INSERT INTO group_members (user_id, group_id) VALUES (:userId, :groupId)";
 	private static final String FIND_GROUP_ID_SQL = "SELECT id FROM groups WHERE group_name = ?";
 	private static final RowMapper<UserDetails> USER_MAPPER = new RowMapper<UserDetails>() {
-		@Override public UserDetails mapRow(ResultSet resultSet, int i) throws SQLException {
+		@Override public UserDetails mapRow(ResultSet resultSet, int index) throws SQLException {
 			User user = new User();
 			user.setUsername(resultSet.getString("username"));
 			user.setPassword(resultSet.getString("password"));
@@ -111,4 +112,19 @@ public class UserDetailsManagerJdbcDao extends JdbcUserDetailsManager implements
 		return user;
 	}
 
+	@Override public List<GrantedAuthority> getCombinedAuthorities(String username) {
+		List<GrantedAuthority> combinedAuthorities = Lists.newArrayList();
+
+		if (getEnableAuthorities()) {
+			combinedAuthorities.addAll(loadUserAuthorities(username));
+		}
+
+		if (getEnableGroups()) {
+			combinedAuthorities.addAll(loadGroupAuthorities(username));
+		}
+
+		addCustomAuthorities(username, combinedAuthorities);
+
+		return combinedAuthorities;
+	}
 }

@@ -1,6 +1,6 @@
 package com.alphatek.tylt.repository;
 
-import com.alphatek.tylt.web.mvc.model.Address;
+import com.alphatek.tylt.web.servlet.mvc.model.Address;
 
 import java.util.List;
 

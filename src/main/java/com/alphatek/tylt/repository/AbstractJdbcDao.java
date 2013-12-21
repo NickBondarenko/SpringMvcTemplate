@@ -1,5 +1,6 @@
 package com.alphatek.tylt.repository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
@@ -10,7 +11,7 @@ public abstract class AbstractJdbcDao extends JdbcDaoSupport implements JdbcDao 
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	private SimpleJdbcCall jdbcCall;
 
-	public AbstractJdbcDao(DataSource dataSource) {
+	@Autowired public AbstractJdbcDao(DataSource dataSource) {
 		setDataSource(dataSource);
 	}
 
