@@ -1,13 +1,12 @@
 package com.alphatek.tylt.service;
 
 import com.alphatek.tylt.authority.UserContext;
-import com.alphatek.tylt.repository.AddressDao;
-import com.alphatek.tylt.repository.CountryDao;
-import com.alphatek.tylt.repository.UserDetailsManagerDao;
+import com.alphatek.tylt.repository.UserManagerDao;
 import com.alphatek.tylt.web.servlet.mvc.model.Address;
 import com.alphatek.tylt.web.servlet.mvc.model.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
@@ -18,41 +17,33 @@ import javax.annotation.Resource;
  * Time: 5:56 PM
  */
 @Service
-public class DefaultRegistrationService implements RegistrationService {
-	@Resource(name = "userDetailsManager")
-	private UserDetailsManagerDao userDetailsManagerDao;
-	@Resource private AddressDao addressDao;
-	@Resource private CountryDao countryDao;
+public final class DefaultRegistrationService implements RegistrationService {
+	@Resource private UserManagerDao userManagerDao;
+	@Resource private AddressService addressService;
 	@Resource private UserContext userContext;
 	@Resource private PasswordEncoder passwordEncoder;
 
-	@Override	public User registerUser(User user) {
-		if (user.getAddress().getCountry() == null) {
-			user.getAddress().setCountry(countryDao.retrieveById(1L));
+	@Transactional(readOnly = false)
+	@Override	public User registerUser(User.Builder userBuilder) {
+		if (userBuilder.getAddress().getCountry() == null) {
+			userBuilder.getAddress().setCountry(addressService.getCountryById(1L));
 		}
 
-		long addressId = addAddress(user.getAddress());
+		Address address = addressService.addAddress(userBuilder.getAddress());
 
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		user.setConfirmPassword("");
-		user.setEnabled(true);
-		user.setAccountNonLocked(true);
-		user.setAccountNonExpired(true);
-		user.setCredentialsNonExpired(true);
-		user.getAddress().setId(addressId);
+		userBuilder.address(address).password(passwordEncoder.encode(userBuilder.getPassword()));
 
-		long userId = userDetailsManagerDao.createUser(user);
-		user.setId(userId);
-		userDetailsManagerDao.addUserToGroup(user, 1L);
-		user.setAuthorities(userDetailsManagerDao.getCombinedAuthorities(user.getUsername()));
+		User newUser = userManagerDao.createUser(userBuilder);
+		newUser.eraseCredentials();
 
-		userContext.setCurrentUser(user);
+		userManagerDao.addUserToGroup(newUser);
+		userContext.setCurrentUser(newUser);
 
-		return user;
+		return newUser;
 	}
 
-	private long addAddress(Address address) {
-		return addressDao.insertAddress(address);
+	@Override public boolean userExists(String username) {
+		return userManagerDao.userExists(username);
 	}
 
 	@Override	public boolean deleteUser() {

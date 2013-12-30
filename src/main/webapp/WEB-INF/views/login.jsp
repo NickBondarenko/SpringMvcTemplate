@@ -2,8 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
-
-<div id="loginContainer" class="container">
+<div id="loginContainer">
 	<div class="page-header">
 		<h1>Login</h1>
 	</div>
@@ -39,12 +38,12 @@
 					</div>
 					<div class="checkbox">
 						<label for="rememberMe">
-							<input id="rememberMe" type="checkbox" />Remember me
+							<input id="rememberMe" type="checkbox" name="_spring_security_remember_me" />Remember me
 						</label>
 					</div>
 					<button type="submit" class="btn btn-primary">Sign In</button>
 					<div class="right">
-						<a href="/reset">Forgot password?</a>
+						<a href="${contextPath}/reset">Forgot password?</a>
 					</div>
 				</fieldset>
 			</form>

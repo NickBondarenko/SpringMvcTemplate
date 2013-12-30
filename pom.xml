@@ -11,7 +11,7 @@
 		<project.charset>UTF-8</project.charset>
 		<java.version>1.7</java.version>
 		<org.springframework.version>[4.0,4.1)</org.springframework.version>
-		<org.springframework.security.version>[3.1,3.2)</org.springframework.security.version>
+		<org.springframework.security.version>[3.2,3.2.1)</org.springframework.security.version>
 		<org.apache.tiles.version>[3.0,3.1)</org.apache.tiles.version>
 		<javax.servlet.jstl.version>1.2</javax.servlet.jstl.version>
 		<com.fasterxml.jackson.version>[2.2,3.0)</com.fasterxml.jackson.version>

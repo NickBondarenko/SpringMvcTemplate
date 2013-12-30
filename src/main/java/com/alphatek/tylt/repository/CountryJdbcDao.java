@@ -50,5 +50,4 @@ public class CountryJdbcDao extends AbstractJdbcDao implements CountryDao {
 	@Override public boolean isValidCountryCode(String code) {
 		return getNamedParameterJdbcTemplate().queryForObject(COUNTRY_COUNT_SQL + " WHERE code = :code", new MapSqlParameterSource("code", code), Integer.class) > 0;
 	}
-
 }

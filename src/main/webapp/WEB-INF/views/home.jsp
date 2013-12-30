@@ -16,7 +16,7 @@
 			</div>
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<h3 class="panel-title">Spring Security 3.1.4</h3>
+					<h3 class="panel-title">Spring Security 3.2.0</h3>
 				</div>
 				<div class="panel-body">
 					Panel content

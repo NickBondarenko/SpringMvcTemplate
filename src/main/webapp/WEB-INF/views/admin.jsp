@@ -1,6 +1,5 @@
 <jsp:directive.page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" />
-
-<div id="loginContainer" class="container">
+<div id="loginContainer">
 	<div class="page-header">
 		<h1>Admin</h1>
 	</div>

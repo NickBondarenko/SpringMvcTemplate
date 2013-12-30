@@ -5,6 +5,7 @@ DROP TABLE users;
 DROP TABLE groups;
 DROP TABLE group_authorities;
 DROP TABLE group_members;
+DROP TABLE persistent_logins;
 
 CREATE TABLE country (
 	id BIGINT IDENTITY PRIMARY KEY,
@@ -66,4 +67,11 @@ CREATE TABLE group_members (
 	group_id BIGINT NOT NULL,
 	CONSTRAINT FK_GROUP_MEMBERS_GROUP FOREIGN KEY(group_id) REFERENCES groups(id),
 	CONSTRAINT FK_GROUP_MEMBERS_USER FOREIGN KEY(user_id) REFERENCES users(id)
+);
+
+CREATE TABLE persistent_logins (
+	username VARCHAR(64) NOT NULL,
+  series VARCHAR(64) PRIMARY KEY,
+  token VARCHAR(64) NOT NULL,
+  last_used TIMESTAMP NOT NULL
 );

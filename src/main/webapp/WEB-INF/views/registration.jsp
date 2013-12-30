@@ -3,13 +3,12 @@
 <%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-
-<div id="registrationFragment" class="container">
+<div id="registrationFragment">
 	<div class="page-header">
 		<h1>Register</h1>
 	</div>
-	<sf:form id="registrationForm" modelAttribute="user" action="/registration" method="post">
-		<spring:hasBindErrors name="user">
+	<sf:form id="registrationForm" modelAttribute="registrationForm" action="/registration" method="post">
+		<spring:hasBindErrors name="registrationForm">
 			<div class="alert alert-danger alert-dismissable">
 				<button type="button" class="close" data-dismiss="alert">&times;</button>
 				<h4>We were unable to complete your registration request due to errors on the form.</h4>

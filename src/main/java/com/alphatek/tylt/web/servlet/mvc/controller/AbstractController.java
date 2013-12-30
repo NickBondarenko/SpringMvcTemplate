@@ -28,12 +28,12 @@ public abstract class AbstractController implements Controller {
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	private static final Object[] EMPTY_OBJECT = new Object[] {};
 
-	public ResponseEntity<Object> getExceptionResponseEntity(ServletWebRequest servletWebRequest, Throwable throwable) {
+	@Override public ResponseEntity<Object> getExceptionResponseEntity(ServletWebRequest servletWebRequest, Throwable throwable) {
 		// If ResponseEntity exists in request, return it and remove from response. If not, generate new ResponseEntity.
 		@SuppressWarnings("unchecked")
 		ResponseEntity<Object> responseEntity = (ResponseEntity<Object>) servletWebRequest.getAttribute(RequestAttribute.RESPONSE_ENTITY.getName(), WebRequest.SCOPE_REQUEST);
 		if (responseEntity == null) {
-			String message = throwable.getMessage();
+			String message = throwable.getCause().getMessage();
 			responseEntity = ResponseEntityBuilder.fromWebRequest(servletWebRequest).withBody(message == null ? ExceptionHandlerStrategy.DEFAULT_ERROR_MESSAGE : message).build();
 		} else {
 			if (responseEntity.getBody() == null) {
@@ -44,7 +44,7 @@ public abstract class AbstractController implements Controller {
 		return responseEntity;
 	}
 
-	public void sendError(ServletWebRequest servletWebRequest, Exception exception) throws IOException {
+	@Override public void sendError(ServletWebRequest servletWebRequest, Exception exception) throws IOException {
 		servletWebRequest.setAttribute(RequestDispatcher.ERROR_EXCEPTION, exception, WebRequest.SCOPE_REQUEST);
 		servletWebRequest.getResponse().sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, exception.getMessage());
 	}
@@ -54,7 +54,7 @@ public abstract class AbstractController implements Controller {
 	 * @param request HttpServletRequest
 	 * @return boolean
 	 */
-	public boolean isValidSession(HttpServletRequest request) {
+	@Override public boolean isValidSession(HttpServletRequest request) {
 		return request.getSession(false) != null;
 	}
 
@@ -63,7 +63,7 @@ public abstract class AbstractController implements Controller {
 	 * @param requestedWith String
 	 * @return boolean
 	 */
-	public boolean isAjaxRequest(String requestedWith) {
+	@Override public boolean isAjaxRequest(String requestedWith) {
 		return Objects.equals("XMLHttpRequest", requestedWith);
 	}
 
@@ -73,7 +73,7 @@ public abstract class AbstractController implements Controller {
 	 * @param request  HttpServletRequest
 	 * @param session HttpSession
 	 */
-	public void clearCookies(HttpServletRequest request, HttpSession session) {
+	@Override public void clearCookies(HttpServletRequest request, HttpSession session) {
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null && session != null) {
 			for (Cookie cookie : cookies) {
@@ -84,7 +84,7 @@ public abstract class AbstractController implements Controller {
 		}
 	}
 
-	public String getHtmlOutput(HttpServletRequest request, HttpServletResponse response, String source) {
+	@Override public String getHtmlOutput(HttpServletRequest request, HttpServletResponse response, String source) {
 		String htmlOutput = "";
 		try {
 			HttpSession session = request.getSession(false);
@@ -115,7 +115,7 @@ public abstract class AbstractController implements Controller {
 		return WebApplicationContextUtils.getWebApplicationContext(servletContext);
 	}
 
-	public WebApplicationContext getWebApplicationContext(HttpServletRequest request) {
+	@Override public WebApplicationContext getWebApplicationContext(HttpServletRequest request) {
 		return getWebApplicationContext(request.getServletContext());
 	}
 
@@ -123,7 +123,7 @@ public abstract class AbstractController implements Controller {
 		return getWebApplicationContext(servletContext).getMessage(code, EMPTY_OBJECT, Locale.getDefault());
 	}
 
-	public String getMessage(HttpServletRequest request, String code) {
+	@Override public String getMessage(HttpServletRequest request, String code) {
 		return getMessage(request.getServletContext(), code);
 	}
 
@@ -131,7 +131,7 @@ public abstract class AbstractController implements Controller {
 		return getWebApplicationContext(servletContext).getMessage(code, args, Locale.getDefault());
 	}
 
-	public String getMessage(HttpServletRequest request, String code, Object[] args) {
+	@Override public String getMessage(HttpServletRequest request, String code, Object[] args) {
 		return getMessage(request.getServletContext(), code, args);
 	}
 
@@ -139,7 +139,7 @@ public abstract class AbstractController implements Controller {
 		return getWebApplicationContext(servletContext).getMessage(code, args, locale);
 	}
 
-	public String getMessage(HttpServletRequest request, String code, Object[] args, Locale locale) {
+	@Override public String getMessage(HttpServletRequest request, String code, Object[] args, Locale locale) {
 		return getMessage(request.getServletContext(), code, args, locale);
 	}
 
@@ -147,7 +147,7 @@ public abstract class AbstractController implements Controller {
 		return getWebApplicationContext(servletContext).containsBean(id);
 	}
 
-	public boolean beanExists(HttpServletRequest request, String id) {
+	@Override public boolean beanExists(HttpServletRequest request, String id) {
 		return beanExists(request.getServletContext(), id);
 	}
 
@@ -155,7 +155,7 @@ public abstract class AbstractController implements Controller {
 		return getWebApplicationContext(servletContext).getBean(clazz);
 	}
 
-	public <T> T getBean(HttpServletRequest request, Class<T> clazz) {
+	@Override public <T> T getBean(HttpServletRequest request, Class<T> clazz) {
 		return getBean(request.getServletContext(), clazz);
 	}
 
@@ -163,11 +163,11 @@ public abstract class AbstractController implements Controller {
 		return getWebApplicationContext(servletContext).getBean(id, clazz);
 	}
 
-	public <T> T getBean(HttpServletRequest request, String id, Class<T> clazz) {
+	@Override public <T> T getBean(HttpServletRequest request, String id, Class<T> clazz) {
 		return getBean(request.getServletContext(), id, clazz);
 	}
 
-	public Object getBean(HttpServletRequest request, String id) {
+	@Override public Object getBean(HttpServletRequest request, String id) {
 		return getWebApplicationContext(request).getBean(id);
 	}
 
@@ -175,7 +175,7 @@ public abstract class AbstractController implements Controller {
 		return getWebApplicationContext(servletContext).getBean(id, args);
 	}
 
-	public Object getBean(HttpServletRequest request, String id, Object... args) {
+	@Override public Object getBean(HttpServletRequest request, String id, Object... args) {
 		return getBean(request.getServletContext(), id, args);
 	}
 
@@ -183,11 +183,11 @@ public abstract class AbstractController implements Controller {
 		return getWebApplicationContext(servletContext).getResource(location);
 	}
 
-	public Resource getResource(HttpServletRequest request, String location) {
+	@Override public Resource getResource(HttpServletRequest request, String location) {
 		return getResource(request.getServletContext(), location);
 	}
 
-	public String getBaseURL(HttpServletRequest request) {
+	@Override public String getBaseURL(HttpServletRequest request) {
 		return request.getRequestURI().substring(0, request.getQueryString().length());
 	}
 }

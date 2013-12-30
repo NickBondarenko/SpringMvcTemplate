@@ -40,6 +40,9 @@ requirejs.config({
 				return WebFont;
 			}
 		},
+		'jquery-migrate': {
+			deps: ['jquery']
+		},
 		rem: []
 	},
 	deps: ['js.extensions', 'jquery', 'jquery-migrate'],

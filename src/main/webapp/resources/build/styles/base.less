@@ -22,6 +22,14 @@ body, button {
   -webkit-font-smoothing: antialiased !important;
 }
 
+#content {
+  margin-top: 20px;
+}
+
+.page-header {
+  margin-top: 20px;
+}
+
 input:focus, input[type]:focus, .uneditable-input:focus {
   .input-highlight();
 }
@@ -52,7 +60,7 @@ button, .btn, a {
 /* Wrapper for page content to push down footer */
 #contentWrapper {
   min-height: 100%;
-  height: auto !important;
+//  height: auto !important;
   height: 100%;
   /* Negative indent footer by its height */
   margin: 0 auto -@footerHeight;
@@ -65,7 +73,7 @@ button, .btn, a {
 }
 
 #welcomeMessage {
-  padding: 10px 20px;
+  padding: 10px 0 10px 20px;
 }
 
 .navbar-fixed-top, .navbar-static-top {
@@ -82,8 +90,6 @@ footer {
     & > .container {
       line-height: @footerHeight;
       .credit {
-        padding-left: 15px;
-        padding-right: 15px;
         margin-bottom: 0;
       }
     }
