@@ -10,7 +10,6 @@ import com.alphatek.tylt.web.servlet.mvc.model.User;
 import com.alphatek.tylt.web.servlet.mvc.view.View;
 import com.alphatek.tylt.web.support.Path;
 import com.google.common.collect.Maps;
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.Errors;
@@ -34,7 +33,7 @@ public final class RegistrationController extends AbstractController {
 	@Resource private AddressService addressService;
 
 	@ModelAttribute("registrationForm")
-	public RegistrationForm addRegistrationForm() {
+	public RegistrationForm addModel() {
 		return new RegistrationForm();
 	}
 
@@ -74,7 +73,7 @@ public final class RegistrationController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/checkUsername", method = RequestMethod.GET)
-	public @ResponseBody Map<String, Boolean> userExists(@RequestParam @NotBlank String username) {
+	public @ResponseBody Map<String, Boolean> userExists(@RequestParam String username) {
 		Map<String, Boolean> result = Maps.newHashMapWithExpectedSize(1);
 		result.put("usernameExists", registrationService.userExists(username));
 		return result;

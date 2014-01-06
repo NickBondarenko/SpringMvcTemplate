@@ -1,9 +1,9 @@
 <jsp:directive.page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" />
 <div class="page-header">
-	<h1>Spring MVC Template</h1>
+	<h1>Tylt MVC Web Application</h1>
 </div>
 <div>
-	<h2>Use this code to quickly setup a new Spring MVC webapp</h2>
+	<h2>Use this code to quickly setup a new Spring MVC webapp with the following products</h2>
 	<div class="row">
 		<div class="col-lg-6">
 			<div class="panel panel-default">

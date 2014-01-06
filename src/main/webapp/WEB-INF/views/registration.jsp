@@ -23,7 +23,7 @@
 						<tags:form-group-input path="firstName" label="First Name" cssClass="input-large" />
 						<tags:form-group-input path="lastName" label="Last Name" cssClass="input-large" />
 						<tags:form-group-input-icon path="emailAddress" label="Email Address" icon="envelope" cssClass="input-xlarge" />
-						<tags:form-group-input path="username" cssClass="input-large" />
+						<tags:form-group-input-icon path="username" icon="user" cssClass="input-large" />
 						<tags:form-group-password path="password" cssClass="input-large" />
 						<tags:form-group-password path="confirmPassword" label="Confirm Password" cssClass="input-large" />
 					</div>

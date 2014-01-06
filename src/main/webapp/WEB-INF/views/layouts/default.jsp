@@ -20,7 +20,7 @@
 		<c:set var="scriptEnvironment" value="${isProductionEnvironment ? 'bin' : 'build'}" scope="session" />
 
 		<c:if test="${not empty fontFamilies}">
-			<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=${fontFamilies}" />
+			<link type="text/css" rel="stylesheet" href="//fonts.googleapis.com/css?family=${fontFamilies}" />
 		</c:if>
 		<link type="text/css" rel="stylesheet" href="../../../resources/${scriptEnvironment}/styles/main.css" />
 		<link type="text/css" rel="stylesheet" href="../../../resources/themes/${themeName}/styles/theme.css" />

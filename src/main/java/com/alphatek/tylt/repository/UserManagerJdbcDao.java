@@ -11,12 +11,10 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
@@ -28,7 +26,6 @@ import java.util.List;
  * User: jason.dimeo
  * Date: 2013-05-29 : 7:41 PM
  */
-@Repository
 public class UserManagerJdbcDao extends JdbcUserDetailsManager implements UserManagerDao {
 	private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	private static final boolean ENABLE_GROUPS = true;
@@ -62,9 +59,8 @@ public class UserManagerJdbcDao extends JdbcUserDetailsManager implements UserMa
 		}
 	};
 
-	@Autowired public UserManagerJdbcDao(DataSource dataSource, AuthenticationManager authenticationManager) {
+	@Autowired public UserManagerJdbcDao(DataSource dataSource) {
 		setDataSource(dataSource);
-		setAuthenticationManager(authenticationManager);
 		namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(getJdbcTemplate());
 		setGroupAuthoritiesByUsernameQuery(GROUP_AUTHORITIES_BY_USERNAME_QUERY);
 		setFindGroupIdSql(FIND_GROUP_ID_SQL);

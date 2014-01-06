@@ -62,11 +62,7 @@ define(['es5'], function(es5, undefined) {
 
 	defineProperties(Boolean, {
 		parse: function(value) {
-			switch (value.toLowerCase()) {
-				case 'true': return true;
-				case 'false': return false;
-				default: throw new TypeError('Cannot parse ' + value + ' to boolean.');
-			}
+			return value && value.toLowerCase() == 'true';
 		}
 	});
 

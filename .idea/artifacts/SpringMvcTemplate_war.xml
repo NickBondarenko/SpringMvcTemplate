@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="war" build-on-make="true" name="SpringMvcTemplate:war">
+  <artifact type="war" name="SpringMvcTemplate:war">
     <output-path>$PROJECT_DIR$/target</output-path>
     <root id="archive" name="SpringMvcTemplate.war">
       <element id="artifact" artifact-name="SpringMvcTemplate:war exploded" />

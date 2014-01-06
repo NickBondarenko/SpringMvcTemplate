@@ -4,7 +4,7 @@
 @font-family-sans-serif: "Trebuchet MS", Helvitica, sans-serif;
 @baseFontSize: 16px;
 @baseFontFamily: @font-family-sans-serif;
-@footerHeight: 60px;
+@footerHeight: 40px;
 @backgroundColor: #222;
 
 html {
@@ -20,10 +20,11 @@ body, button {
   font-size: @baseFontSize;
   font-family: @baseFontFamily;
   -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #content {
-  margin-top: 20px;
+  margin-top: 40px;
 }
 
 .page-header {
@@ -60,12 +61,12 @@ button, .btn, a {
 /* Wrapper for page content to push down footer */
 #contentWrapper {
   min-height: 100%;
-//  height: auto !important;
+  height: auto !important;
   height: 100%;
   /* Negative indent footer by its height */
   margin: 0 auto -@footerHeight;
   /* Pad bottom by footer height */
-  padding: 0 0 60px;
+  padding: 0 0 @footerHeight;
   background-color: #fff;
   & > .container {
     padding-top: (@footerHeight / 2);

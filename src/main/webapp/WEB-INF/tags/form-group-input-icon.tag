@@ -15,9 +15,9 @@
 	<c:set var="label" value="${fn:toUpperCase(fn:substring(path, 0, 1))}${fn:toLowerCase(fn:substring(path, 1, fn:length(path)))}" />
 </c:if>
 <spring:bind path="${path}">
-	<div class="form-group">
+	<div class="form-group ${status.error ? 'has-error' : ''}">
 		<label class="control-label" for="${path}">${label}<c:if test="${required}"><span class="required">*</span></c:if></label>
-		<div class="input-group ${status.error ? 'has-error' : ''}">
+		<div class="input-group">
 			<span class="input-group-addon"><i class="glyphicon glyphicon-${icon}"></i></span>
 			<form:input path="${path}" cssClass="form-control ${empty cssClass ? '' : cssClass}" maxlength="${maxLength}" placeholder="${placeholder}" />
 		</div>

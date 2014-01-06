@@ -25,10 +25,6 @@ public final class DefaultRegistrationService implements RegistrationService {
 
 	@Transactional(readOnly = false)
 	@Override	public User registerUser(User.Builder userBuilder) {
-		if (userBuilder.getAddress().getCountry() == null) {
-			userBuilder.getAddress().setCountry(addressService.getCountryById(1L));
-		}
-
 		Address address = addressService.addAddress(userBuilder.getAddress());
 
 		userBuilder.address(address).password(passwordEncoder.encode(userBuilder.getPassword()));

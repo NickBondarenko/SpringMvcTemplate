@@ -1,3 +1,4 @@
+'use strict';
 requirejs.config({
 	baseURL: 'resources/build/scripts',
 	paths: {
@@ -45,7 +46,7 @@ requirejs.config({
 		},
 		rem: []
 	},
-	deps: ['js.extensions', 'jquery', 'jquery-migrate'],
+	deps: ['es5', 'js.extensions', 'jquery', 'jquery-migrate'],
 	onError: function(error) {
 		console && console.log(error);
 	}
@@ -63,7 +64,6 @@ requirejs([
 	'domReady!'
 ],
 function($) {
-	'use strict';
 	if (!window.Modernizr.cssremunit) {
 		window.require(['rem']);
 	}

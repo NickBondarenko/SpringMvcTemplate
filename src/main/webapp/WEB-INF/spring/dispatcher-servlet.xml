@@ -41,7 +41,6 @@
 				<property name="cacheSeconds" value="0" />
 				<property name="useExpiresHeader" value="true" />
 				<property name="useCacheControlHeader" value="false" />
-				<!--<property name="lastModifiedSeconds" value="-2592000" />-->
 				<property name="useCacheControlNoStore" value="true" />
 				<property name="cacheMappings">
 					<props>
@@ -121,10 +120,6 @@
 				<!--<bean class="com.alphatek.tylt.web.servlet.mvc.model.format.StateFormatter" />-->
 			<!--</set>-->
 		<!--</property>-->
-	</bean>
-
-	<bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor">
-		<property name="validatorFactory" ref="validatorFactory" />
 	</bean>
 
 	<!-- Tiles Configuration -->

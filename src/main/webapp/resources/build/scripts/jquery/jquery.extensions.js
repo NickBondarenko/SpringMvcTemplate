@@ -384,6 +384,25 @@ define(['jquery', 'domReady!'], function($, document, undefined) {
 			// TODO: Add a check for value of <code>this</code>
 			return this.children().exists();
 		},
+		swapClass: function(classToAdd, classToRemove) {
+			var classesToAdd = classToAdd.split(' ');
+			classesToAdd.forEach(function(element, index, array) {
+				if (this.hasClass(element)) {
+					array.remove(index);
+				}
+			}, this);
+			this.addClass(classesToAdd.join(' '));
+
+			var classesToRemove = classToRemove.split(' ');
+			classesToRemove.forEach(function(element, index, array) {
+				if (!this.hasClass(element)) {
+					array.remove(index);
+				}
+			}, this);
+			this.removeClass(classesToRemove.join(' '));
+
+			return this;
+		},
 	  /**
 	   * Function value. Gets or sets the value of an input.
 	   * @param {any} value - The value to set. (optional)

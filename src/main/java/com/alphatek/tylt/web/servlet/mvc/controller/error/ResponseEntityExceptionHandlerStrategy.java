@@ -18,7 +18,9 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
+import org.springframework.web.HttpMediaTypeException;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -29,6 +31,8 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
@@ -63,7 +67,7 @@ public enum ResponseEntityExceptionHandlerStrategy implements ExceptionHandlerSt
 	HTTP_MEDIA_TYPE_NOT_SUPPORTED_EXCEPTION(HttpMediaTypeNotSupportedException.class, HttpStatus.UNSUPPORTED_MEDIA_TYPE, "Unsupported Media Type", true) {
 		@Override public ResponseEntity<Object> handle(ServletWebRequest request, Exception ex) {
 			HttpHeaders httpHeaders = ControllerUtils.generateHttpHeaders(getHttpStatus());
-			List<MediaType> mediaTypes = ((HttpMediaTypeNotSupportedException) ex).getSupportedMediaTypes();
+			List<MediaType> mediaTypes = ((HttpMediaTypeException) ex).getSupportedMediaTypes();
 			if (!CollectionUtils.isEmpty(mediaTypes)) {
 				httpHeaders.setAccept(mediaTypes);
 			}
@@ -128,7 +132,7 @@ public enum ResponseEntityExceptionHandlerStrategy implements ExceptionHandlerSt
 	},
 	BIND_EXCEPTION(BindException.class, HttpStatus.BAD_REQUEST, "Bind Error", true) {
 		@Override public ResponseEntity<Object> handle(ServletWebRequest request, Exception ex) {
-			List<FieldError> fieldErrors = ((BindException) ex).getFieldErrors();
+			List<FieldError> fieldErrors = ((Errors) ex).getFieldErrors();
 			List<String> errorMessages = Lists.newArrayListWithExpectedSize(fieldErrors.size());
 			for (FieldError fieldError : fieldErrors) {
 				errorMessages.add(String.format(fieldError.getDefaultMessage(), fieldError.getRejectedValue()));
@@ -137,19 +141,19 @@ public enum ResponseEntityExceptionHandlerStrategy implements ExceptionHandlerSt
 			ApplicationError applicationError = new ApplicationError(getErrorDescription(), errorMessages);
 			return ResponseEntityBuilder.fromHttpStatus(getHttpStatus()).withBody(applicationError).build();
 		}
+	},
+	CONSTRAINT_VIOLATION_EXCEPTION(ConstraintViolationException.class, HttpStatus.INTERNAL_SERVER_ERROR, "Method Constraint Violation", true) {
+		@Override public ResponseEntity<Object> handle(ServletWebRequest request, Exception ex) {
+			Set<ConstraintViolation<?>> violations = ((ConstraintViolationException) ex).getConstraintViolations();
+			List<String> violationMessages = Lists.newArrayListWithExpectedSize(violations.size());
+			for (ConstraintViolation<?> violation : violations) {
+				violationMessages.add(String.format(violation.getMessage(), violation.getInvalidValue()));
+			}
+
+			ApplicationError applicationError = new ApplicationError(getErrorDescription(), violationMessages);
+			return ResponseEntityBuilder.fromHttpStatus(getHttpStatus()).withBody(applicationError).build();
+		}
 	};
-//	METHOD_CONSTRAINT_VIOLATION(MethodConstraintViolationException.class, HttpStatus.INTERNAL_SERVER_ERROR, "Method Constraint Violation", true) {
-//		@Override public ResponseEntity<Object> handle(ServletWebRequest request, Exception ex) {
-//			Set<MethodConstraintViolation<?>> violations = ((MethodConstraintViolationException) ex).getConstraintViolations();
-//			List<String> violationMessages = Lists.newArrayListWithExpectedSize(violations.size());
-//			for (MethodConstraintViolation<?> violation : violations) {
-//				violationMessages.add(String.format(violation.getMessage(), violation.getInvalidValue()));
-//			}
-//
-//			ApplicationError applicationError = new ApplicationError(getErrorDescription(), violationMessages);
-//			return ResponseEntityBuilder.fromHttpStatus(getHttpStatus()).withBody(applicationError).build();
-//		}
-//	};
 
 	private final Class<? extends Exception> exceptionClass;
 	private final HttpStatus httpStatus;

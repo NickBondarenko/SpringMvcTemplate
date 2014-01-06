@@ -32,8 +32,6 @@ public class ExtendedWebContentInterceptor extends WebContentInterceptor {
 		return true;
 	}
 
-
-
 	private Date generateLastModifiedDate(long lastModifiedSeconds) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.add(Calendar.DATE, (int) TimeUnit.SECONDS.toDays(lastModifiedSeconds));

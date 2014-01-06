@@ -2,6 +2,7 @@ package com.alphatek.tylt.web.servlet.mvc.model;
 
 import com.alphatek.tylt.web.servlet.mvc.model.validate.constraints.FieldMatch;
 import com.alphatek.tylt.web.servlet.mvc.model.validate.constraints.Username;
+import com.google.common.base.Objects;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -86,5 +87,34 @@ public class RegistrationForm {
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	@Override public int hashCode() {
+		return Objects.hashCode(firstName, lastName, username, password, confirmPassword, emailAddress, address);
+	}
+
+	@Override public boolean equals(Object obj) {
+		if (this == obj) { return true; }
+		if (obj == null || getClass() != obj.getClass()) { return false; }
+		final RegistrationForm other = (RegistrationForm) obj;
+		return Objects.equal(this.firstName, other.firstName) &&
+			Objects.equal(this.lastName, other.lastName) &&
+			Objects.equal(this.username, other.username) &&
+			Objects.equal(this.password, other.password) &&
+			Objects.equal(this.confirmPassword, other.confirmPassword) &&
+			Objects.equal(this.emailAddress, other.emailAddress) &&
+			Objects.equal(this.address, other.address);
+	}
+
+	@Override public String toString() {
+		return Objects.toStringHelper(this)
+			.add("firstName", firstName)
+			.add("lastName", lastName)
+			.add("username", username)
+			.add("password", password)
+			.add("confirmPassword", confirmPassword)
+			.add("emailAddress", emailAddress)
+			.add("address", address)
+			.toString();
 	}
 }

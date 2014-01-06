@@ -16,7 +16,7 @@
 </c:if>
 <spring:bind path="${path}">
 	<div class="form-group ${status.error ? 'has-error' : ''}">
-		<label for="${path}">${label}<c:if test="${required}"><span class="required">*</span></c:if></label>
+		<label for="${path}" class="control-label">${label}<c:if test="${required}"><span class="required">*</span></c:if></label>
 		<form:select path="${path}" cssClass="form-control">
 			<form:option value="">Select</form:option>
 			<form:options items="${items}" itemValue="${itemValue}" itemLabel="${itemLabel}" cssClass="${empty cssClass ? '' : cssClass}" />

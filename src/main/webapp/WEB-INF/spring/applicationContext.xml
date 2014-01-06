@@ -9,11 +9,11 @@
 		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
+	<context:component-scan base-package="com.alphatek.tylt.repository" />
+	<context:component-scan base-package="com.alphatek.tylt.service" />
+	<context:component-scan base-package="com.alphatek.tylt.authority" />
 	<context:component-scan base-package="com.alphatek.tylt.web.servlet.mvc.model" />
 	<context:component-scan base-package="com.alphatek.tylt.web.servlet.mvc.view" />
-	<context:component-scan base-package="com.alphatek.tylt.authority" />
-	<context:component-scan base-package="com.alphatek.tylt.service" />
-	<context:component-scan base-package="com.alphatek.tylt.repository" />
 
 	<!-- Cache setup -->
 	<cache:annotation-driven cache-manager="cacheManager" />
@@ -22,6 +22,7 @@
 
 	<!-- Message Source -->
 	<bean name="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="defaultEncoding" value="UTF-8" />
 		<property name="basenames">
 			<list>
 				<value>classpath:properties/system</value>
@@ -36,6 +37,10 @@
 	<!-- JSR 303 Validator -->
 	<bean id="validatorFactory" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
 		<property name="validationMessageSource" ref="messageSource" />
+	</bean>
+
+	<bean class="org.springframework.validation.beanvalidation.MethodValidationPostProcessor">
+		<property name="validatorFactory" ref="validatorFactory" />
 	</bean>
 
 	<!-- Enable the configuration of transactional behavior based on annotations -->

@@ -3,8 +3,6 @@
 
 	<classpath>
 		<dir name="/Users/naquaduh/Documents/Development/Projects/SpringMvcTemplate/target/classes">
-			<include name="database/h2/data.sql"/>
-			<include name="database/h2/schema.sql"/>
 			<include name="ehcache.xml"/>
 			<include name="logback.xml"/>
 			<include name="properties/database.properties"/>
