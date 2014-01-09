@@ -23,6 +23,10 @@
 		{
 			"name": "app/admin",
 			"exclude": ["common"]
+		},
+		{
+			"name": "app/account",
+			"exclude": ["common"]
 		}
 	],
 	"optimize": "uglify2",
