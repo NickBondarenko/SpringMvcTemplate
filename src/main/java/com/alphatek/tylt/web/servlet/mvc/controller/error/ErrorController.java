@@ -17,7 +17,7 @@ import javax.servlet.RequestDispatcher;
 public final class ErrorController extends AbstractController {
 	private static final String ERROR_MESSAGE = "Error handling request...";
 
-	@RequestMapping(value="/error")
+	@RequestMapping("/error")
 	public void handleError(@RequestHeader(required = false, value = "X-Requested-With") String requestedWith, ServletWebRequest servletWebRequest, Exception exception) {
 		Boolean exceptionLogged = (Boolean) servletWebRequest.getAttribute(RequestAttribute.EXCEPTION_LOGGED.getName(), WebRequest.SCOPE_REQUEST);
 		if (exceptionLogged == null || !exceptionLogged) {

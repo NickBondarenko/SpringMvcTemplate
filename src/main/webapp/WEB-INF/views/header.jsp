@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <sec:authorize access="authenticated" var="authenticated" />
+<sec:authorize access="hasRole('ROLE_ADMIN')" var="isAdmin" />
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!-- Fixed navbar -->
 <header class="navbar navbar-default navbar-fixed-top" role="banner">
@@ -24,7 +25,7 @@
 					<li id="homeLink"><a href="${contextPath}/home">Home</a></li>
 					<c:choose>
 						<c:when test="${authenticated}">
-							<li><a class="btn-header" href="${contextPath}/account">Account</a></li>
+							<li id="accountLink"><a class="btn-header" href="${contextPath}/account">Account</a></li>
 							<li><a class="btn-header" href="${contextPath}/logout">Logout</a></li>
 						</c:when>
 						<c:otherwise>
@@ -35,7 +36,9 @@
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a href="${contextPath}/admin">Admin</a></li>
+							<c:if test="${isAdmin}">
+								<li><a href="${contextPath}/admin">Admin</a></li>
+							</c:if>
 							<li><a id="anotherAction" href="#">Another action</a></li>
 							<li><a href="#">Something else here</a></li>
 							<li><a href="#">Separated link</a></li>
@@ -44,7 +47,9 @@
 					</li>
 				</ul>
 				<c:if test="${authenticated}">
-					<div id="welcomeMessage" class="pull-right">Welcome <sec:authentication property="principal.firstName" /> <sec:authentication property="principal.lastName" /></div>
+					<div id="welcomeMessage" class="pull-right">
+						Welcome <sec:authentication property="principal.firstName" />&nbsp;<sec:authentication property="principal.lastName" />
+					</div>
 				</c:if>
 			</div>
 		</nav>

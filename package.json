@@ -1,5 +1,5 @@
 {
-  "name": "spring-mvc-template",
+  "name": "tylt",
   "version": "2.0",
   "dependencies": {
     "requirejs": "~2.1.9"

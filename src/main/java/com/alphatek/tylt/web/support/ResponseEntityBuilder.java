@@ -12,7 +12,9 @@ import org.springframework.web.context.request.WebRequest;
  *         Date: 5/5/13
  *         Time: 4:30 PM
  */
-public class ResponseEntityBuilder {
+public final class ResponseEntityBuilder {
+
+	private ResponseEntityBuilder() {}
 
 	public static interface SourceStep {
 		BodyStep fromWebRequest(WebRequest webRequest);

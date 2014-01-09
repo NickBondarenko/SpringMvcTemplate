@@ -26,7 +26,6 @@ import java.util.Objects;
 
 public abstract class AbstractController implements Controller {
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
-	private static final Object[] EMPTY_OBJECT = new Object[] {};
 
 	@Override public ResponseEntity<Object> getExceptionResponseEntity(ServletWebRequest servletWebRequest, Throwable throwable) {
 		// If ResponseEntity exists in request, return it and remove from response. If not, generate new ResponseEntity.
@@ -120,7 +119,7 @@ public abstract class AbstractController implements Controller {
 	}
 
 	public String getMessage(ServletContext servletContext, String code) {
-		return getWebApplicationContext(servletContext).getMessage(code, EMPTY_OBJECT, Locale.getDefault());
+		return getWebApplicationContext(servletContext).getMessage(code, null, Locale.getDefault());
 	}
 
 	@Override public String getMessage(HttpServletRequest request, String code) {

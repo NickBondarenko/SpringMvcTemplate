@@ -7,3 +7,8 @@
 		This is the account page...
 	</div>
 </div>
+<script type="text/javascript">
+	require(['common'], function() {
+		require(['app/account']);
+	});
+</script>
