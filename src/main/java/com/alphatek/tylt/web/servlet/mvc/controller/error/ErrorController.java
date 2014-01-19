@@ -1,7 +1,6 @@
 package com.alphatek.tylt.web.servlet.mvc.controller.error;
 
 import com.alphatek.tylt.web.servlet.mvc.controller.AbstractController;
-import com.alphatek.tylt.web.support.ControllerUtils;
 import com.alphatek.tylt.web.support.RequestAttribute;
 import com.google.common.base.Throwables;
 import org.springframework.http.HttpStatus;
@@ -18,12 +17,18 @@ public final class ErrorController extends AbstractController {
 	private static final String ERROR_MESSAGE = "Error handling request...";
 
 	@RequestMapping("/error")
-	public void handleError(@RequestHeader(required = false, value = "X-Requested-With") String requestedWith, ServletWebRequest servletWebRequest, Exception exception) {
+	public void handleError(@RequestHeader(required=false, value="X-Requested-With") String requestedWith, ServletWebRequest servletWebRequest, Exception exception) {
+		// Check for status in request and ensure it matches the response status
+		Integer statusCode = (Integer) servletWebRequest.getAttribute(RequestDispatcher.ERROR_STATUS_CODE, WebRequest.SCOPE_REQUEST);
+		if (statusCode != null && servletWebRequest.getResponse().getStatus() != statusCode) {
+			servletWebRequest.getResponse().setStatus(statusCode);
+		}
+
 		Boolean exceptionLogged = (Boolean) servletWebRequest.getAttribute(RequestAttribute.EXCEPTION_LOGGED.getName(), WebRequest.SCOPE_REQUEST);
 		if (exceptionLogged == null || !exceptionLogged) {
 			Exception errorException = (Exception) servletWebRequest.getAttribute(RequestDispatcher.ERROR_EXCEPTION, WebRequest.SCOPE_REQUEST);
 			if (errorException == null) {
-				HttpStatus httpStatus = ControllerUtils.findHttpStatus(servletWebRequest);
+				HttpStatus httpStatus = HttpStatus.valueOf(servletWebRequest.getResponse().getStatus());
 				String errorMessage = "Request for " + servletWebRequest.getAttribute(RequestDispatcher.ERROR_REQUEST_URI, WebRequest.SCOPE_REQUEST) + " resulted in a status of: " + httpStatus.getReasonPhrase() + "[" + httpStatus.value() + "]";
 				logger.error(errorMessage, exception);
 			} else {

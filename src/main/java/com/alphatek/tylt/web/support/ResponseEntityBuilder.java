@@ -5,7 +5,7 @@ import com.google.common.base.Objects;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.context.request.ServletWebRequest;
 
 /**
  * @author jason.dimeo
@@ -17,7 +17,7 @@ public final class ResponseEntityBuilder {
 	private ResponseEntityBuilder() {}
 
 	public static interface SourceStep {
-		BodyStep fromWebRequest(WebRequest webRequest);
+		BodyStep fromWebRequest(ServletWebRequest webRequest);
 		BodyStep fromHttpStatus(HttpStatus httpStatus);
 	}
 
@@ -42,7 +42,7 @@ public final class ResponseEntityBuilder {
 		return new Steps<>(responseEntity);
 	}
 
-	public static <T> BodyStep<T> fromWebRequest(WebRequest webRequest) {
+	public static <T> BodyStep<T> fromWebRequest(ServletWebRequest webRequest) {
 		return new Steps<T>().fromWebRequest(webRequest);
 	}
 
@@ -63,8 +63,8 @@ public final class ResponseEntityBuilder {
 			httpHeaders = responseEntity.getHeaders();
 		}
 
-		@Override public BodyStep<T> fromWebRequest(WebRequest webRequest) {
-			httpStatus = ControllerUtils.findHttpStatus(webRequest);
+		@Override public BodyStep<T> fromWebRequest(ServletWebRequest webRequest) {
+			httpStatus = HttpStatus.valueOf(webRequest.getResponse().getStatus());
 			httpHeaders = ControllerUtils.generateHttpHeaders(httpStatus);
 			return this;
 		}

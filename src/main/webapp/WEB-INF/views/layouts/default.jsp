@@ -12,6 +12,8 @@
 		<meta charset="UTF-8" />
 		<meta name="description" content="" />
 		<meta name="robots" content="all" />
+		<meta name="_csrf" content="${requestScope._csrf.token}"/>
+		<meta name="_csrf_header" content="${requestScope._csrf.headerName}"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 		<c:set var="themeName" scope="session"><spring:theme code="name" /></c:set>

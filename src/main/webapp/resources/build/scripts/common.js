@@ -67,6 +67,15 @@ function($) {
 	if (!window.Modernizr.cssremunit) {
 		window.require(['rem']);
 	}
+
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	$doc.ajaxSend(function(event, jqXHR, settings) {
+		if (settings.type == 'POST') {
+			jqXHR.setRequestHeader(header, token);
+		}
+	});
+
 	var message = 'Heavy is the head that wears the crown. From the manger to the morgue, strangers are born and reborn.';
 	var instance = $('#anotherAction').showtime().on('click', function() {
 		instance.showtime('confirm', 'text:' + message);

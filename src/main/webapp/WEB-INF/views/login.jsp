@@ -2,8 +2,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<sec:authorize access="authenticated" var="authenticated" />
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
+<sec:authorize access="authenticated" var="authenticated" />
+<spring:eval var="loginUrl" expression="@environment.getProperty('login.url')" />
+<spring:eval var="authenticationUrl" expression="@environment.getProperty('authentication.url')" />
+<spring:eval var="registrationUrl" expression="@environment.getProperty('registration.url')" />
 <div id="loginContainer">
 	<div class="page-header">
 		<h1>${authenticated ? 'Password Required' : 'Login'}</h1>
@@ -27,7 +31,7 @@
 	</div>
 	<div id="formContainer" class="section col-lg-4">
 		<div>
-			<form id="signinForm" action="${contextPath}/login/authenticate" method="post">
+			<form id="signinForm" action="${contextPath}${authenticationUrl}" method="post">
 				<fieldset>
 					<c:choose>
 						<c:when test="${authenticated}">
@@ -51,8 +55,8 @@
 								<input type="password" id="password" name="password" class="form-control input-xxlarge" />
 							</div>
 							<div class="checkbox">
-								<label for="rememberMe">
-									<input id="rememberMe" type="checkbox" name="_spring_security_remember_me" />Remember me
+								<label for="rememberMeToken">
+									<input id="rememberMeToken" type="checkbox" name="rememberMeToken" />Remember me
 								</label>
 							</div>
 							<button type="submit" class="btn btn-primary">Sign In</button>
@@ -62,8 +66,9 @@
 						</c:otherwise>
 					</c:choose>
 				</fieldset>
+				<input type="hidden" name="${requestScope._csrf.parameterName}" value="${requestScope._csrf.token}" />
 			</form>
-			<p class="already">Don't have an account? <a href="${contextPath}/registration">Register</a></p>
+			<p class="already">Don't have an account? <a href="${contextPath}${registrationUrl}">Register</a></p>
 		</div>
 	</div>
 </div>

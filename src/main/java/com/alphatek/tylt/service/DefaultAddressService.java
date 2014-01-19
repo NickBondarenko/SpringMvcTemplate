@@ -6,9 +6,9 @@ import com.alphatek.tylt.repository.StateDao;
 import com.alphatek.tylt.web.servlet.mvc.model.Address;
 import com.alphatek.tylt.web.servlet.mvc.model.Country;
 import com.alphatek.tylt.web.servlet.mvc.model.State;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -17,9 +17,15 @@ import java.util.List;
  */
 @Service
 public class DefaultAddressService implements AddressService {
-	@Resource private AddressDao addressDao;
-	@Resource private StateDao stateDao;
-	@Resource private CountryDao countryDao;
+	private final AddressDao addressDao;
+	private final StateDao stateDao;
+	private final CountryDao countryDao;
+
+	@Autowired public DefaultAddressService(AddressDao addressDao, StateDao stateDao, CountryDao countryDao) {
+		this.addressDao = addressDao;
+		this.stateDao = stateDao;
+		this.countryDao = countryDao;
+	}
 
 	@Override public Address addAddress(Address address) {
 		long addressId = addressDao.insertAddress(address);

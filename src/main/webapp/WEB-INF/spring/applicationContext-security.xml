@@ -1,15 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:security="http://www.springframework.org/schema/security"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security" xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/security
-		http://www.springframework.org/schema/security/spring-security.xsd">
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
+	<bean class="org.springframework.security.web.bind.support.AuthenticationPrincipalArgumentResolver" />
+	<bean id="requestCache" class="org.springframework.security.web.savedrequest.HttpSessionRequestCache" />
 	<bean id="passwordEncoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder" />
+
 	<bean id="userService" class="com.alphatek.tylt.repository.UserManagerJdbcDao">
 		<property name="authenticationManager" ref="authenticationManager" />
+	</bean>
+
+	<bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+		<constructor-arg name="loginFormUrl" value="${login.url}" />
+	</bean>
+
+	<bean id="defaultAccessDeniedHandler" class="com.alphatek.tylt.web.servlet.mvc.controller.error.DefaultAccessDeniedHandler">
+		<constructor-arg name="requestCache" ref="requestCache" />
+		<constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPoint" />
+		<property name="errorPage" value="${error.url}" />
+	</bean>
+
+	<bean id="tokenRepository" class="org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="rememberMeServices" class="org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices">
+		<constructor-arg name="key" value="${env}${token.value}" />
+		<constructor-arg name="userDetailsService" ref="userService" />
+		<constructor-arg name="tokenRepository" ref="tokenRepository" />
+		<property name="parameter" value="${token.name}" />
+		<property name="cookieName" value="${token.name}" />
+		<property name="tokenValiditySeconds" value="${token.validity.seconds}" />
 	</bean>
 
 	<security:authentication-manager alias="authenticationManager">
@@ -18,33 +41,24 @@
 		</security:authentication-provider>
 	</security:authentication-manager>
 
-	<bean id="requestCache" class="org.springframework.security.web.savedrequest.HttpSessionRequestCache" />
-	<bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
-		<constructor-arg value="/login" />
-	</bean>
-	<bean id="rememberMeAccessDeniedHandler" class="com.alphatek.tylt.web.servlet.mvc.controller.error.RememberMeAccessDeniedHandler">
-		<constructor-arg name="requestCache" ref="requestCache" />
-		<constructor-arg name="authenticationEntryPoint" ref="authenticationEntryPoint" />
-	</bean>
-
 	<security:http pattern="/favicon.ico" security="none" />
 	<security:http pattern="/resources/**" security="none" />
 	<security:http entry-point-ref="authenticationEntryPoint" auto-config="true" use-expressions="true" authentication-manager-ref="authenticationManager">
-		<security:remember-me services-alias="rememberMeServices" token-validity-seconds="604800"
-			data-source-ref="dataSource" user-service-ref="userService"
-			key="dayton-${env}-jiferoSo4oiigyhIJmi10JMhNUhUY7Y865Yt976YggJF98tgpkJHN" />
-		<security:access-denied-handler ref="rememberMeAccessDeniedHandler" />
-		<security:intercept-url pattern="/" access="permitAll" />
-		<security:intercept-url pattern="/home" access="permitAll" />
-		<security:intercept-url pattern="/login" access="permitAll" />
-		<security:intercept-url pattern="/logout" access="permitAll" />
-		<security:intercept-url pattern="/registration/**" access="permitAll" />
-		<security:intercept-url pattern="/account" access="fullyAuthenticated" />
-		<security:intercept-url pattern="/admin/**" access="fullyAuthenticated and hasRole('ROLE_ADMIN')" />
-		<security:intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
-		<security:form-login default-target-url="/default" login-processing-url="/login/authenticate"
+		<security:csrf />
+		<security:request-cache ref="requestCache" />
+		<security:remember-me services-ref="rememberMeServices" key="${env}${token.value}" />
+		<security:access-denied-handler ref="defaultAccessDeniedHandler" />
+		<security:intercept-url pattern="${root.url}" access="permitAll" />
+		<security:intercept-url pattern="${home.url}" access="permitAll" />
+		<security:intercept-url pattern="${login.url}" access="permitAll" />
+		<security:intercept-url pattern="${logout.url}" access="permitAll" />
+		<security:intercept-url pattern="${registration.url}/**" access="permitAll" />
+		<security:intercept-url pattern="${account.url}" access="fullyAuthenticated" />
+		<security:intercept-url pattern="${admin.url}/**" access="fullyAuthenticated and hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="${root.url}**" access="hasRole('ROLE_USER')" />
+		<security:form-login login-page="${login.url}" default-target-url="/default" login-processing-url="${authentication.url}"
 			username-parameter="username" always-use-default-target="false"
-			password-parameter="password" authentication-failure-url="/login?error" />
-		<security:logout logout-url="/logout" logout-success-url="/login?logout" />
+			password-parameter="password" authentication-failure-url="${login.url}?error" />
+		<security:logout logout-url="${logout.url}" logout-success-url="${login.url}?logout" />
 	</security:http>
 </beans>

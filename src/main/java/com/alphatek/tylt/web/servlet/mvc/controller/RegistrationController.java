@@ -9,14 +9,16 @@ import com.alphatek.tylt.web.servlet.mvc.model.State;
 import com.alphatek.tylt.web.servlet.mvc.model.User;
 import com.alphatek.tylt.web.servlet.mvc.view.View;
 import com.alphatek.tylt.web.support.Path;
+import com.google.common.base.Objects;
 import com.google.common.collect.Maps;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -28,9 +30,14 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/registration")
-public final class RegistrationController extends AbstractController {
-	@Resource private RegistrationService registrationService;
-	@Resource private AddressService addressService;
+public class RegistrationController extends AbstractController implements Serializable {
+	private final RegistrationService registrationService;
+	private final AddressService addressService;
+
+	@Autowired public RegistrationController(RegistrationService registrationService, AddressService addressService) {
+		this.registrationService = registrationService;
+		this.addressService = addressService;
+	}
 
 	@ModelAttribute("registrationForm")
 	public RegistrationForm addModel() {
@@ -82,5 +89,24 @@ public final class RegistrationController extends AbstractController {
 	private static String handleBindingError(Errors errors, ModelMap modelMap) {
 		modelMap.addAttribute("hasBindingErrors", errors.hasErrors());
 		return View.REGISTRATION.getName();
+	}
+
+	@Override public int hashCode() {
+		return Objects.hashCode(registrationService, addressService);
+	}
+
+	@Override public boolean equals(Object obj) {
+		if (this == obj) { return true; }
+		if (obj == null || getClass() != obj.getClass()) { return false; }
+		final RegistrationController other = (RegistrationController) obj;
+		return Objects.equal(this.registrationService, other.registrationService) &&
+			Objects.equal(this.addressService, other.addressService);
+	}
+
+	@Override public String toString() {
+		return Objects.toStringHelper(this)
+			.add("registrationService", registrationService)
+			.add("addressService", addressService)
+			.toString();
 	}
 }

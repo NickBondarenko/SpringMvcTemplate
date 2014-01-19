@@ -6,13 +6,12 @@ import com.alphatek.tylt.web.servlet.mvc.controller.error.AjaxControllerExceptio
 import com.alphatek.tylt.web.servlet.mvc.controller.error.ControllerException;
 import com.alphatek.tylt.web.servlet.mvc.controller.error.ExceptionHandlerStrategy;
 import com.alphatek.tylt.web.servlet.mvc.controller.error.ResponseEntityExceptionHandlerStrategy;
+import com.alphatek.tylt.web.support.ControllerUtils;
 import com.alphatek.tylt.web.support.RequestAttribute;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,17 +27,10 @@ import javax.servlet.RequestDispatcher;
 @ControllerAdvice
 public final class ControllerAdviser extends AbstractController {
 
-	@InitBinder public void initBinder(WebDataBinder webDataBinder) {
-		logger.debug("Running InitBinder...");
-	}
-
 	@ExceptionHandler public ResponseEntity<Object> handleException(ServletWebRequest request, Exception exception) {
 		ResponseEntity<Object> responseEntity = null;
 
-		logger.error("Handling controller error", exception);
-		// Set flag in request that the exception has been logged.
-		// This is read by ErrorController so it doesn't log the exception once again.
-		request.setAttribute(RequestAttribute.EXCEPTION_LOGGED.getName(), true, WebRequest.SCOPE_REQUEST);
+		ControllerUtils.logControllerError("Handling controller error", exception, request);
 
 		try {
 			ExceptionHandlerStrategy<ResponseEntity<Object>> exceptionHandlerStrategy = ResponseEntityExceptionHandlerStrategy.findByException(exception);

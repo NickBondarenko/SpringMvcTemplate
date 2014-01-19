@@ -4,7 +4,7 @@
 
 	<bean id="i18nMessageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
 	  <property name="basenames" value="classpath:properties/i18n/binding" />
-		<property name="defaultEncoding" value="UTF-8" />
+		<property name="defaultEncoding" value="${file.encoding}" />
 	  <property name="fallbackToSystemLocale" value="false" />
 	</bean>
 </beans>

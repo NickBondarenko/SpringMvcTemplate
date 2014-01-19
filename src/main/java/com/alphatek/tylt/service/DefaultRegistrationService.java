@@ -4,11 +4,10 @@ import com.alphatek.tylt.authority.UserContext;
 import com.alphatek.tylt.repository.UserManagerDao;
 import com.alphatek.tylt.web.servlet.mvc.model.Address;
 import com.alphatek.tylt.web.servlet.mvc.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
 
 /**
  * Default Registration Service
@@ -18,10 +17,17 @@ import javax.annotation.Resource;
  */
 @Service
 public final class DefaultRegistrationService implements RegistrationService {
-	@Resource private UserManagerDao userManagerDao;
-	@Resource private AddressService addressService;
-	@Resource private UserContext userContext;
-	@Resource private PasswordEncoder passwordEncoder;
+	private final UserManagerDao userManagerDao;
+	private final AddressService addressService;
+	private final UserContext userContext;
+	private final PasswordEncoder passwordEncoder;
+
+	@Autowired public DefaultRegistrationService(UserManagerDao userManagerDao, AddressService addressService, UserContext userContext, PasswordEncoder passwordEncoder) {
+		this.userManagerDao = userManagerDao;
+		this.addressService = addressService;
+		this.userContext = userContext;
+		this.passwordEncoder = passwordEncoder;
+	}
 
 	@Transactional(readOnly = false)
 	@Override	public User registerUser(User.Builder userBuilder) {
